@@ -4,7 +4,9 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.ToggleGroup;
 
 public class MenuBar extends javafx.scene.control.MenuBar {
 
@@ -51,23 +53,28 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         settingsMenuItems.add(colorSubmenu);
 
         // submenu items
-        MenuItem light = new MenuItem("Hell");
+        ToggleGroup themeToggleGroup = new ToggleGroup();
+
+        RadioMenuItem light = new RadioMenuItem("Hell");
         light.setOnAction(event -> {
 
         });
         colorSubMenuItems.add(light);
 
-        MenuItem dark = new MenuItem("Dunkel");
+        RadioMenuItem dark = new RadioMenuItem("Dunkel");
         dark.setOnAction(event -> {
 
         });
         colorSubMenuItems.add(dark);
 
-        MenuItem systemSetting = new MenuItem("Systemeinstellung");
+        RadioMenuItem systemSetting = new RadioMenuItem("Systemeinstellung");
         systemSetting.setOnAction(event -> {
 
         });
         colorSubMenuItems.add(systemSetting);
+
+        themeToggleGroup.getToggles().addAll(light, dark, systemSetting);
+        themeToggleGroup.selectToggle(light);
 
         // separator
         settingsMenuItems.add(new SeparatorMenuItem());
