@@ -8,5 +8,6 @@ module IDPA_Arbeit_XL2mQB {
     requires java.base;
 
     opens ch.ksh.xl2mqb.gui to javafx.graphics;
+    exports ch.ksh.xl2mqb.gui;
     exports ch.ksh.xl2mqb;
 }
