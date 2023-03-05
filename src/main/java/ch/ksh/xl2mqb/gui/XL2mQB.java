@@ -1,5 +1,7 @@
 package ch.ksh.xl2mqb.gui;
 
+import com.jthemedetecor.OsThemeDetector;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,8 +22,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
 import javafx.stage.Window;
+
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.JMetroStyleClass;
 import jfxtras.styles.jmetro.Style;
@@ -30,13 +32,16 @@ import java.util.Objects;
 
 public class XL2mQB extends Application {
 
-    private final MenuBar menuBar = new MenuBar();
+    private final MenuBar menuBar = new MenuBar(this);
     private final JMetro jMetro = new JMetro();
     private Stage stage;
     private BorderPane rootPane;
 
     private VBox homeContainer;
     private ProgressContainer progressContainer;
+    private Button saveToPathButton;
+    private Button pathToFileButton;
+    private Button saveButton;
 
     @Override
     public void start(Stage primaryStage) {
@@ -55,7 +60,6 @@ public class XL2mQB extends Application {
         stage.setScene(scene);
 
         jMetro.setScene(scene);
-        jMetro.setStyle(Style.DARK);
 
         homeContainer = homeContainer();
         progressContainer = new ProgressContainer();
@@ -74,7 +78,7 @@ public class XL2mQB extends Application {
         TextField pathToFile = new TextField();
         pathToFile.setPrefColumnCount(35);
 
-        Button pathToFileButton = new Button("Durchsuchen...");
+        pathToFileButton = new Button("Durchsuchen...");
         pathToFileButton.setGraphic(getFolderImageView());
         pathToFileButton.setOnAction(event -> {
 
@@ -97,7 +101,7 @@ public class XL2mQB extends Application {
         TextField saveToPath = new TextField();
         saveToPath.setPrefColumnCount(35);
 
-        Button saveToPathButton = new Button("Durchsuchen...");
+        saveToPathButton = new Button("Durchsuchen...");
         saveToPathButton.setGraphic(getFolderImageView());
         saveToPathButton.setOnAction(event -> {
 
@@ -152,7 +156,7 @@ public class XL2mQB extends Application {
 
         });
 
-        Button saveButton = new Button("Speichern...");
+        saveButton = new Button("Speichern...");
         saveButton.setGraphic(_getFolderImageView(15));
         saveButton.setDefaultButton(true);
         saveButton.setOnAction(event -> {
@@ -274,20 +278,30 @@ public class XL2mQB extends Application {
         dialog.setY(dialogY);
     }
 
-    public void applyJMetroTheme(Style jMetrostyle) {
-
+    private void applyJMetroTheme(Style jMetrostyle) {
+        jMetro.setStyle(jMetrostyle);
     }
 
     public void applyDarkTheme() {
-
+        applyJMetroTheme(Style.DARK);
+        if (saveToPathButton != null) pathToFileButton.setGraphic(getWhiteFolderImageView());
+        if (saveToPathButton != null) saveToPathButton.setGraphic(getWhiteFolderImageView());
+        if (saveButton != null) saveButton.setGraphic(_getWhiteFolderImageView(15));
     }
 
     public void applyLightTheme() {
-
+        applyJMetroTheme(Style.LIGHT);
+        if (saveToPathButton != null) pathToFileButton.setGraphic(getFolderImageView());
+        if (saveToPathButton != null) saveToPathButton.setGraphic(getFolderImageView());
+        if (saveButton != null) saveButton.setGraphic(_getFolderImageView(15));
     }
 
     public void applySystemTheme() {
-
+        if (OsThemeDetector.getDetector().isDark()) {
+            applyDarkTheme();
+        } else {
+            applyLightTheme();
+        }
     }
 
     private ImageView getFolderImageView() {
