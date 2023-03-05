@@ -49,7 +49,7 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         ObservableList<MenuItem> settingsMenuItems = settingsMenu.getItems();
 
         // menu items
-        MenuItem standardPath = new MenuItem("Standartmässig speicher unter...");
+        MenuItem standardPath = new MenuItem("Standartmässig speichern unter...");
         standardPath.setOnAction(event -> {
 
         });
