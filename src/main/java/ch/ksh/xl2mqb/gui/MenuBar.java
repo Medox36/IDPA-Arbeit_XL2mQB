@@ -1,5 +1,8 @@
 package ch.ksh.xl2mqb.gui;
 
+import com.jthemedetecor.OsThemeDetector;
+
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
@@ -8,12 +11,17 @@ import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.ToggleGroup;
 
+import java.util.function.Consumer;
+
 public class MenuBar extends javafx.scene.control.MenuBar {
 
     private final Menu settingsMenu;
     private final Menu templateMenu;
+    private final XL2mQB gui;
+    private final Consumer<Boolean> systemThemeChangeConsumer;
+    private boolean themeChangeListenerIsRegistered;
 
-    public MenuBar() {
+    public MenuBar(XL2mQB gui) {
         settingsMenu = settingsMenu();
         templateMenu = templateMenu();
 
@@ -21,6 +29,18 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         menuBaritems.add(settingsMenu);
         menuBaritems.add(templateMenu);
         menuBaritems.add(helpMenu());
+
+        this.gui = gui;
+
+        // listen for os theme changes
+        systemThemeChangeConsumer = isDark -> Platform.runLater(() -> {
+            if (isDark) {
+                gui.applyDarkTheme();
+            } else {
+                gui.applyLightTheme();
+            }
+        });
+        themeChangeListenerIsRegistered = false;
     }
 
     private Menu settingsMenu() {
@@ -56,25 +76,31 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         ToggleGroup themeToggleGroup = new ToggleGroup();
 
         RadioMenuItem light = new RadioMenuItem("Hell");
-        light.setOnAction(event -> {
-
-        });
         colorSubMenuItems.add(light);
 
         RadioMenuItem dark = new RadioMenuItem("Dunkel");
-        dark.setOnAction(event -> {
-
-        });
         colorSubMenuItems.add(dark);
 
         RadioMenuItem systemSetting = new RadioMenuItem("Systemeinstellung");
-        systemSetting.setOnAction(event -> {
-
-        });
         colorSubMenuItems.add(systemSetting);
 
         themeToggleGroup.getToggles().addAll(light, dark, systemSetting);
         themeToggleGroup.selectToggle(light);
+        themeToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == light) {
+                unregisterThemeChangeListenerIfRegistered();
+                gui.applyLightTheme();
+            } else if (newValue == dark) {
+                unregisterThemeChangeListenerIfRegistered();
+                gui.applyDarkTheme();
+            } else if (newValue == systemSetting) {
+                if (!themeChangeListenerIsRegistered) {
+                    OsThemeDetector.getDetector().registerListener(systemThemeChangeConsumer);
+                    themeChangeListenerIsRegistered = true;
+                }
+                gui.applySystemTheme();
+            }
+        });
 
         // separator
         settingsMenuItems.add(new SeparatorMenuItem());
@@ -86,6 +112,13 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         settingsMenuItems.add(resetSettings);
 
         return settingsMenu;
+    }
+
+    private void unregisterThemeChangeListenerIfRegistered() {
+        if (themeChangeListenerIsRegistered) {
+            OsThemeDetector.getDetector().removeListener(systemThemeChangeConsumer);
+            themeChangeListenerIsRegistered = false;
+        }
     }
 
     private Menu templateMenu() {
