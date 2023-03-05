@@ -3,6 +3,7 @@ package ch.ksh.xl2mqb.gui;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -17,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import javafx.stage.Window;
@@ -60,7 +62,7 @@ public class XL2mQB extends Application {
 
         homeScene();
         stage.show();
-        // TODO center stage
+        centerStageOnScreen();
     }
 
     private void homeScene() {
@@ -203,15 +205,15 @@ public class XL2mQB extends Application {
         menuBar.setDisableTemplateMenu(false);
     }
 
-    private void infoStage() {
+    private void infoDialog() {
         Dialog<ButtonType> infoDialog = new Dialog<>();
         infoDialog.initOwner(stage);
         infoDialog.setTitle("Info");
         infoDialog.setHeaderText("Version: 1.0");
         infoDialog.setContentText("Lizenz");
         infoDialog.getDialogPane().getScene().getWindow().setOnCloseRequest(event -> ((Window) event.getSource()).hide());
-        // TODO center Dialog
         infoDialog.show();
+        centerDialogRelativeToStage(infoDialog);
     }
 
     private void _runningProgressScene(String labelText) {
@@ -237,7 +239,39 @@ public class XL2mQB extends Application {
     }
 
     private void centerStageOnScreen() {
+        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+        double screenWidth = visualBounds.getWidth();
+        double screenHeight = visualBounds.getHeight();
+        double stageWidth = stage.getWidth();
+        double stageHeight = stage.getHeight();
 
+        if (stageWidth < stage.getMinWidth()) {
+            stageWidth = stage.getMinWidth();
+        }
+        if (stageHeight < stage.getMinHeight()) {
+            stageHeight = stage.getMinHeight();
+        }
+
+        double x = (screenWidth / 2.0) - (stageWidth / 2.0);
+        double y = (screenHeight / 2.0) - (stageHeight / 2.0);
+
+        stage.setX(x);
+        stage.setY(y);
+    }
+
+    private void centerDialogRelativeToStage(Dialog<?> dialog) {
+        double dialogWidth = dialog.getWidth();
+        double dialogHeight = dialog.getHeight();
+        double stageWidth = stage.getWidth();
+        double stageHeight = stage.getHeight();
+        double stageX = stage.getX();
+        double stageY = stage.getY();
+
+        double dialogX = ((stageX + (stageWidth / 2.0)) - (dialogWidth / 2.0));
+        double dialogY = ((stageY + (stageHeight / 2.0)) - (dialogHeight / 2.0));
+
+        dialog.setX(dialogX);
+        dialog.setY(dialogY);
     }
 
     public void applyJMetroTheme(Style jMetrostyle) {
