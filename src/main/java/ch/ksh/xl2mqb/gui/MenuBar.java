@@ -56,9 +56,6 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         settingsMenuItems.add(standardPath);
 
         CheckMenuItem showConversionErrors = new CheckMenuItem("Konversionsfehler anzeigen");
-        showConversionErrors.selectedProperty().addListener((observable, oldValue, newValue) -> {
-
-        });
         settingsMenuItems.add(showConversionErrors);
 
         MenuItem desktopShortcut = new MenuItem("Desktop-Verknüpfung hinzufügen");
@@ -71,6 +68,16 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         Menu colorSubmenu = new Menu("Farbe wählen");
         ObservableList<MenuItem> colorSubMenuItems = colorSubmenu.getItems();
         settingsMenuItems.add(colorSubmenu);
+
+        showConversionErrors.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                showConversionErrors.setText("     Konversionsfehler anzeigen");
+                colorSubmenu.setText("     Farbe wählen");
+            } else {
+                showConversionErrors.setText("Konversionsfehler anzeigen");
+                colorSubmenu.setText("Farbe wählen");
+            }
+        });
 
         // submenu items
         ToggleGroup themeToggleGroup = new ToggleGroup();
