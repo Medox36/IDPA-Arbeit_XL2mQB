@@ -8,7 +8,6 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -22,7 +21,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.JMetroStyleClass;
@@ -210,12 +208,7 @@ public class XL2mQB extends Application {
     }
 
     private void infoDialog() {
-        Dialog<ButtonType> infoDialog = new Dialog<>();
-        infoDialog.initOwner(stage);
-        infoDialog.setTitle("Info");
-        infoDialog.setHeaderText("Version: 1.0");
-        infoDialog.setContentText("Lizenz");
-        infoDialog.getDialogPane().getScene().getWindow().setOnCloseRequest(event -> ((Window) event.getSource()).hide());
+        InfoDialog infoDialog = new InfoDialog();
         infoDialog.show();
         centerDialogRelativeToStage(infoDialog);
     }
