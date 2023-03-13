@@ -271,8 +271,8 @@ public class XL2mQB extends Application {
         dialog.setY(dialogY);
     }
 
-    private void applyJMetroTheme(Style jMetrostyle) {
-        jMetro.setStyle(jMetrostyle);
+    private void applyJMetroTheme(Style jMetroStyle) {
+        jMetro.setStyle(jMetroStyle);
     }
 
     public void applyDarkTheme() {

@@ -45,20 +45,12 @@ public class ProgressContainer extends VBox {
         children.add(buttonWrapper);
     }
 
-    public String getTextAreaText() {
-        return textArea.getText();
-    }
-
-    public void setTextAreaText(String textAreaText) {
-        textArea.setText(textAreaText);
-    }
-
     public void appendLineToTextArea(String line) {
         appendToTextArea(line + "\n");
     }
 
     public void appendToTextArea(String string) {
-        setTextAreaText(getTextAreaText() + string);
+        textArea.appendText(string);
     }
 
     public double getProgress() {
