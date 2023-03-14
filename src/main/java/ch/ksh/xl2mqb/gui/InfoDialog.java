@@ -14,14 +14,27 @@ import java.util.Objects;
 
 public class InfoDialog extends Alert {
 
-
     public InfoDialog() {
         super(Alert.AlertType.INFORMATION);
 
         setTitle("Info");
         setHeaderText("Moodle Question Converter \"XL2mQB\"");
         setContentText("Version: 0.0.0.0\n\n");
-        getDialogPane().setExpandableContent(getContentPane());
+
+        TextArea licence = new TextArea();
+        licence.setFocusTraversable(false);
+        licence.setEditable(false);
+        licence.setPrefHeight(400);
+        String licenceText = "";
+        try {
+            licenceText = Files.readString(Paths.get(Objects.requireNonNull(InfoDialog.class.getResource("/META-INF/LICENCE")).toURI()));
+        } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        licence.setText(licenceText);
+        licence.setStyle("-fx-font-size: 11px");
+
+        getDialogPane().setExpandableContent(licence);
 
         ButtonBar dialogButtonBar = (ButtonBar) getDialogPane().getChildren().get(2);
 
@@ -48,22 +61,5 @@ public class InfoDialog extends Alert {
         getDialogPane().setPrefWidth(460);
 
         // getDialogPane().setExpanded(true);
-    }
-
-    private TextArea getContentPane() {
-        TextArea licence = new TextArea();
-        licence.setFocusTraversable(false);
-        licence.setEditable(false);
-        licence.setPrefHeight(400);
-        String licenceText = "";
-        try {
-            licenceText = Files.readString(Paths.get(Objects.requireNonNull(InfoDialog.class.getResource("/META-INF/LICENCE")).toURI()));
-        } catch (IOException | URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-        licence.setText(licenceText);
-        licence.setStyle("-fx-font-size: 11px");
-
-        return licence;
     }
 }
