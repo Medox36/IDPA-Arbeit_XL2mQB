@@ -256,7 +256,7 @@ public class XL2mQB extends Application {
         stage.setY(y);
     }
 
-    private void centerDialogRelativeToStage(Dialog<?> dialog) {
+    protected static void centerDialogRelativeToStage(Dialog<?> dialog) {
         double dialogWidth = dialog.getWidth();
         double dialogHeight = dialog.getHeight();
         double stageWidth = stage.getWidth();
