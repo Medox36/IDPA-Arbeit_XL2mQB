@@ -32,7 +32,7 @@ public class XL2mQB extends Application {
 
     private final MenuBar menuBar = new MenuBar(this);
     private final JMetro jMetro = new JMetro();
-    private Stage stage;
+    private static Stage stage;
     private BorderPane rootPane;
 
     private VBox homeContainer;
@@ -318,5 +318,12 @@ public class XL2mQB extends Application {
         folderImageView.setFitHeight(fitHeightAndWidth);
         folderImageView.setFitWidth(fitHeightAndWidth);
         return folderImageView;
+    }
+
+    public static Stage getStage() {
+        if (stage == null) {
+            throw new IllegalStateException("No stage available");
+        }
+        return stage;
     }
 }
