@@ -12,7 +12,14 @@ public class AlertUtil {
     }
 
     public static Optional<ButtonType> confirmAlert(String title, String headerText, String contextText) {
-        return alert(Alert.AlertType.CONFIRMATION, title, headerText, contextText);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contextText);
+        alert.getButtonTypes().clear();
+        alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
+        XL2mQB.centerDialogRelativeToStage(alert);
+        return alert.showAndWait();
     }
 
     public static Optional<ButtonType> infoAlert(String title, String headerText, String contextText) {
