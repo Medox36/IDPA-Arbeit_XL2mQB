@@ -1,5 +1,7 @@
 package ch.ksh.xl2mqb.gui;
 
+import ch.ksh.xl2mqb.facade.MenuFacade;
+
 import com.jthemedetecor.OsThemeDetector;
 
 import javafx.application.Platform;
@@ -11,10 +13,12 @@ import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.ToggleGroup;
 
+import java.io.IOException;
 import java.util.function.Consumer;
 
 public class MenuBar extends javafx.scene.control.MenuBar {
 
+    private final MenuFacade menuFacade = MenuFacade.getInstance();
     private final Menu settingsMenu;
     private final Menu templateMenu;
     private final XL2mQB gui;
@@ -25,10 +29,10 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         settingsMenu = settingsMenu();
         templateMenu = templateMenu();
 
-        ObservableList<Menu> menuBaritems = getMenus();
-        menuBaritems.add(settingsMenu);
-        menuBaritems.add(templateMenu);
-        menuBaritems.add(helpMenu());
+        ObservableList<Menu> menuBarItems = getMenus();
+        menuBarItems.add(settingsMenu);
+        menuBarItems.add(templateMenu);
+        menuBarItems.add(helpMenu());
 
         this.gui = gui;
 
@@ -136,13 +140,21 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         // menu items
         MenuItem newExcelfile = new MenuItem("Neue Excel-Date von Vorlage");
         newExcelfile.setOnAction(event -> {
-
+            try {
+                menuFacade.newExcelFileFromTemplate();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
         templateMenuItems.add(newExcelfile);
 
         MenuItem setUpTemplate = new MenuItem("Excel-Vorlage einrichten");
         setUpTemplate.setOnAction(event -> {
-
+            try {
+                menuFacade.arrangeExcelTemplate();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
         templateMenuItems.add(setUpTemplate);
 
@@ -151,7 +163,11 @@ public class MenuBar extends javafx.scene.control.MenuBar {
 
         MenuItem saveTemplate = new MenuItem("Excel-Vorlage speichern unter...");
         saveTemplate.setOnAction(event -> {
-
+            try {
+                menuFacade.selectPathToSaveExcelTemplateTo();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
         templateMenuItems.add(saveTemplate);
 
