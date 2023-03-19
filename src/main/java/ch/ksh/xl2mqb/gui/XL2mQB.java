@@ -1,5 +1,7 @@
 package ch.ksh.xl2mqb.gui;
 
+import ch.ksh.xl2mqb.facade.FileFacade;
+
 import com.jthemedetecor.OsThemeDetector;
 
 import javafx.application.Application;
@@ -79,7 +81,7 @@ public class XL2mQB extends Application {
         pathToFileButton = new Button("Durchsuchen...");
         pathToFileButton.setGraphic(getFolderImageView());
         pathToFileButton.setOnAction(event -> {
-
+            pathToFile.setText(FileFacade.getInstance().selectExcelFile(stage));
         });
 
         HBox excelFileContainer = new HBox(20, pathToFile, pathToFileButton);

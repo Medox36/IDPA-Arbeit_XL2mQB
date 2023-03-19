@@ -3,8 +3,7 @@ package ch.ksh.xl2mqb.conversion;
 import ch.ksh.xl2mqb.excel.ExcelHandler;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
-
-import java.io.File;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public abstract class Converter {
     protected String xmlString;
@@ -15,6 +14,6 @@ public abstract class Converter {
         throw new UnsupportedOperationException();
     }
 
-    public abstract String convert(File file);
+    public abstract String convert(XSSFWorkbook workbook);
 }
 

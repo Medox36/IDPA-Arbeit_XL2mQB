@@ -1,11 +1,11 @@
 package ch.ksh.xl2mqb.analysis;
 
-import java.io.File;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ShortAnswerAnalyser extends Analyser {
 
     @Override
-    public void analyse(File file) {
+    public void analyse(XSSFWorkbook workbook) {
         throw new UnsupportedOperationException();
     }
 }
