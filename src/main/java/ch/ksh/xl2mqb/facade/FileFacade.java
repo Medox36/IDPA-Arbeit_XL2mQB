@@ -22,7 +22,7 @@ public class FileFacade {
     public File fileChooserOpenDialog(String title, FileChooser.ExtensionFilter extensionFilter) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(title);
-        fileChooser.setInitialDirectory(Path.of(System.getProperty("user.home"), "Dokumente").toFile());
+        fileChooser.setInitialDirectory(Path.of(System.getProperty("user.home")).toFile());
         fileChooser.getExtensionFilters().add(extensionFilter);
         return fileChooser.showOpenDialog(XL2mQB.getStage());
     }
@@ -30,7 +30,7 @@ public class FileFacade {
     public File directoryChooserDialog(String title) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle(title);
-        directoryChooser.setInitialDirectory(Path.of(System.getProperty("user.home"), "Dokumente").toFile());
+        directoryChooser.setInitialDirectory(Path.of(System.getProperty("user.home")).toFile());
         return directoryChooser.showDialog(XL2mQB.getStage());
     }
 
