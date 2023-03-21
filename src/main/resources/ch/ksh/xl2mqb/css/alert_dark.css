@@ -1,0 +1,60 @@
+.dialog-pane .label {
+    -fx-font-size: 1.167em; /* 14px */
+    -fx-wrap-text: true;
+    -fx-text-fill: white;
+}
+
+.dialog-pane:header .header-panel {
+    -fx-background-color: #323232;
+}
+
+.dialog-pane, .dialog-pane .button-bar {
+    -fx-background-color: #252525;
+}
+
+.dialog-pane .button-bar {
+    -fx-background-color: #252525;
+}
+
+.dialog-pane .button {
+    -fx-border-width: 2;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+    -fx-font-family: Segoe UI;
+    -fx-font-size: 1em;
+
+    -fx-background-color: #333333;
+    -fx-border-color: transparent;
+
+}
+
+.dialog-pane .button:hover {
+    -fx-background-color: #505050;
+    -fx-border-color: #858585;
+
+}
+
+.dialog-pane .button:pressed {
+    -fx-background-color: #666666;
+}
+
+.dialog-pane .button:default {
+    -fx-border-width: 2;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+    -fx-font-family: Segoe UI;
+    -fx-font-size: 1em;
+
+    -fx-background-color: #0078d7;
+    -fx-border-color: transparent;
+}
+
+.dialog-pane .button:default:hover {
+    -fx-border-color: #72b6ea;
+}
+
+-dialog-pane .button:default:pressed {
+    -fx-background-color: #004981;
+}
