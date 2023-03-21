@@ -1,6 +1,7 @@
 package ch.ksh.xl2mqb.gui;
 
 import ch.ksh.xl2mqb.facade.MenuFacade;
+import ch.ksh.xl2mqb.settings.ExtendedStyle;
 
 import com.jthemedetecor.OsThemeDetector;
 
@@ -13,7 +14,6 @@ import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.ToggleGroup;
 
-import java.io.IOException;
 import java.util.function.Consumer;
 
 public class MenuBar extends javafx.scene.control.MenuBar {
@@ -21,11 +21,10 @@ public class MenuBar extends javafx.scene.control.MenuBar {
     private final MenuFacade menuFacade = MenuFacade.getInstance();
     private final Menu settingsMenu;
     private final Menu templateMenu;
-    private final XL2mQB gui;
     private final Consumer<Boolean> systemThemeChangeConsumer;
     private boolean themeChangeListenerIsRegistered;
 
-    public MenuBar(XL2mQB gui) {
+    public MenuBar() {
         settingsMenu = settingsMenu();
         templateMenu = templateMenu();
 
@@ -34,14 +33,12 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         menuBarItems.add(templateMenu);
         menuBarItems.add(helpMenu());
 
-        this.gui = gui;
-
         // listen for os theme changes
         systemThemeChangeConsumer = isDark -> Platform.runLater(() -> {
             if (isDark) {
-                gui.applyDarkTheme();
+                menuFacade.setStyle(ExtendedStyle.DARK);
             } else {
-                gui.applyLightTheme();
+                menuFacade.setStyle(ExtendedStyle.LIGHT);
             }
         });
         themeChangeListenerIsRegistered = false;
@@ -54,18 +51,15 @@ public class MenuBar extends javafx.scene.control.MenuBar {
 
         // menu items
         MenuItem standardPath = new MenuItem("Standartmässig speichern unter...");
-        standardPath.setOnAction(event -> {
-
-        });
+        standardPath.setOnAction(event -> menuFacade.selectPAthToSaveXMLFilesTo());
         settingsMenuItems.add(standardPath);
 
         CheckMenuItem showConversionErrors = new CheckMenuItem("Konversionsfehler anzeigen");
+        showConversionErrors.setSelected(menuFacade.areConversionErrorsShown());
         settingsMenuItems.add(showConversionErrors);
 
         MenuItem desktopShortcut = new MenuItem("Desktop-Verknüpfung hinzufügen");
-        desktopShortcut.setOnAction(event -> {
-
-        });
+        desktopShortcut.setOnAction(event -> menuFacade.addDesktopShortcut());
         settingsMenuItems.add(desktopShortcut);
 
         // submenu
@@ -74,6 +68,7 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         settingsMenuItems.add(colorSubmenu);
 
         showConversionErrors.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            menuFacade.showConversionErrors(newValue);
             if (!newValue) {
                 showConversionErrors.setText("     Konversionsfehler anzeigen");
                 colorSubmenu.setText("     Farbe wählen");
@@ -92,24 +87,32 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         RadioMenuItem dark = new RadioMenuItem("Dunkel");
         colorSubMenuItems.add(dark);
 
-        RadioMenuItem systemSetting = new RadioMenuItem("Systemeinstellung");
-        colorSubMenuItems.add(systemSetting);
+        RadioMenuItem system = new RadioMenuItem("Systemeinstellung");
+        colorSubMenuItems.add(system);
 
-        themeToggleGroup.getToggles().addAll(light, dark, systemSetting);
+        themeToggleGroup.getToggles().addAll(light, dark, system);
         themeToggleGroup.selectToggle(light);
         themeToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == light) {
                 unregisterThemeChangeListenerIfRegistered();
-                gui.applyLightTheme();
+                menuFacade.setStyle(ExtendedStyle.LIGHT);
             } else if (newValue == dark) {
                 unregisterThemeChangeListenerIfRegistered();
-                gui.applyDarkTheme();
-            } else if (newValue == systemSetting) {
+                menuFacade.setStyle(ExtendedStyle.DARK);
+            } else if (newValue == system) {
                 if (!themeChangeListenerIsRegistered) {
                     OsThemeDetector.getDetector().registerListener(systemThemeChangeConsumer);
                     themeChangeListenerIsRegistered = true;
                 }
-                gui.applySystemTheme();
+                menuFacade.setStyle(ExtendedStyle.SYSTEM);
+            }
+        });
+        Platform.runLater(() -> {
+            ExtendedStyle extendedStyle = menuFacade.getStyle();
+            switch (extendedStyle) {
+                case LIGHT -> themeToggleGroup.selectToggle(light);
+                case DARK -> themeToggleGroup.selectToggle(dark);
+                case SYSTEM -> themeToggleGroup.selectToggle(system);
             }
         });
 
@@ -117,9 +120,7 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         settingsMenuItems.add(new SeparatorMenuItem());
 
         MenuItem resetSettings = new MenuItem("Einstellungen zurücksetzen");
-        resetSettings.setOnAction(event -> {
-
-        });
+        resetSettings.setOnAction(event -> menuFacade.resetSettings());
         settingsMenuItems.add(resetSettings);
 
         return settingsMenu;
@@ -139,36 +140,18 @@ public class MenuBar extends javafx.scene.control.MenuBar {
 
         // menu items
         MenuItem newExcelfile = new MenuItem("Neue Excel-Date von Vorlage");
-        newExcelfile.setOnAction(event -> {
-            try {
-                menuFacade.newExcelFileFromTemplate();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        newExcelfile.setOnAction(event -> menuFacade.newExcelFileFromTemplate());
         templateMenuItems.add(newExcelfile);
 
         MenuItem setUpTemplate = new MenuItem("Excel-Vorlage einrichten");
-        setUpTemplate.setOnAction(event -> {
-            try {
-                menuFacade.arrangeExcelTemplate();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        setUpTemplate.setOnAction(event -> menuFacade.arrangeExcelTemplate());
         templateMenuItems.add(setUpTemplate);
 
         // separator
         templateMenuItems.add(new SeparatorMenuItem());
 
         MenuItem saveTemplate = new MenuItem("Excel-Vorlage speichern unter...");
-        saveTemplate.setOnAction(event -> {
-            try {
-                menuFacade.selectPathToSaveExcelTemplateTo();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        saveTemplate.setOnAction(event -> menuFacade.selectPathToSaveExcelTemplateTo());
         templateMenuItems.add(saveTemplate);
 
         return templateMenu;
@@ -181,18 +164,14 @@ public class MenuBar extends javafx.scene.control.MenuBar {
 
         // menu items
         MenuItem instructions = new MenuItem("Instruktionen");
-        instructions.setOnAction(event -> {
-
-        });
+        instructions.setOnAction(event -> menuFacade.openInstructions());
         helpMenuItems.add(instructions);
 
         // separator
         helpMenuItems.add(new SeparatorMenuItem());
 
         MenuItem info = new MenuItem("Info...");
-        info.setOnAction(event -> {
-
-        });
+        info.setOnAction(event -> menuFacade.showInfoDialog());
         helpMenuItems.add(info);
 
         return helpMenu;
