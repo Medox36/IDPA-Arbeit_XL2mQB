@@ -2,9 +2,9 @@ package ch.ksh.xl2mqb.gui;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
 import jfxtras.styles.jmetro.Style;
 
 import java.util.Objects;
@@ -60,7 +60,7 @@ public class AlertUtil {
         alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(AlertUtil.class.getResource(cssPath)).toExternalForm());
         ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Objects.requireNonNull(AlertUtil.class.getResourceAsStream("/ch/ksh/xl2mqb/images/icon.png"))));
 
-        XL2mQB.centerDialogRelativeToStage(alert);
+        XL2mQB.positionDialogRelativeToStage(alert);
         /*
         final String commonJMetroStyle = "-fx-border-width: 2;-fx-background-radius: 0;-fx-background-insets: 0;-fx-text-fill: white; -fx-font-family: Segoe UI;-fx-font-size: 1em;";
 

@@ -1,8 +1,12 @@
 package ch.ksh.xl2mqb.gui;
 
+import ch.ksh.xl2mqb.settings.ExtendedStyle;
+import ch.ksh.xl2mqb.settings.Settings;
+
 import com.jthemedetecor.OsThemeDetector;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -30,7 +34,7 @@ import java.util.Objects;
 
 public class XL2mQB extends Application {
 
-    private final MenuBar menuBar = new MenuBar(this);
+    private final MenuBar menuBar = new MenuBar();
     private static final JMetro jMetro = new JMetro();
     private static Stage stage;
     private BorderPane rootPane;
@@ -64,7 +68,39 @@ public class XL2mQB extends Application {
 
         homeScene();
         stage.show();
-        centerStageOnScreen();
+
+        Settings settings = Settings.getInstance();
+        if ((double) settings.getSetting("posY") == -1.0 && (double) settings.getSetting("posX") == -1.0) {
+            centerStageOnScreen();
+        } else {
+            stage.setX((double) settings.getSetting("posX"));
+            stage.setY((double) settings.getSetting("posY"));
+        }
+
+        settings.getSettingProperty("style").addListener((observable, oldValue, newValue) -> {
+            ExtendedStyle extendedStyle = (ExtendedStyle) newValue;
+
+            switch (extendedStyle) {
+                case DARK -> applyDarkTheme();
+                case LIGHT -> applyLightTheme();
+                case SYSTEM -> applySystemTheme();
+            }
+        });
+
+        stage.xProperty().addListener((observable, oldValue, newValue) -> {
+            settings.setSetting("posX", newValue);
+        });
+        stage.yProperty().addListener((observable, oldValue, newValue) -> {
+            settings.setSetting("posY", newValue);
+        });
+
+        Platform.runLater(() -> {
+            switch ((ExtendedStyle) settings.getSettingProperty("style").getValue()) {
+                case DARK -> applyDarkTheme();
+                case LIGHT -> applyLightTheme();
+                case SYSTEM -> applySystemTheme();
+            }
+        });
     }
 
     private void homeScene() {
@@ -250,40 +286,30 @@ public class XL2mQB extends Application {
         stage.setY(y);
     }
 
-    protected static void centerDialogRelativeToStage(Dialog<?> dialog) {
-        double dialogWidth = dialog.getWidth();
-        double dialogHeight = dialog.getHeight();
-        double stageWidth = stage.getWidth();
-        double stageHeight = stage.getHeight();
-        double stageX = stage.getX();
-        double stageY = stage.getY();
-
-        double dialogX = ((stageX + (stageWidth / 2.0)) - (dialogWidth / 2.0));
-        double dialogY = ((stageY + (stageHeight / 2.0)) - (dialogHeight / 2.0));
-
-        dialog.setX(dialogX);
-        dialog.setY(dialogY);
+    protected static void positionDialogRelativeToStage(Dialog<?> dialog) {
+        dialog.setX(stage.getX() + 50);
+        dialog.setY(stage.getY() + 50);
     }
 
     private void applyJMetroTheme(Style jMetroStyle) {
         jMetro.setStyle(jMetroStyle);
     }
 
-    public void applyDarkTheme() {
+    private void applyDarkTheme() {
         applyJMetroTheme(Style.DARK);
         if (saveToPathButton != null) pathToFileButton.setGraphic(getWhiteFolderImageView());
         if (saveToPathButton != null) saveToPathButton.setGraphic(getWhiteFolderImageView());
         if (saveButton != null) saveButton.setGraphic(_getWhiteFolderImageView(15));
     }
 
-    public void applyLightTheme() {
+    private void applyLightTheme() {
         applyJMetroTheme(Style.LIGHT);
         if (saveToPathButton != null) pathToFileButton.setGraphic(getFolderImageView());
         if (saveToPathButton != null) saveToPathButton.setGraphic(getFolderImageView());
         if (saveButton != null) saveButton.setGraphic(_getFolderImageView(15));
     }
 
-    public void applySystemTheme() {
+    private void applySystemTheme() {
         if (OsThemeDetector.getDetector().isDark()) {
             applyDarkTheme();
         } else {
