@@ -31,7 +31,7 @@ import java.util.Objects;
 public class XL2mQB extends Application {
 
     private final MenuBar menuBar = new MenuBar(this);
-    private final JMetro jMetro = new JMetro();
+    private static final JMetro jMetro = new JMetro();
     private static Stage stage;
     private BorderPane rootPane;
 
@@ -207,12 +207,6 @@ public class XL2mQB extends Application {
         menuBar.setDisableTemplateMenu(false);
     }
 
-    private void infoDialog() {
-        InfoDialog infoDialog = new InfoDialog();
-        infoDialog.show();
-        centerDialogRelativeToStage(infoDialog);
-    }
-
     private void _runningProgressScene(String labelText) {
         Button cancelButton = new Button("Abbrechen");
         cancelButton.setStyle("-fx-background-color: #f1c0a2; -fx-text-fill: black");
@@ -325,5 +319,9 @@ public class XL2mQB extends Application {
             throw new IllegalStateException("No stage available");
         }
         return stage;
+    }
+
+    public static Style getCurrentJMetroStyle() {
+        return jMetro.getStyle();
     }
 }

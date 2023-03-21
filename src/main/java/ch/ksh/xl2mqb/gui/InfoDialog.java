@@ -1,10 +1,12 @@
 package ch.ksh.xl2mqb.gui;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextArea;
+
+import javafx.scene.paint.Color;
+import jfxtras.styles.jmetro.Style;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -46,19 +48,14 @@ public class InfoDialog extends Alert {
             } else {
                 expandLicence.setText("Lizenz anzeigen");
             }
-            System.out.println(newValue);
         });
 
-        final String commonJMetroStyle = "-fx-border-width: 2;-fx-background-radius: 0;-fx-background-insets: 0;-fx-text-fill: white; -fx-font-family: Segoe UI;-fx-font-size: 1em;";
-
-        Button okButton = (Button) dialogButtonBar.getButtons().get(1);
-        okButton.setStyle("-fx-border-color: transparent;-fx-background-color: #0078d7;" + commonJMetroStyle);
-        okButton.setOnMouseEntered(event -> okButton.setStyle("-fx-border-color: derive(#0078d7, -40%);-fx-background-color: #0078d7;" + commonJMetroStyle));
-        okButton.setOnMouseExited(event -> okButton.setStyle("-fx-border-color: transparent;-fx-background-color: #0078d7;" + commonJMetroStyle));
-        okButton.setOnMousePressed(event -> okButton.setStyle("-fx-border-color: transparent;-fx-background-color: derive(#0078d7, -40%);" + commonJMetroStyle));
-        okButton.setOnMouseReleased(event -> okButton.setStyle("-fx-border-color: transparent;-fx-background-color: #0078d7;" + commonJMetroStyle));
-
         getDialogPane().setPrefWidth(460);
+
+        if (XL2mQB.getCurrentJMetroStyle() == Style.DARK) {
+            expandLicence.setTextFill(Color.WHITE);
+        }
+        AlertUtil.applyStyle(this);
 
         // getDialogPane().setExpanded(true);
     }
