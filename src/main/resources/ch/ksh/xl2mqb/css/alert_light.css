@@ -35,6 +35,6 @@
     -fx-border-color: #72b6ea;
 }
 
--dialog-pane .button:default:pressed {
+.dialog-pane .button:default:pressed {
     -fx-background-color: #004981;
 }
