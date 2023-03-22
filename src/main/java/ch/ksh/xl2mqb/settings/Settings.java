@@ -58,34 +58,38 @@ public class Settings {
 
     private SimpleObjectProperty<Object> getProperClass(String settingName, String val) {
         switch (settingName) {
-            case "posX" -> {
-                return new SimpleObjectProperty<>(this, "posX", Double.parseDouble(val));
-            }
-            case "posY" -> {
-                return new SimpleObjectProperty<>(this, "posY", Double.parseDouble(val));
+            case "posX", "posY" -> {
+                return new SimpleObjectProperty<>(this, settingName, Double.parseDouble(val));
             }
             case "defaultSavePath" -> {
-                return new SimpleObjectProperty<>(this, "defaultSavePath", Path.of(val));
+                return new SimpleObjectProperty<>(this, settingName, Path.of(val));
             }
             case "style" -> {
-                return new SimpleObjectProperty<>(this, "style", ExtendedStyle.valueOf(val));
+                return new SimpleObjectProperty<>(this, settingName, ExtendedStyle.valueOf(val));
             }
             case "showErrors" -> {
-                return new SimpleObjectProperty<>(this, "showErrors", Boolean.parseBoolean(val));
+                return new SimpleObjectProperty<>(this, settingName, Boolean.parseBoolean(val));
             }
             default -> {
-                return new SimpleObjectProperty<>(this, "", val);
+                return new SimpleObjectProperty<>(this, settingName, val);
             }
         }
     }
 
     public void resetSettings() {
-        settings.clear();
-        settings.put("posY", new SimpleObjectProperty<>(-1.0));
-        settings.put("posX", new SimpleObjectProperty<>(-1.0));
-        settings.put("defaultSavePath", new SimpleObjectProperty<>(Path.of(System.getProperty("user.home"))));
-        settings.put("style", new SimpleObjectProperty<>(ExtendedStyle.LIGHT));
-        settings.put("showErrors", new SimpleObjectProperty<>(Boolean.FALSE));
+        replaceOrCreate("posY", -1.0);
+        replaceOrCreate("posX", -1.0);
+        replaceOrCreate("defaultSavePath", Path.of(System.getProperty("user.home")));
+        replaceOrCreate("style", ExtendedStyle.LIGHT);
+        replaceOrCreate("showErrors", Boolean.FALSE);
+    }
+
+    private void replaceOrCreate(String key, Object value) {
+        if (settings.containsKey(key)) {
+            settings.get(key).set(value);
+        } else {
+            settings.put(key, new SimpleObjectProperty<>(this, key, value));
+        }
     }
 
     public void save() {
