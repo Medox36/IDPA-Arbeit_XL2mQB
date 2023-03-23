@@ -11,6 +11,12 @@ module IDPA_Arbeit_XL2mQB {
     requires java.desktop;
 
     opens ch.ksh.xl2mqb.gui to javafx.graphics;
+    exports ch.ksh.xl2mqb.conversion;
+    exports ch.ksh.xl2mqb.settings;
+    exports ch.ksh.xl2mqb.facade;
+    exports ch.ksh.xl2mqb.excel;
+    exports ch.ksh.xl2mqb.args;
+    exports ch.ksh.xl2mqb.log;
     exports ch.ksh.xl2mqb.gui;
     exports ch.ksh.xl2mqb;
 }
