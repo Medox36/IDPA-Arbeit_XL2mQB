@@ -51,7 +51,7 @@ public class XL2mQB extends Application {
         stage.getIcons().add(new Image(Objects.requireNonNull(XL2mQB.class.getResourceAsStream("/ch/ksh/xl2mqb/images/icon.png"))));
         stage.setTitle("Moodle Question Converter");
         stage.setMinWidth(686);
-        stage.setMinHeight(480);
+        stage.setMinHeight(502);
         stage.centerOnScreen();
 
         rootPane = new BorderPane();
@@ -82,6 +82,7 @@ public class XL2mQB extends Application {
 
         pathToFileButton = new Button("Durchsuchen...");
         pathToFileButton.setGraphic(getFolderImageView());
+        pathToFileButton.setMinWidth(137);
         pathToFileButton.setOnAction(event -> {
 
         });
@@ -105,6 +106,7 @@ public class XL2mQB extends Application {
 
         saveToPathButton = new Button("Durchsuchen...");
         saveToPathButton.setGraphic(getFolderImageView());
+        saveToPathButton.setMinWidth(137);
         saveToPathButton.setOnAction(event -> {
 
         });
