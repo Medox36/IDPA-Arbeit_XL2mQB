@@ -1,5 +1,5 @@
 .dialog-pane .label {
-    -fx-font-size: 1.167em; /* 14px */
+    -fx-font-size: 1.167em;
     -fx-wrap-text: true;
     -fx-text-fill: white;
 }
@@ -37,6 +37,8 @@
 
 .dialog-pane .button:pressed {
     -fx-background-color: #666666;
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
 }
 
 .dialog-pane .button:default {
@@ -57,4 +59,6 @@
 
 .dialog-pane .button:default:pressed {
     -fx-background-color: #004981;
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
 }
