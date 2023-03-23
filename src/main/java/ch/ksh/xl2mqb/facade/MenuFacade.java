@@ -60,6 +60,7 @@ public class MenuFacade {
     public void selectPathToSaveExcelTemplateTo() {
         try {
             File dir = fileFacade.directoryChooserDialog("Excel-Vorlage speichern unter");
+
             if (Files.exists(Path.of(dir.getPath(), "Moodle-Question-Converter(Xl2mQB)_Vorlage.xltm"))) {
                 Optional<ButtonType> buttonType = AlertUtil.confirmAlert("Excel-Vorlage einrichten", "Excel-Vorlage existiert bereits in diesem Ordner", "Möchten Sie die Excel-Vorlage überschreiben?");
                 if (buttonType.isPresent()) {
@@ -112,7 +113,7 @@ public class MenuFacade {
 
     public void openInstructions() {
         try {
-            Desktop.getDesktop().browse(new URI("https://github.com/Medox36/IDPA-Arbeit_XL2mQB/wiki"));
+            Desktop.getDesktop().browse(new URI("https://github.com/Medox36/IDPA-Arbeit_XL2mQB/wiki/Instruktionen"));
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -120,7 +121,7 @@ public class MenuFacade {
 
     public void openAttributions() {
         try {
-            Desktop.getDesktop().browse(new URI("https://github.com/Medox36/IDPA-Arbeit_XL2mQB/wiki/libraries"));
+            Desktop.getDesktop().browse(new URI("https://github.com/Medox36/IDPA-Arbeit_XL2mQB/wiki/Verwendete-Bibliotheken"));
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
