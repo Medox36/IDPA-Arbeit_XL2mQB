@@ -1,15 +1,20 @@
 package ch.ksh.xl2mqb.args;
 
-import java.io.File;
+import java.util.List;
+import java.util.Objects;
 
 public class ArgsReader {
-    private String[] args;
+    private final List<String> args;
 
-    public ArgsReader argsReader(String[] args) {
-        throw new UnsupportedOperationException();
+    public ArgsReader(List<String> args) {
+        this.args = args;
     }
 
-    public File getFileFromArgs() {
-        throw new UnsupportedOperationException();
+    public String getFileNameAndPathFromArgs() {
+        if (args.size() == 2 && Objects.equals(args.get(0), "-f")) {
+            return args.get(1);
+        } else {
+            return "";
+        }
     }
 }
