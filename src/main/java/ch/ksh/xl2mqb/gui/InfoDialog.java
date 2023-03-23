@@ -1,11 +1,17 @@
 package ch.ksh.xl2mqb.gui;
 
+import ch.ksh.xl2mqb.facade.MenuFacade;
+
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
+
 import jfxtras.styles.jmetro.Style;
 
 import java.io.IOException;
@@ -21,7 +27,20 @@ public class InfoDialog extends Alert {
 
         setTitle("Info");
         setHeaderText("Moodle Question Converter \"XL2mQB\"");
-        setContentText("Version: 0.0.0.0\n\n");
+
+        Label contentText = new Label(" Version: 0.0.0.0\n");
+        contentText.setTextAlignment(TextAlignment.LEFT);
+
+        Hyperlink hyperlink = new Hyperlink("Verwendete Bibliotheken");
+        hyperlink.setTextAlignment(TextAlignment.LEFT);
+        hyperlink.setOnAction(event -> {
+            MenuFacade.getInstance().openAttributions();
+        });
+
+        VBox contentWrapper = new VBox(10, contentText, hyperlink);
+        contentWrapper.setAlignment(Pos.CENTER_LEFT);
+
+        getDialogPane().setContent(contentWrapper);
 
         TextArea licence = new TextArea();
         licence.setFocusTraversable(false);
@@ -56,7 +75,5 @@ public class InfoDialog extends Alert {
             expandLicence.setTextFill(Color.WHITE);
         }
         AlertUtil.applyStyle(this);
-
-        // getDialogPane().setExpanded(true);
     }
 }
