@@ -1,12 +1,10 @@
 package ch.ksh.xl2mqb.gui;
 
-import ch.ksh.xl2mqb.settings.ExtendedStyle;
-import ch.ksh.xl2mqb.settings.Settings;
+import ch.ksh.xl2mqb.facade.StartupFacade;
 
 import com.jthemedetecor.OsThemeDetector;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -44,6 +42,8 @@ public class XL2mQB extends Application {
     private Button saveToPathButton;
     private Button pathToFileButton;
     private Button saveButton;
+    private TextField saveToPath;
+    private TextField pathToFile;
 
     @Override
     public void start(Stage primaryStage) {
@@ -68,39 +68,7 @@ public class XL2mQB extends Application {
 
         homeScene();
         stage.show();
-
-        Settings settings = Settings.getInstance();
-        if ((double) settings.getSetting("posY") == -1.0 && (double) settings.getSetting("posX") == -1.0) {
-            centerStageOnScreen();
-        } else {
-            stage.setX((double) settings.getSetting("posX"));
-            stage.setY((double) settings.getSetting("posY"));
-        }
-
-        settings.getSettingProperty("style").addListener((observable, oldValue, newValue) -> {
-            ExtendedStyle extendedStyle = (ExtendedStyle) newValue;
-
-            switch (extendedStyle) {
-                case DARK -> applyDarkTheme();
-                case LIGHT -> applyLightTheme();
-                case SYSTEM -> applySystemTheme();
-            }
-        });
-
-        stage.xProperty().addListener((observable, oldValue, newValue) -> {
-            settings.setSetting("posX", newValue);
-        });
-        stage.yProperty().addListener((observable, oldValue, newValue) -> {
-            settings.setSetting("posY", newValue);
-        });
-
-        Platform.runLater(() -> {
-            switch ((ExtendedStyle) settings.getSettingProperty("style").getValue()) {
-                case DARK -> applyDarkTheme();
-                case LIGHT -> applyLightTheme();
-                case SYSTEM -> applySystemTheme();
-            }
-        });
+        new StartupFacade(this).onStartup();
     }
 
     private void homeScene() {
@@ -109,7 +77,7 @@ public class XL2mQB extends Application {
 
     private VBox homeContainer() {
         // Excel-File
-        TextField pathToFile = new TextField();
+        pathToFile = new TextField();
         pathToFile.setPrefColumnCount(35);
 
         pathToFileButton = new Button("Durchsuchen...");
@@ -132,7 +100,7 @@ public class XL2mQB extends Application {
         saveToPathRB.setToggleGroup(optionsToggleGroup);
         saveToPathRB.setSelected(true);
 
-        TextField saveToPath = new TextField();
+        saveToPath = new TextField();
         saveToPath.setPrefColumnCount(35);
 
         saveToPathButton = new Button("Durchsuchen...");
@@ -164,6 +132,14 @@ public class XL2mQB extends Application {
         convertButton.setStyle("-fx-font-size: 18px");
         convertButton.setOnAction(event -> {
 
+        });
+
+        optionsToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == onlyCheckErrorsRB) {
+                convertButton.setText("Analysieren");
+            } else {
+                convertButton.setText("Konvertieren");
+            }
         });
 
         BorderPane convertWrapper = new BorderPane();
@@ -265,7 +241,7 @@ public class XL2mQB extends Application {
         cancelButton.requestFocus();
     }
 
-    private void centerStageOnScreen() {
+    public void centerStageOnScreen() {
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
         double screenWidth = visualBounds.getWidth();
         double screenHeight = visualBounds.getHeight();
@@ -291,25 +267,33 @@ public class XL2mQB extends Application {
         dialog.setY(stage.getY() + 50);
     }
 
+    public void setSaveToPathTextFieldText(String path) {
+        saveToPath.setText(path);
+    }
+
+    public void setPathOfFileToConvert(String path) {
+        pathToFile.setText(path);
+    }
+
     private void applyJMetroTheme(Style jMetroStyle) {
         jMetro.setStyle(jMetroStyle);
     }
 
-    private void applyDarkTheme() {
+    public void applyDarkTheme() {
         applyJMetroTheme(Style.DARK);
         if (saveToPathButton != null) pathToFileButton.setGraphic(getWhiteFolderImageView());
         if (saveToPathButton != null) saveToPathButton.setGraphic(getWhiteFolderImageView());
         if (saveButton != null) saveButton.setGraphic(_getWhiteFolderImageView(15));
     }
 
-    private void applyLightTheme() {
+    public void applyLightTheme() {
         applyJMetroTheme(Style.LIGHT);
         if (saveToPathButton != null) pathToFileButton.setGraphic(getFolderImageView());
         if (saveToPathButton != null) saveToPathButton.setGraphic(getFolderImageView());
         if (saveButton != null) saveButton.setGraphic(_getFolderImageView(15));
     }
 
-    private void applySystemTheme() {
+    public void applySystemTheme() {
         if (OsThemeDetector.getDetector().isDark()) {
             applyDarkTheme();
         } else {
@@ -338,6 +322,10 @@ public class XL2mQB extends Application {
         folderImageView.setFitHeight(fitHeightAndWidth);
         folderImageView.setFitWidth(fitHeightAndWidth);
         return folderImageView;
+    }
+
+    public MenuBar getMenuBar() {
+        return menuBar;
     }
 
     public static Stage getStage() {

@@ -12,7 +12,10 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+
+import jfxtras.styles.jmetro.Style;
 
 import java.util.function.Consumer;
 
@@ -22,6 +25,7 @@ public class MenuBar extends javafx.scene.control.MenuBar {
     private final Menu settingsMenu;
     private final Menu templateMenu;
     private final Consumer<Boolean> systemThemeChangeConsumer;
+    private ToggleGroup themeToggleGroup;
     private boolean themeChangeListenerIsRegistered;
 
     public MenuBar() {
@@ -66,20 +70,24 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         Menu colorSubmenu = new Menu("Farbe wählen");
         ObservableList<MenuItem> colorSubMenuItems = colorSubmenu.getItems();
         settingsMenuItems.add(colorSubmenu);
-
         showConversionErrors.selectedProperty().addListener((observable, oldValue, newValue) -> {
             menuFacade.showConversionErrors(newValue);
-            if (!newValue) {
-                showConversionErrors.setText("     Konversionsfehler anzeigen");
-                colorSubmenu.setText("     Farbe wählen");
+
+            // briefly change style to enforce redraw of menu to prevent wrong indentation
+            Style currentJMetroStyle = XL2mQB.getCurrentJMetroStyle();
+            ExtendedStyle extendedStyle = menuFacade.getStyle();
+
+            if (currentJMetroStyle == Style.DARK) {
+                menuFacade.setStyle(ExtendedStyle.LIGHT);
             } else {
-                showConversionErrors.setText("Konversionsfehler anzeigen");
-                colorSubmenu.setText("Farbe wählen");
+                menuFacade.setStyle(ExtendedStyle.DARK);
             }
+
+            menuFacade.setStyle(extendedStyle);
         });
 
         // submenu items
-        ToggleGroup themeToggleGroup = new ToggleGroup();
+        themeToggleGroup = new ToggleGroup();
 
         RadioMenuItem light = new RadioMenuItem("Hell");
         colorSubMenuItems.add(light);
@@ -105,14 +113,6 @@ public class MenuBar extends javafx.scene.control.MenuBar {
                     themeChangeListenerIsRegistered = true;
                 }
                 menuFacade.setStyle(ExtendedStyle.SYSTEM);
-            }
-        });
-        Platform.runLater(() -> {
-            ExtendedStyle extendedStyle = menuFacade.getStyle();
-            switch (extendedStyle) {
-                case LIGHT -> themeToggleGroup.selectToggle(light);
-                case DARK -> themeToggleGroup.selectToggle(dark);
-                case SYSTEM -> themeToggleGroup.selectToggle(system);
             }
         });
 
@@ -183,5 +183,19 @@ public class MenuBar extends javafx.scene.control.MenuBar {
 
     public void setDisableTemplateMenu(boolean disabled) {
         templateMenu.setDisable(disabled);
+    }
+
+    public void setStates(ExtendedStyle extendedStyle, boolean showConversionErrors) {
+        ObservableList<Toggle> toggles = themeToggleGroup.getToggles();
+        Toggle toggle = null;
+
+        switch (extendedStyle) {
+            case LIGHT -> toggle = toggles.get(0);
+            case DARK -> toggle = toggles.get(1);
+            case SYSTEM -> toggle = toggles.get(2);
+        }
+
+        themeToggleGroup.selectToggle(toggle);
+        ((CheckMenuItem) settingsMenu.getItems().get(1)).setSelected(showConversionErrors);
     }
 }
