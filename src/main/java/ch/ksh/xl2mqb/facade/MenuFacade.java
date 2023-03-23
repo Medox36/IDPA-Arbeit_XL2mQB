@@ -118,6 +118,14 @@ public class MenuFacade {
         }
     }
 
+    public void openAttributions() {
+        try {
+            Desktop.getDesktop().browse(new URI("https://github.com/Medox36/IDPA-Arbeit_XL2mQB/wiki/libraries"));
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void showInfoDialog() {
         new InfoDialog().showAndWait();
     }
