@@ -50,8 +50,8 @@ public class XL2mQB extends Application {
         stage = primaryStage;
         stage.getIcons().add(new Image(Objects.requireNonNull(XL2mQB.class.getResourceAsStream("/ch/ksh/xl2mqb/images/icon.png"))));
         stage.setTitle("Moodle Question Converter");
-        stage.setMinWidth(686);
-        stage.setMinHeight(502);
+        stage.setMinWidth(350);
+        stage.setMinHeight(70);
         stage.centerOnScreen();
 
         rootPane = new BorderPane();
@@ -145,7 +145,7 @@ public class XL2mQB extends Application {
         });
 
         BorderPane convertWrapper = new BorderPane();
-        convertWrapper.setPadding(new Insets(17, 20, 0, 0));
+        convertWrapper.setPadding(new Insets(17, 20, 7, 0));
         convertWrapper.setRight(convertButton);
 
         // adding all nodes/components together
@@ -213,7 +213,7 @@ public class XL2mQB extends Application {
         cancelWrapper.setRight(cancelButton);
 
         progressContainer.setButtonWrapper(cancelWrapper);
-        progressContainer.setLabelText("Datei vollständig konvertiert");
+        progressContainer.setLabelText("Datei vollständig überprüft");
 
         rootPane.setCenter(progressContainer);
 
