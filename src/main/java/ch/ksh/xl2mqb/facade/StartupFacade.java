@@ -21,6 +21,7 @@ public class StartupFacade {
         applySettingsToGUI();
         initChangListeners();
         readArgumentsIfAvailable();
+        setGUIReferenceToFacades();
     }
 
     private void applySettingsToGUI() {
@@ -73,5 +74,10 @@ public class StartupFacade {
         if (!path.isEmpty()) {
             gui.setPathOfFileToConvert(path);
         }
+    }
+
+    private void setGUIReferenceToFacades() {
+        ConvertFacade.getInstance().setGUI(gui);
+        AnalysisFacade.getInstance().setGUI(gui);
     }
 }

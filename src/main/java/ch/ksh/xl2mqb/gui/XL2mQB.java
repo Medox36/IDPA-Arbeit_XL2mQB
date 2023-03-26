@@ -1,5 +1,7 @@
 package ch.ksh.xl2mqb.gui;
 
+import ch.ksh.xl2mqb.facade.AnalysisFacade;
+import ch.ksh.xl2mqb.facade.ConvertFacade;
 import ch.ksh.xl2mqb.facade.StartupFacade;
 
 import com.jthemedetecor.OsThemeDetector;
@@ -31,6 +33,9 @@ import jfxtras.styles.jmetro.Style;
 import java.util.Objects;
 
 public class XL2mQB extends Application {
+
+    private final ConvertFacade convertFacade = ConvertFacade.getInstance();
+    private final AnalysisFacade analysisFacade = AnalysisFacade.getInstance();
 
     private final MenuBar menuBar = new MenuBar();
     private static final JMetro jMetro = new JMetro();
@@ -71,7 +76,7 @@ public class XL2mQB extends Application {
         new StartupFacade(this).onStartup();
     }
 
-    private void homeScene() {
+    public void homeScene() {
         rootPane.setCenter(homeContainer);
     }
 
@@ -133,7 +138,11 @@ public class XL2mQB extends Application {
         convertButton.setDefaultButton(true);
         convertButton.setStyle("-fx-font-size: 18px");
         convertButton.setOnAction(event -> {
-
+            if (saveToPathRB.isSelected()) {
+                convertFacade.startConvert();
+            } else {
+                analysisFacade.startAnalysis();
+            }
         });
 
         optionsToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
@@ -158,14 +167,14 @@ public class XL2mQB extends Application {
         return mainContainer;
     }
 
-    private void convertRunningScene() {
-        _runningProgressScene("Datei wird konvertiert...");
+    public void convertRunningScene() {
+        _runningProgressScene("Datei wird konvertiert...", true);
     }
 
-    private void convertFinishScene() {
+    public void convertFinishScene() {
         Button errorAnalysisButton = new Button("Fehleranalyse");
         errorAnalysisButton.setOnAction(event -> {
-
+            analysisFacade.startAnalysis();
         });
 
         saveButton = new Button("Speichern...");
@@ -178,7 +187,7 @@ public class XL2mQB extends Application {
         Button convertNewFileButton = new Button("Neue Datei konvertieren");
         convertNewFileButton.setStyle("-fx-background-color: #b8d593; -fx-text-fill: black");
         convertNewFileButton.setOnAction(event -> {
-
+            homeScene();
         });
 
         HBox rightButtonsWrapper = new HBox(20, saveButton, convertNewFileButton);
@@ -197,15 +206,15 @@ public class XL2mQB extends Application {
         menuBar.setDisableTemplateMenu(false);
     }
 
-    private void validateRunningScene() {
-        _runningProgressScene("Datei wird überprüft...");
+    public void analysisRunningScene() {
+        _runningProgressScene("Datei wird überprüft...", false);
     }
 
-    private void validateFinishScene() {
+    public void analysisFinishScene() {
         Button cancelButton = new Button("Zurück");
         cancelButton.setDefaultButton(true);
         cancelButton.setOnAction(event -> {
-
+            homeScene();
         });
 
         BorderPane cancelWrapper = new BorderPane();
@@ -221,11 +230,15 @@ public class XL2mQB extends Application {
         menuBar.setDisableTemplateMenu(false);
     }
 
-    private void _runningProgressScene(String labelText) {
+    private void _runningProgressScene(String labelText, boolean isConverting) {
         Button cancelButton = new Button("Abbrechen");
         cancelButton.setStyle("-fx-background-color: #f1c0a2; -fx-text-fill: black");
         cancelButton.setOnAction(event -> {
-
+            if (isConverting) {
+                convertFacade.cancelConversion();
+            } else {
+                analysisFacade.cancelAnalysis();
+            }
         });
 
         BorderPane cancelWrapper = new BorderPane();
@@ -324,6 +337,10 @@ public class XL2mQB extends Application {
         folderImageView.setFitHeight(fitHeightAndWidth);
         folderImageView.setFitWidth(fitHeightAndWidth);
         return folderImageView;
+    }
+
+    public ProgressContainer getProgressContainer() {
+        return progressContainer;
     }
 
     public MenuBar getMenuBar() {
