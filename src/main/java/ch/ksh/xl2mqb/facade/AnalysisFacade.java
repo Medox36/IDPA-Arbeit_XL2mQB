@@ -32,27 +32,14 @@ public class AnalysisFacade {
     }
 
     public void cancelAnalysis() {
-        pauseAnalysis();
-
         Optional<ButtonType> buttonType = AlertUtil.confirmAlert("Analyse", "Analyse abbrechen", "Wollen Sie wirklich die Analyse abbrechen?");
+
         if (buttonType.isPresent()) {
             if (buttonType.get() == ButtonType.YES) {
                 // TODO cancel analysis
                 gui.homeScene();
-            } else {
-                resumeAnalysis();
             }
-        } else {
-            resumeAnalysis();
         }
-    }
-
-    private void pauseAnalysis() {
-        throw new UnsupportedOperationException();
-    }
-
-    private void resumeAnalysis() {
-        throw new UnsupportedOperationException();
     }
 
     private void finishAnalysis() {

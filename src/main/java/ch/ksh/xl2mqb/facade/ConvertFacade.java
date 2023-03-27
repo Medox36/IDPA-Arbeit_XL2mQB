@@ -32,27 +32,14 @@ public class ConvertFacade {
     }
 
     public void cancelConversion() {
-        pauseConversion();
-
         Optional<ButtonType> buttonType = AlertUtil.confirmAlert("Konvertieren", "Konvertiervorgang abbrechen", "Wollen Sie wirklich den Konvertiervorgang abbrechen?");
+
         if (buttonType.isPresent()) {
             if (buttonType.get() == ButtonType.YES) {
                 // TODO cancel conversion
                 gui.homeScene();
-            } else {
-                resumeConversion();
             }
-        } else {
-            resumeConversion();
         }
-    }
-
-    private void pauseConversion() {
-        throw new UnsupportedOperationException();
-    }
-
-    private void resumeConversion() {
-        throw new UnsupportedOperationException();
     }
 
     private void finishConversion() {
