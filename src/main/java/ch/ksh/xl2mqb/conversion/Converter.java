@@ -1,19 +1,19 @@
 package ch.ksh.xl2mqb.conversion;
 
 import ch.ksh.xl2mqb.excel.ExcelHandler;
+import ch.ksh.xl2mqb.facade.FileFacade;
 
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 public abstract class Converter {
     protected String xmlString;
-    protected XSSFCell[][] cells;
+    protected XSSFSheet sheet;
     protected ExcelHandler excelHandler;
 
-    protected XSSFCell[][] fetchRelevantCells(String sheetName) {
-        throw new UnsupportedOperationException();
+    public Converter() {
+        excelHandler = FileFacade.getInstance().readFile();
     }
 
-    public abstract String convert(XSSFWorkbook workbook);
+    public abstract String convert();
 }
 
