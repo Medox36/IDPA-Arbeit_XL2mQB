@@ -16,4 +16,8 @@ public class XMLUtil {
 
         return xml.toString();
     }
+
+    public static String getXMLForTextTag(String value, String... attributes) {
+        return getXMLForTag("text", value, attributes);
+    }
 }
