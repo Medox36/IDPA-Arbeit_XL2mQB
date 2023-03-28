@@ -4,8 +4,7 @@ import ch.ksh.xl2mqb.excel.ExcelHandler;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.logging.log4j.core.Logger;
-
-import java.io.File;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public abstract class Analyser {
     protected Logger logger;
@@ -16,5 +15,5 @@ public abstract class Analyser {
         throw new UnsupportedOperationException();
     }
 
-    public abstract void analyse(File file);
+    public abstract void analyse(XSSFWorkbook workbook);
 }

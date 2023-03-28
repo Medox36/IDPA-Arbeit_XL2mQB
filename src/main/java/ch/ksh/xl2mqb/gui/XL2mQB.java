@@ -3,6 +3,7 @@ package ch.ksh.xl2mqb.gui;
 import ch.ksh.xl2mqb.facade.AnalysisFacade;
 import ch.ksh.xl2mqb.facade.ConvertFacade;
 import ch.ksh.xl2mqb.facade.StartupFacade;
+import ch.ksh.xl2mqb.facade.FileFacade;
 
 import com.jthemedetecor.OsThemeDetector;
 
@@ -89,7 +90,7 @@ public class XL2mQB extends Application {
         pathToFileButton.setGraphic(getFolderImageView());
         pathToFileButton.setMinWidth(137);
         pathToFileButton.setOnAction(event -> {
-
+            pathToFile.setText(FileFacade.getInstance().selectExcelFile(stage));
         });
 
         HBox excelFileContainer = new HBox(20, pathToFile, pathToFileButton);

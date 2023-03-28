@@ -1,10 +1,10 @@
 package ch.ksh.xl2mqb.conversion;
 
-import java.io.File;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ClozeConverter extends Converter {
 
-    public String convert(File file) {
+    public String convert(XSSFWorkbook workbook) {
         throw new UnsupportedOperationException();
     }
 }
