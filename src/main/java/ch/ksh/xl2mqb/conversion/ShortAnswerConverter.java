@@ -29,28 +29,23 @@ public class ShortAnswerConverter extends Converter {
             XSSFCell cell = row.getCell(colI);
             switch (colI) {
                 case 0 -> {
-                    aShortAnswer += "<name><text>" + row.getCell(colI).getStringCellValue().trim() + "</text>\n</name>";
+                    aShortAnswer += XMLUtil.getXMLForTag("name", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()));
                 }
                 case 1 -> {
-                    aShortAnswer += "<defaultgrade>" + row.getCell(colI).getStringCellValue().trim() + "</defaultgrade>";
-                    aShortAnswer += "<penalty>0.0000000</penalty>";
-                    aShortAnswer += "<idnumber>" + rownum + "</idnumber>";
+                    aShortAnswer += XMLUtil.getXMLForTag("defaultgrade",row.getCell(colI).getStringCellValue().trim());
+                    aShortAnswer += XMLUtil.getXMLForTag("penalty","0.0000000");
+                    aShortAnswer += XMLUtil.getXMLForTag("idnumber", String.valueOf(rownum));
                 }
                 case 2 -> {
-                        aShortAnswer += "<generalfeedback format=\"moodle_auto_format\">\n<text>"
-                                + row.getCell(colI).getStringCellValue().trim()
-                                + "</text></generalfeedback>";
+                        aShortAnswer += XMLUtil.getXMLForTag("generalfeedback", XMLUtil.getXMLForTag("text",row.getCell(colI).getStringCellValue().trim()), "format=\"moodle_auto_format\"");
                 }
                 case 4 -> {
                     if (row.getCell(3).getStringCellValue() == null || row.getCell(4).getStringCellValue() == "") {
-                        aShortAnswer += "<questiontext format=\"moodle_auto_format\"><text>"
-                                + row.getCell(colI).getStringCellValue().trim()
-                                + "</text></questiontext>";
+                        aShortAnswer += XMLUtil.getXMLForTag("questiontext", XMLUtil.getXMLForTag("text",row.getCell(colI).getStringCellValue().trim()), "format=\"moodle_auto_format\"");
                     } else {
-                        aShortAnswer += "<questiontext format=\"moodle_auto_format\"><text>"
-                                + row.getCell(colI).getStringCellValue().trim()
-                                + XMLUtil.getXMLForImgTag(row.getCell(3).getStringCellValue().trim(), "image", "role=\"presentation\"", "class=\"atto_image_button_text-bottom\"")
-                                + "</text></questiontext>";
+                        aShortAnswer += XMLUtil.getXMLForTag("questiontext", XMLUtil.getXMLForTag("text",row.getCell(colI).getStringCellValue().trim()
+                                + XMLUtil.getXMLForImgTag(row.getCell(3).getStringCellValue().trim(), "image", "role=\"presentation\"", "class=\"atto_image_button_text-bottom\"")),
+                                "format=\"moodle_auto_format\"");
                     }
                 }
                 case 5, 8, 11, 14, 17, 20, 23, 26, 29, 32 -> {
