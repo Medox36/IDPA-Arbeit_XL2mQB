@@ -1,5 +1,6 @@
 module IDPA_Arbeit_XL2mQB {
     requires org.apache.logging.log4j.core;
+    requires org.apache.logging.log4j;
     requires org.apache.commons.io;
     requires org.apache.poi.poi;
     requires org.apache.poi.ooxml;

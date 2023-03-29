@@ -1,8 +1,5 @@
 package ch.ksh.xl2mqb.gui;
 
-import ch.ksh.xl2mqb.facade.AnalysisFacade;
-import ch.ksh.xl2mqb.facade.ConvertFacade;
-
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -34,9 +31,6 @@ public class ProgressContainer extends VBox {
         textArea.setMinSize(586, 265);
         textArea.setEditable(false);
         setVgrow(textArea, Priority.ALWAYS);
-
-        ConvertFacade.getInstance().setTextArea(textArea);
-        AnalysisFacade.getInstance().setTextArea(textArea);
 
         setSpacing(10);
         setPadding(new Insets(30, 40, 20, 40));

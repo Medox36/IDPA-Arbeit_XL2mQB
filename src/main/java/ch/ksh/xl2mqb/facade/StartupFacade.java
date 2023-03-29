@@ -2,6 +2,7 @@ package ch.ksh.xl2mqb.facade;
 
 import ch.ksh.xl2mqb.args.ArgsReader;
 import ch.ksh.xl2mqb.gui.XL2mQB;
+import ch.ksh.xl2mqb.log.TextAreaAppender;
 import ch.ksh.xl2mqb.settings.ExtendedStyle;
 import ch.ksh.xl2mqb.settings.Settings;
 
@@ -22,6 +23,7 @@ public class StartupFacade {
         initChangListeners();
         readArgumentsIfAvailable();
         setGUIReferenceToFacades();
+        initLogger();
     }
 
     private void applySettingsToGUI() {
@@ -79,5 +81,9 @@ public class StartupFacade {
     private void setGUIReferenceToFacades() {
         ConvertFacade.getInstance().setGUI(gui);
         AnalysisFacade.getInstance().setGUI(gui);
+    }
+
+    private void initLogger() {
+        TextAreaAppender.setProgressContainer(gui.getProgressContainer());
     }
 }

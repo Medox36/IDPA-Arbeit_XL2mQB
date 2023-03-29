@@ -3,23 +3,22 @@ package ch.ksh.xl2mqb.facade;
 import ch.ksh.xl2mqb.gui.AlertUtil;
 import ch.ksh.xl2mqb.gui.ProgressContainer;
 import ch.ksh.xl2mqb.gui.XL2mQB;
+import ch.ksh.xl2mqb.log.TextAreaAppender;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextArea;
 
 import java.util.Optional;
 
 public class ConvertFacade {
     private static ConvertFacade INSTANCE;
     private XL2mQB gui;
-    private TextArea textArea;
+    private final Logger logger = LogManager.getLogger(TextAreaAppender.class);
 
     public void setGUI(XL2mQB gui) {
         this.gui = gui;
-    }
-
-    public void setTextArea(TextArea textArea) {
-        this.textArea = textArea;
     }
 
     public void startConvert() {
@@ -44,6 +43,10 @@ public class ConvertFacade {
 
     private void finishConversion() {
         throw new UnsupportedOperationException();
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 
     public static ConvertFacade getInstance() {

@@ -5,21 +5,15 @@ import ch.ksh.xl2mqb.gui.ProgressContainer;
 import ch.ksh.xl2mqb.gui.XL2mQB;
 
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextArea;
 
 import java.util.Optional;
 
 public class AnalysisFacade {
     private static AnalysisFacade INSTANCE;
     private XL2mQB gui;
-    private TextArea textArea;
 
     public void setGUI(XL2mQB gui) {
         this.gui = gui;
-    }
-
-    public void setTextArea(TextArea textArea) {
-        this.textArea = textArea;
     }
 
     public void startAnalysis() {
