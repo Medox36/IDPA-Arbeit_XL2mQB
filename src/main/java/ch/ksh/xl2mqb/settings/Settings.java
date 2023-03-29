@@ -1,5 +1,7 @@
 package ch.ksh.xl2mqb.settings;
 
+import ch.ksh.xl2mqb.facade.FileFacade;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
@@ -79,7 +81,7 @@ public class Settings {
     public void resetSettings() {
         replaceOrCreate("posY", -1.0);
         replaceOrCreate("posX", -1.0);
-        replaceOrCreate("defaultSavePath", Path.of(System.getProperty("user.home")));
+        replaceOrCreate("defaultSavePath", FileFacade.getInstance().getDocumentsFolderPath());
         replaceOrCreate("style", ExtendedStyle.LIGHT);
         replaceOrCreate("showErrors", Boolean.FALSE);
     }

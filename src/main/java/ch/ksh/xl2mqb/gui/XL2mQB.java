@@ -90,7 +90,7 @@ public class XL2mQB extends Application {
         pathToFileButton.setGraphic(getFolderImageView());
         pathToFileButton.setMinWidth(137);
         pathToFileButton.setOnAction(event -> {
-            pathToFile.setText(FileFacade.getInstance().selectExcelFile(stage));
+            pathToFile.setText(FileFacade.getInstance().selectExcelFile());
         });
 
         HBox excelFileContainer = new HBox(20, pathToFile, pathToFileButton);

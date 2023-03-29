@@ -32,17 +32,17 @@ public class MenuFacade {
     }
     public void arrangeExcelTemplate() {
         try {
-            String templateFolder = Path.of(System.getProperty("user.home"), "Documents", "Benutzerdefinierte Office-Vorlagen").toString();
+            Path templateFolder = fileFacade.getDocumentsFolderPath().resolve("Benutzerdefinierte Office-Vorlagen");
 
-            if (Files.exists(Path.of(templateFolder, "Moodle-Question-Converter(Xl2mQB)_Vorlage.xltm"))) {
+            if (Files.exists(templateFolder.resolve("Moodle-Question-Converter(Xl2mQB)_Vorlage.xltm"))) {
                 Optional<ButtonType> buttonType = AlertUtil.confirmAlert("Excel-Vorlage einrichten", "Excel-Vorlage bereits eingerichtet", "Möchten Sie die Excel-Vorlage überschreiben?");
                 if (buttonType.isPresent()) {
                     if (buttonType.get().equals(ButtonType.YES)) {
-                        saveExcelTemplateToPathAndOverride(templateFolder);
+                        saveExcelTemplateToPathAndOverride(templateFolder.toString());
                     }
                 }
             } else {
-                saveExcelTemplateToPath(templateFolder);
+                saveExcelTemplateToPath(templateFolder.toString());
             }
         } catch (IOException e) {
             e.printStackTrace();
