@@ -1,4 +1,4 @@
-package ch.ksh.xl2mqb.image;
+package ch.ksh.xl2mqb.conversion.image;
 
 import java.io.IOException;
 import java.nio.file.Files;

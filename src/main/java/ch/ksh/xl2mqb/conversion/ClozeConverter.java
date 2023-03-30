@@ -1,6 +1,6 @@
 package ch.ksh.xl2mqb.conversion;
 
-import ch.ksh.xl2mqb.xml.XMLUtil;
+import ch.ksh.xl2mqb.conversion.xml.XMLUtil;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;

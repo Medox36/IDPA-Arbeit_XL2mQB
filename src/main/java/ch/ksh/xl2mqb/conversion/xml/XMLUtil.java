@@ -1,11 +1,15 @@
-package ch.ksh.xl2mqb.xml;
+package ch.ksh.xl2mqb.conversion.xml;
 
-import ch.ksh.xl2mqb.image.ImageConverter;
+import ch.ksh.xl2mqb.conversion.image.ImageConverter;
 
 public class XMLUtil {
     public static final String xmlHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
     public static String getXMLForTag(String tag, String value, String... attributes) {
+        if (value.isBlank()) {
+            return "";
+        }
+
         StringBuilder xml = new StringBuilder();
 
         xml.append("<").append(tag);
