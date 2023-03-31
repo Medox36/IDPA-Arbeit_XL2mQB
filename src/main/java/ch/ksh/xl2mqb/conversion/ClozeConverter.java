@@ -55,7 +55,7 @@ public class ClozeConverter extends Converter {
         boolean hasSubQuestions = false;
         for (int i = 6; i < row.getRowNum(); i++) {
             String cellValue = row.getCell(i).getStringCellValue().trim();
-            if (!cellValue.isBlank() && !isNumeric(cellValue)) {
+            if (!cellValue.isBlank() && isNumeric(cellValue)) {
                 hasSubQuestions = true;
                 break;
             }
