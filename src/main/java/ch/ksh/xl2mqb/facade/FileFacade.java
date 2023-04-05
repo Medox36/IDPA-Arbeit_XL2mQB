@@ -10,6 +10,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class FileFacade {
@@ -33,8 +35,32 @@ public class FileFacade {
         return new ExcelHandler(excelFile);
     }
 
-    public void saveTo(File file) {
-        throw new UnsupportedOperationException();
+    public void saveXML(String xml) {
+        writeXMLTo(makeNewXML(), xml);
+    }
+    private void writeXMLTo(Path path, String xml) {
+        if (path != null) {
+            try {
+                Files.write(path, xml.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private Path makeNewXML() {
+        File file = fileChooserOpenDialog("Datei speichern in", new FileChooser.ExtensionFilter("XML-Datei (.xml)", ".xml"));
+        if(file == null) {
+            return null;
+        }
+        Path xmlPath = file.toPath();
+        if (Files.notExists(xmlPath)) {
+            try {
+                Files.createFile(xmlPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return xmlPath;
     }
 
     public File fileChooserOpenDialog(String title, FileChooser.ExtensionFilter extensionFilter) {

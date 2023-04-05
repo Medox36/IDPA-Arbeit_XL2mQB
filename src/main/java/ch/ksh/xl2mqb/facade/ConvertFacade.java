@@ -70,16 +70,18 @@ public class ConvertFacade {
         }
     }
 
+    public void saveIfReady() {
+        if (isConversionFinished) {
+            FileFacade.getInstance().saveXML(xml);
+        } else {
+            AlertUtil.errorAlert("Konvertieren", "XML abspeichern nicht möglich",
+                    "Konvertieren der Excel-Datei scheint nicht richtig abgeschlossen zu sein, daher keine XML-Datei generiert werden." +
+                            "\nVersuchen sie noch einmal zu speichern oder Konvertieren sie erneut." +
+                            "\nAllenfalls empfiehlt sich eine Fehleranalyse.");
+        }
+    }
     public Logger getLogger() {
         return logger;
-    }
-
-    public boolean isConversionFinished() {
-        return isConversionFinished;
-    }
-
-    public String getXml() {
-        return xml;
     }
 
     public static ConvertFacade getInstance() {
