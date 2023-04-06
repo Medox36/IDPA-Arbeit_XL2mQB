@@ -63,31 +63,63 @@ public class MultipleChoiceConverter extends Converter {
                         mcQuestionBuilder.append(XMLUtil.getXMLForTag("shuffleanswers", "false"));
                     }
                 }
-                //feedback
+                //no answer feedback
                 case 5 -> {
-                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("generalfeedback",
-                            XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.AUTO_FORMAT));
-                }
-                //correct answer feedback
-                case 6 -> {
-                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("correctfeedback",
-                            XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()),
-                            "format=\"html\""));
+                    if (row.getCell(9).getStringCellValue().trim().equals("Klartext")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("incorrectfeedback",
+                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.PLATIN_TEXT));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("HTML")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("incorrectfeedback",
+                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.HTML));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("Markdown")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("incorrectfeedback",
+                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.MARKDOWN));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("moodle_auto_format")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("incorrectfeedback",
+                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.AUTO_FORMAT));
+                    }
                 }
                 //incorrect answer feedback
-                case 7 -> {
+                case 6 -> {
+                    if (row.getCell(9).getStringCellValue().trim().equals("Klartext")) {
                     mcQuestionBuilder.append(XMLUtil.getXMLForTag("partiallycorrectfeedback",
-                            XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()),
-                            "format=\"html\""));
+                            XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.PLATIN_TEXT));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("HTML")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("partiallycorrectfeedback",
+                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()),
+                                Format.HTML));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("Markdown")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("partiallycorrectfeedback",
+                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()),
+                                Format.MARKDOWN));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("moodle_auto_format")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("partiallycorrectfeedback",
+                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()),
+                                Format.AUTO_FORMAT));
+                    }
+
                 }
-                //no answer feedback
-                case 8 -> {
-                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("incorrectfeedback",
-                            XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()),
-                            "format=\"html\""));
+                //correct answer feedback
+                case 7 -> {
+                    if (row.getCell(9).getStringCellValue().trim().equals("Klartext")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("correctfeedback",
+                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.PLATIN_TEXT));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("HTML")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("correctfeedback",
+                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()),
+                                Format.HTML));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("Markdown")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("correctfeedback",
+                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()),
+                                Format.MARKDOWN));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("moodle_auto_format")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("correctfeedback",
+                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()),
+                                Format.AUTO_FORMAT));
+                    }
                 }
                 //answer numbering
-                case 10 ->{
+                case 8 ->{
                     if (row.getCell(colI).getStringCellValue().trim().equals("keine")) {
                         mcQuestionBuilder.append(XMLUtil.getXMLForTag("shuffleanswers", "keine"));
                     } else if (row.getCell(colI).getStringCellValue().trim().equals("abc")){
@@ -98,107 +130,106 @@ public class MultipleChoiceConverter extends Converter {
                         mcQuestionBuilder.append(XMLUtil.getXMLForTag("shuffleanswers", "123"));
                     }
                 }
-                //question text
-                case 9 -> {
-                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
-                            XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), "format=\"html\""));
-                }
                 //question with picture
-                case 12 -> {
-                    if (row.getCell(3).getStringCellValue() == null || row.getCell(4).getStringCellValue().equals("")) {
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
-                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.AUTO_FORMAT));
-                    } else {
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim() + XMLUtil.getXMLForImgTag(row.getCell(3).getStringCellValue().trim(),
-                                "image", "role=\"presentation\"", "class=\"atto_image_button_text-bottom\"")), Format.AUTO_FORMAT));
-                    }
-                }
-                //question answers
-                case 14, 17, 20, 23, 26, 29, 32, 35, 38 -> {
-                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim())
-                            + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForTextTag(row.getCell(colI + 2).getStringCellValue().trim(),
-                            Format.AUTO_FORMAT)), "fraction=\"" + row.getCell(colI + 1).getStringCellValue().trim()
-                            + "\"", Format.AUTO_FORMAT));
-                }
-                //question format
-                case 11 -> {
-                    if (row.getCell(colI).getStringCellValue().trim().equals("Klartext")) {
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("generalfeedback",
-                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.PLATIN_TEXT));
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
-                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.PLATIN_TEXT));
-                        if (row.getCell(3).getStringCellValue() == null || row.getCell(4).getStringCellValue().equals("")) {
+                case 10 -> {
+                    if (row.getCell(10).getStringCellValue() == null || row.getCell(11).getStringCellValue().equals("")) {
+                        if (row.getCell(9).getStringCellValue().trim().equals("Klartext")) {
                             mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
                                     XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.PLATIN_TEXT));
-                        } else {
-                            mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim() + XMLUtil.getXMLForImgTag(row.getCell(3).getStringCellValue().trim(),
-                                    "image", "role=\"presentation\"", "class=\"atto_image_button_text-bottom\"")), Format.PLATIN_TEXT));
-                        }
-                        for (int i = 0; i < 10; i++){
-                            mcQuestionBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim())
-                                    + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForTextTag(row.getCell(colI + 2).getStringCellValue().trim(),
-                                    Format.PLATIN_TEXT)), "fraction=\"" + row.getCell(colI + 1).getStringCellValue().trim()
-                                    + "\"", Format.PLATIN_TEXT));
-                        }
-                    } else if (row.getCell(colI).getStringCellValue().trim().equals("HTML")){
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("generalfeedback",
-                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.HTML));
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
-                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.HTML));
-                        if (row.getCell(3).getStringCellValue() == null || row.getCell(4).getStringCellValue().equals("")) {
+                        }else if (row.getCell(9).getStringCellValue().trim().equals("HTML")) {
                             mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
                                     XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.HTML));
-                        } else {
-                            mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim() + XMLUtil.getXMLForImgTag(row.getCell(3).getStringCellValue().trim(),
-                                    "image", "role=\"presentation\"", "class=\"atto_image_button_text-bottom\"")), Format.HTML));
-                        }
-                        for (int i = 0; i < 10; i++){
-                            mcQuestionBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim())
-                                    + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForTextTag(row.getCell(colI + 2 ).getStringCellValue().trim(),
-                                    Format.HTML)), "fraction=\"" + row.getCell(colI + 1 ).getStringCellValue().trim()
-                                    + "\"", Format.HTML));
-                        }
-                    }else if (row.getCell(colI).getStringCellValue().trim().equals("Markdown")){
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("generalfeedback",
-                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.MARKDOWN));
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
-                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.MARKDOWN));
-                        if (row.getCell(3).getStringCellValue() == null || row.getCell(4).getStringCellValue().equals("")) {
+                        }else if (row.getCell(9).getStringCellValue().trim().equals("Markdown")) {
                             mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
                                     XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.MARKDOWN));
-                        } else {
-                            mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim() + XMLUtil.getXMLForImgTag(row.getCell(3).getStringCellValue().trim(),
-                                    "image", "role=\"presentation\"", "class=\"atto_image_button_text-bottom\"")), Format.MARKDOWN));
-                        }
-                        for (int i = 0; i < 10; i++){
-                            mcQuestionBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForTextTag(row.getCell(colI ).getStringCellValue().trim())
-                                    + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForTextTag(row.getCell(colI + 2 ).getStringCellValue().trim(),
-                                    Format.MARKDOWN)), "fraction=\"" + row.getCell(colI + 1 ).getStringCellValue().trim()
-                                    + "\"", Format.MARKDOWN));
-                        }
-                    }else if (row.getCell(colI).getStringCellValue().trim().equals("moodle_auto_format")){
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("generalfeedback",
-                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.AUTO_FORMAT));
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
-                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.AUTO_FORMAT));
-                        if (row.getCell(3).getStringCellValue() == null || row.getCell(4).getStringCellValue().equals("")) {
+                        }else if (row.getCell(9).getStringCellValue().trim().equals("moodle_auto_format")) {
                             mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
                                     XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.AUTO_FORMAT));
-                        } else {
+                        }
+                    } else {
+                        if (row.getCell(9).getStringCellValue().trim().equals("Klartext")) {
+                            mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim() + XMLUtil.getXMLForImgTag(row.getCell(3).getStringCellValue().trim(),
+                                    "image", "role=\"presentation\"", "class=\"atto_image_button_text-bottom\"")), Format.PLATIN_TEXT));
+                        }else if (row.getCell(9).getStringCellValue().trim().equals("HTML")) {
+                            mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim() + XMLUtil.getXMLForImgTag(row.getCell(3).getStringCellValue().trim(),
+                                    "image", "role=\"presentation\"", "class=\"atto_image_button_text-bottom\"")), Format.HTML));
+                        }else if (row.getCell(9).getStringCellValue().trim().equals("Markdown")) {
+                            mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim() + XMLUtil.getXMLForImgTag(row.getCell(3).getStringCellValue().trim(),
+                                    "image", "role=\"presentation\"", "class=\"atto_image_button_text-bottom\"")), Format.MARKDOWN));
+                        }else if (row.getCell(9).getStringCellValue().trim().equals("moodle_auto_format")) {
                             mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim() + XMLUtil.getXMLForImgTag(row.getCell(3).getStringCellValue().trim(),
                                     "image", "role=\"presentation\"", "class=\"atto_image_button_text-bottom\"")), Format.AUTO_FORMAT));
                         }
-                        for (int i = 0; i < 10; i++){
-                            mcQuestionBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForTextTag(row.getCell(colI ).getStringCellValue().trim())
-                                    + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForTextTag(row.getCell(colI + 2 ).getStringCellValue().trim(),
-                                    Format.AUTO_FORMAT)), "fraction=\"" + row.getCell(colI + 1 ).getStringCellValue().trim()
-                                    + "\"", Format.AUTO_FORMAT));
+                    }
+                }
+                //question text
+                case 11 -> {
+                        if (row.getCell(9).getStringCellValue().trim().equals("Klartext")) {
+                            mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
+                                    XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.PLATIN_TEXT));
+                        }else if (row.getCell(9).getStringCellValue().trim().equals("HTML")) {
+                            mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
+                                    XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.HTML));
+                        }else if (row.getCell(9).getStringCellValue().trim().equals("Markdown")) {
+                            mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
+                                    XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.MARKDOWN));
+                        }else if (row.getCell(9).getStringCellValue().trim().equals("moodle_auto_format")) {
+                            mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
+                                    XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.AUTO_FORMAT));
                         }
+                }
+
+                //question answers
+                case 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32 -> {
+                    if (row.getCell(9).getStringCellValue().trim().equals("Klartext")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim())
+                                + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForTextTag(row.getCell(colI + 2).getStringCellValue().trim(),
+                                Format.PLATIN_TEXT)), "fraction=\"" + row.getCell(colI + 1).getStringCellValue().trim()
+                                + "\"", Format.PLATIN_TEXT));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("HTML")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim())
+                                + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForTextTag(row.getCell(colI + 2).getStringCellValue().trim(),
+                                Format.HTML)), "fraction=\"" + row.getCell(colI + 1).getStringCellValue().trim()
+                                + "\"", Format.HTML));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("Markdown")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim())
+                                + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForTextTag(row.getCell(colI + 2).getStringCellValue().trim(),
+                                Format.MARKDOWN)), "fraction=\"" + row.getCell(colI + 1).getStringCellValue().trim()
+                                + "\"", Format.MARKDOWN));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("moodle_auto_format")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim())
+                                + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForTextTag(row.getCell(colI + 2).getStringCellValue().trim(),
+                                Format.AUTO_FORMAT)), "fraction=\"" + row.getCell(colI + 1).getStringCellValue().trim()
+                                + "\"", Format.AUTO_FORMAT));
                     }
                 }
                 //hint
-                case 39 -> {
-                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("hint", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.AUTO_FORMAT));
+                case 13 -> {
+                    if (row.getCell(9).getStringCellValue().trim().equals("Klartext")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("hint", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.PLATIN_TEXT));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("HTML")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("hint", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.HTML));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("Markdown")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("hint", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.MARKDOWN));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("moodle_auto_format")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("hint", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.AUTO_FORMAT));
+                    }
+                }
+                //feedback
+                case 15 -> {
+                    if (row.getCell(9).getStringCellValue().trim().equals("Klartext")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("generalfeedback",
+                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.AUTO_FORMAT));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("HTML")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("generalfeedback",
+                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.AUTO_FORMAT));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("Markdown")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("generalfeedback",
+                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.AUTO_FORMAT));
+                    }else if (row.getCell(9).getStringCellValue().trim().equals("moodle_auto_format")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("generalfeedback",
+                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.AUTO_FORMAT));
+                    }
                 }
             }
         }
@@ -212,15 +243,15 @@ public class MultipleChoiceConverter extends Converter {
             return false;
         }
         // does the question have a formulation of a question
-        if (row.getCell(7).getStringCellValue().isBlank()) {
+        if (row.getCell(11).getStringCellValue().isBlank()) {
             return false;
         }
         // does the question have answer
-        if (row.getCell(8).getStringCellValue().isBlank()) {
+        if (row.getCell(12).getStringCellValue().isBlank()) {
             return false;
         }
         // does the question have a fraction for the points of one answer
-        if (row.getCell(9).getStringCellValue().isBlank()) {
+        if (row.getCell(13).getStringCellValue().isBlank()) {
             return false;
         }
 
