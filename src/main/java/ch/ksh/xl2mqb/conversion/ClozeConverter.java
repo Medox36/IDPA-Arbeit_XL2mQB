@@ -1,5 +1,6 @@
 package ch.ksh.xl2mqb.conversion;
 
+import ch.ksh.xl2mqb.analysis.AnalyserUtil;
 import ch.ksh.xl2mqb.conversion.xml.XMLUtil;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -7,10 +8,8 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 public class ClozeConverter extends Converter {
-    private final Pattern numericPattern = Pattern.compile("\\d+");
 
     private final XSSFSheet subQuestionSheet;
 
@@ -55,21 +54,13 @@ public class ClozeConverter extends Converter {
         boolean hasSubQuestions = false;
         for (int i = 6; i < row.getRowNum(); i++) {
             String cellValue = row.getCell(i).getStringCellValue().trim();
-            if (!cellValue.isBlank() && isNumeric(cellValue)) {
+            if (!cellValue.isBlank() && AnalyserUtil.isNumeric(cellValue)) {
                 hasSubQuestions = true;
                 break;
             }
         }
 
         return hasSubQuestions;
-    }
-
-    public boolean isNumeric(String strNum) {
-        if (strNum == null) {
-            return false;
-        }
-
-        return numericPattern.matcher(strNum).matches();
     }
 
     private void convertSingleQuestion(XSSFRow row) {
