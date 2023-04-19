@@ -182,7 +182,7 @@ public class XL2mQB extends Application {
         saveButton.setGraphic(_getFolderImageView(15));
         saveButton.setDefaultButton(true);
         saveButton.setOnAction(event -> {
-
+            convertFacade.saveIfReady();
         });
 
         Button convertNewFileButton = new Button("Neue Datei konvertieren");

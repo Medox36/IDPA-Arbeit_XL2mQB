@@ -55,7 +55,7 @@ public class MenuBar extends javafx.scene.control.MenuBar {
 
         // menu items
         MenuItem standardPath = new MenuItem("Standardmäßig speichern unter...");
-        standardPath.setOnAction(event -> menuFacade.selectPAthToSaveXMLFilesTo());
+        standardPath.setOnAction(event -> menuFacade.selectPathToSaveXMLFilesTo());
         settingsMenuItems.add(standardPath);
 
         CheckMenuItem showConversionErrors = new CheckMenuItem("Konversionsfehler anzeigen");
