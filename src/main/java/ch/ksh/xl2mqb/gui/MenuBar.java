@@ -55,7 +55,7 @@ public class MenuBar extends javafx.scene.control.MenuBar {
 
         // menu items
         MenuItem standardPath = new MenuItem("Standardmäßig speichern unter...");
-        standardPath.setOnAction(event -> menuFacade.selectPAthToSaveXMLFilesTo());
+        standardPath.setOnAction(event -> menuFacade.selectPAthToSaveXMLFilesTo());;
         settingsMenuItems.add(standardPath);
 
         CheckMenuItem showConversionErrors = new CheckMenuItem("Konversionsfehler anzeigen");
@@ -70,6 +70,7 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         Menu colorSubmenu = new Menu("Farbe wählen");
         ObservableList<MenuItem> colorSubMenuItems = colorSubmenu.getItems();
         settingsMenuItems.add(colorSubmenu);
+
         showConversionErrors.selectedProperty().addListener((observable, oldValue, newValue) -> {
             menuFacade.showConversionErrors(newValue);
 

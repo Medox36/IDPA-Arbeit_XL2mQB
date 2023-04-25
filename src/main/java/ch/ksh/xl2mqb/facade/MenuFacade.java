@@ -15,6 +15,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 import java.util.Optional;
 
 public class MenuFacade {
@@ -86,7 +87,12 @@ public class MenuFacade {
     }
 
     public void addDesktopShortcut() {
-        throw new UnsupportedOperationException();
+        try {
+            String[] command = new String[]{"wscript", Objects.requireNonNull(MenuFacade.class.getResource("/ch/ksh/xl2mqb/scripts/desktopShortcut.vbs")).toString()};
+            Runtime.getRuntime().exec(command);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void showConversionErrors(boolean showErrors) {
