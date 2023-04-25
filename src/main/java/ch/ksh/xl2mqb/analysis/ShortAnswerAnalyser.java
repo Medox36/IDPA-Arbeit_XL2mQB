@@ -23,7 +23,7 @@ public class ShortAnswerAnalyser extends Analyser {
             AnalyserUtil.points(shortanswerAnalyseResult, row.getCell(1), row.getRowNum());
             AnalyserUtil.generalFeedback(shortanswerAnalyseResult, row.getCell(2), row.getRowNum());
             AnalyserUtil.picture(shortanswerAnalyseResult, row.getCell(3), row.getRowNum());
-            AnalyserUtil.hintAndPenalty(shortanswerAnalyseResult, row.getCell(5),row.getCell(7), row.getRowNum());
+            AnalyserUtil.hintAndPenalty(shortanswerAnalyseResult, row.getCell(5),row.getCell(6), row.getRowNum());
             AnalyserUtil.questionText(shortanswerAnalyseResult, row.getCell(7), row.getRowNum());
             for (int i = 1; i < 10; i++) {
                 AnalyserUtil.questionAnswer(shortanswerAnalyseResult, row.getCell(8+step), row.getCell(9+step), row.getCell(10+step), row.getRowNum(), i);
