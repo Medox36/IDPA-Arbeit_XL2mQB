@@ -76,7 +76,7 @@ public class MenuFacade {
         }
     }
 
-    public void selectPAthToSaveXMLFilesTo() {
+    public void selectPathToSaveXMLFilesTo() {
         File pathToSaveTo = fileFacade.directoryChooserDialog("Standarmässig speichern unter");
         settings.setSetting("defaultSavePath", pathToSaveTo.toPath());
     }
