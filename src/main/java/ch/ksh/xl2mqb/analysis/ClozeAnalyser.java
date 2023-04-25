@@ -11,7 +11,6 @@ import java.util.Set;
 
 public class ClozeAnalyser extends Analyser {
     private final XSSFSheet subQuestionSheet;
-    private final TabbedStringBuilder clozeAnalyseResult;
     private final TabbedStringBuilder clozeShortanswerAnalyseResult;
 
     public ClozeAnalyser() {
@@ -19,7 +18,7 @@ public class ClozeAnalyser extends Analyser {
         sheet = excelHandler.getSheetByName("Cloze");
         subQuestionSheet = excelHandler.getSheetByName("Cloze_Shortanswer");
 
-        clozeAnalyseResult = new TabbedStringBuilder("Mappe \"Cloze\":\n");
+        analyseResult = new TabbedStringBuilder("Mappe \"Cloze\":\n");
         clozeShortanswerAnalyseResult = new TabbedStringBuilder("Mappe \"Cloze_Shortanswer\":\n");
     }
 
@@ -32,18 +31,18 @@ public class ClozeAnalyser extends Analyser {
             analyseSingleQuestion(row);
         }
 
-        logger.info(clozeAnalyseResult.toString());
+        logger.info(analyseResult.toString());
         logger.info(clozeShortanswerAnalyseResult.toString());
     }
 
     private void analyseSingleQuestion(XSSFRow row) {
         final int rowNum = row.getRowNum();
 
-        AnalyserUtil.questionName(clozeAnalyseResult, row.getCell(0), rowNum);
-        AnalyserUtil.generalFeedback(clozeAnalyseResult, row.getCell(1), rowNum);
-        AnalyserUtil.picture(clozeAnalyseResult, row.getCell(2), rowNum);
-        AnalyserUtil.hintAndPenalty(clozeAnalyseResult, row.getCell(3), row.getCell(4), rowNum);
-        AnalyserUtil.questionText(clozeAnalyseResult, row.getCell(5), rowNum);
+        AnalyserUtil.questionName(analyseResult, row.getCell(0), rowNum);
+        AnalyserUtil.generalFeedback(analyseResult, row.getCell(1), rowNum);
+        AnalyserUtil.picture(analyseResult, row.getCell(2), rowNum);
+        AnalyserUtil.hintAndPenalty(analyseResult, row.getCell(3), row.getCell(4), rowNum);
+        AnalyserUtil.questionText(analyseResult, row.getCell(5), rowNum);
 
         analyseSubQuestions(row);
     }

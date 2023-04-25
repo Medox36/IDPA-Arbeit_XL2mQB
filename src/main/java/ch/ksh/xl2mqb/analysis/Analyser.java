@@ -10,6 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 public abstract class Analyser {
     protected XSSFSheet sheet;
     protected ExcelHandler excelHandler;
+    protected TabbedStringBuilder analyseResult;
     protected Logger logger = ConvertFacade.getInstance().getLogger();
 
     public Analyser() {
