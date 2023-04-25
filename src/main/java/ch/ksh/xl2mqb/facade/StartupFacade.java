@@ -63,9 +63,9 @@ public class StartupFacade {
             }
         });
 
-        settings.getSettingProperty("defaultSavePath").addListener((observable, oldValue, newValue) -> {
-            gui.setSaveToPathTextFieldText(((Path) newValue).toString());
-        });
+        settings.getSettingProperty("defaultSavePath").addListener(
+                (observable, oldValue, newValue) -> gui.setSaveToPathTextFieldText(((Path) newValue).toString())
+        );
 
         Stage stage = XL2mQB.getStage();
         stage.xProperty().addListener((observable, oldValue, newValue) -> settings.setSetting("posX", newValue));

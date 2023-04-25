@@ -89,9 +89,7 @@ public class XL2mQB extends Application {
         pathToFileButton = new Button("Durchsuchen...");
         pathToFileButton.setGraphic(getFolderImageView());
         pathToFileButton.setMinWidth(137);
-        pathToFileButton.setOnAction(event -> {
-            pathToFile.setText(FileFacade.getInstance().selectExcelFile());
-        });
+        pathToFileButton.setOnAction(event -> pathToFile.setText(FileFacade.getInstance().selectExcelFile()));
 
         HBox excelFileContainer = new HBox(20, pathToFile, pathToFileButton);
         excelFileContainer.setPadding(new Insets(20, 40, 20, 40));
@@ -174,9 +172,7 @@ public class XL2mQB extends Application {
 
     public void convertFinishScene() {
         Button errorAnalysisButton = new Button("Fehleranalyse");
-        errorAnalysisButton.setOnAction(event -> {
-            analysisFacade.startAnalysis();
-        });
+        errorAnalysisButton.setOnAction(event -> analysisFacade.startAnalysis());
 
         saveButton = new Button("Speichern...");
         saveButton.setGraphic(_getFolderImageView(15));
@@ -187,9 +183,7 @@ public class XL2mQB extends Application {
 
         Button convertNewFileButton = new Button("Neue Datei konvertieren");
         convertNewFileButton.setStyle("-fx-background-color: #b8d593; -fx-text-fill: black");
-        convertNewFileButton.setOnAction(event -> {
-            homeScene();
-        });
+        convertNewFileButton.setOnAction(event -> homeScene());
 
         HBox rightButtonsWrapper = new HBox(20, saveButton, convertNewFileButton);
 
@@ -214,9 +208,7 @@ public class XL2mQB extends Application {
     public void analysisFinishScene() {
         Button cancelButton = new Button("Zurück");
         cancelButton.setDefaultButton(true);
-        cancelButton.setOnAction(event -> {
-            homeScene();
-        });
+        cancelButton.setOnAction(event -> homeScene());
 
         BorderPane cancelWrapper = new BorderPane();
         cancelWrapper.setPadding(new Insets(10, 0, 0, 0));

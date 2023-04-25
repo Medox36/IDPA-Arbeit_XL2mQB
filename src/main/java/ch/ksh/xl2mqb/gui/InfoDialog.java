@@ -33,9 +33,7 @@ public class InfoDialog extends Alert {
 
         Hyperlink hyperlink = new Hyperlink("Verwendete Bibliotheken");
         hyperlink.setTextAlignment(TextAlignment.LEFT);
-        hyperlink.setOnAction(event -> {
-            MenuFacade.getInstance().openAttributions();
-        });
+        hyperlink.setOnAction(event -> MenuFacade.getInstance().openAttributions());
 
         VBox contentWrapper = new VBox(10, contentText, hyperlink);
         contentWrapper.setAlignment(Pos.CENTER_LEFT);
@@ -50,7 +48,7 @@ public class InfoDialog extends Alert {
         try {
             licenceText = Files.readString(Paths.get(Objects.requireNonNull(InfoDialog.class.getResource("/META-INF/LICENCE")).toURI()));
         } catch (IOException | URISyntaxException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         licence.setText(licenceText);
         licence.setStyle("-fx-font-size: 11px");
