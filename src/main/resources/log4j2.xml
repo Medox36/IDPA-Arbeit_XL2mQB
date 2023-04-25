@@ -2,7 +2,7 @@
 <Configuration status="INFO">
     <Appenders>
         <TextAreaAppender name="TextAreaAppender">
-            <PatternLayout pattern="[%-5p]: %m"/>
+            <PatternLayout pattern="[%4.7p]: %m"/>
         </TextAreaAppender>
     </Appenders>
     <Loggers>
