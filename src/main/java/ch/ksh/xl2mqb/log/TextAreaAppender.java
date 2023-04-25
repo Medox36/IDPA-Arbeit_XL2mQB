@@ -24,7 +24,6 @@ import java.util.concurrent.locks.ReentrantLock;
         elementType = Appender.ELEMENT_TYPE)
 public class TextAreaAppender extends AbstractAppender {
     private static ProgressContainer progressContainer;
-    private final Lock appendLock = new ReentrantLock();
 
     private TextAreaAppender(String name, Layout<? extends Serializable> layout) {
         super(name, null, layout, false, Property.EMPTY_ARRAY);
@@ -32,16 +31,9 @@ public class TextAreaAppender extends AbstractAppender {
 
     @Override
     public void append(LogEvent event) {
-        try {
-            appendLock.lockInterruptibly();
-            if (progressContainer != null) {
-                String log = new String(getLayout().toByteArray(event));
-                Platform.runLater(() -> progressContainer.appendLineToTextArea(log));
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            appendLock.unlock();
+        if (progressContainer != null) {
+            String log = new String(getLayout().toByteArray(event));
+            Platform.runLater(() -> progressContainer.appendLineToTextArea(log));
         }
     }
 
