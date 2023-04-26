@@ -16,8 +16,6 @@ import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 import javafx.application.Platform;
 
 import java.io.Serializable;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 @Plugin(name = "TextAreaAppender",
         category = Core.CATEGORY_NAME,
