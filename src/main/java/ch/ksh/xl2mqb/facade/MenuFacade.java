@@ -94,7 +94,7 @@ public class MenuFacade {
     }
 
     public ExtendedStyle getStyle() {
-        return  (ExtendedStyle) Settings.getInstance().getSetting("style");
+        return (ExtendedStyle) Settings.getInstance().getSetting("style");
     }
 
     public void setStyle(ExtendedStyle extendedStyle) {

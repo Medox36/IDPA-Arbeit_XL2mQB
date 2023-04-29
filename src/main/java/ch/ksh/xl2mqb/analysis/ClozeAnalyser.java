@@ -1,5 +1,7 @@
 package ch.ksh.xl2mqb.analysis;
 
+import ch.ksh.xl2mqb.excel.CellExtractor;
+
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -53,13 +55,13 @@ public class ClozeAnalyser extends Analyser {
         for (int i = 6; i < 16; i++) {
             cells[i - 6] = row.getCell(i);
         }
-        if (Arrays.stream(cells).noneMatch(xssfCell -> xssfCell.getStringCellValue().isBlank())) {
+        if (Arrays.stream(cells).noneMatch(xssfCell -> CellExtractor.getCellValueSafe(xssfCell).isBlank())) {
             clozeShortanswerAnalyseResult.appendTabbed(rowNum, "hat keine angegebenen Fragenummern.");
             return;
         }
         for (XSSFCell cell : cells) {
-            String cellValue = cell.getStringCellValue().trim();
-            if (cell.getStringCellValue().isEmpty()) {
+            String cellValue = CellExtractor.getCellValueSafe(cell);
+            if (cellValue.isEmpty()) {
                 continue;
             }
             if (!AnalyserUtil.isNumeric(cellValue)) {
@@ -79,7 +81,7 @@ public class ClozeAnalyser extends Analyser {
         for (int rowI = 1; rowI < subQuestionSheet.getLastRowNum(); rowI++) {
             XSSFRow row = subQuestionSheet.getRow(rowI);
             XSSFCell cell = row.getCell(0);
-            if (Objects.equals(cell.getStringCellValue(), questionNumber)) {
+            if (Objects.equals(CellExtractor.getCellValueSafe(cell), questionNumber)) {
                 return row;
             }
         }
@@ -90,7 +92,7 @@ public class ClozeAnalyser extends Analyser {
     private void analyzeSubQuestionNumbers() {
         Set<Integer> nums = new HashSet<>();
         for (int i = 1; i < subQuestionSheet.getLastRowNum(); i++) {
-            String cellValue = subQuestionSheet.getRow(i).getCell(0).getStringCellValue().trim();
+            String cellValue = CellExtractor.getCellValueSafe(subQuestionSheet.getRow(i).getCell(0));
             if (AnalyserUtil.isNumeric(cellValue)) {
                 if (nums.add(Integer.parseInt(cellValue))) {
                     clozeShortanswerAnalyseResult.appendTabbed(i, "hat eine Fragenummer, die schon verwendet wird.");

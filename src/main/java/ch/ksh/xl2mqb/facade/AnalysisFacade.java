@@ -32,7 +32,7 @@ public class AnalysisFacade {
 
         analyserThread = new Thread(() -> {
 
-            new MultipleChoiceAnalyser().analyse();
+            //new MultipleChoiceAnalyser().analyse();
             new ShortAnswerAnalyser().analyse();
             new ClozeAnalyser().analyse();
 

@@ -1,5 +1,7 @@
 package ch.ksh.xl2mqb.analysis;
 
+import ch.ksh.xl2mqb.excel.CellExtractor;
+import javafx.scene.control.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 
 import javax.imageio.ImageIO;
@@ -17,13 +19,13 @@ public class AnalyserUtil {
     private static final String imageFileExtensionRegex = "^(?<FileExtension>(\\.png)|(\\.jpg)|(\\.gif)|(\\.svg)|(\\.PNG)|(\\.JPG)|(\\.GIF)|(\\.SVG))$";
 
     public static void questionName(TabbedStringBuilder sb, XSSFCell cell, int rowNum) {
-        if (cell.getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(cell).isBlank()) {
             sb.appendTabbed(rowNum, "hat keinen Namen.");
         }
     }
 
     public static void points(TabbedStringBuilder sb, XSSFCell cell, int rowNum) {
-        String cellValue = cell.getStringCellValue().trim();
+        String cellValue = CellExtractor.getCellValueSafe(cell);
         if (cellValue.isEmpty()) {
             sb.appendTabbed(rowNum, "hat keine Punkte.");
         }
@@ -65,13 +67,13 @@ public class AnalyserUtil {
     }
 
     private static void feedback(TabbedStringBuilder sb, XSSFCell cell, int rowNum, String feedbackType) {
-        if (cell.getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(cell).isBlank()) {
             sb.appendTabbed(rowNum, "hat kein " + feedbackType + " Feedback.");
         }
     }
 
     public static void picture(TabbedStringBuilder sb, XSSFCell cell, int rowNum) {
-        ImageResult result = AnalyserUtil.pictureExistence(cell.getStringCellValue().trim());
+        ImageResult result = AnalyserUtil.pictureExistence(CellExtractor.getCellValueSafe(cell));
         switch (result) {
             case NotExistRemote -> sb.appendTabbed(rowNum, "hat ein Bild das online nicht gefunden werden kann oder es besteht gerade keine Internetverbindung.");
             case NotExistLocal -> sb.appendTabbed(rowNum, "hat ein Bild das lokal nicht gefunden werden kann/nicht existiert.");
@@ -128,8 +130,8 @@ public class AnalyserUtil {
     }
 
     public static void hintAndPenalty(TabbedStringBuilder sb, XSSFCell hintCell, XSSFCell penaltyCell, int rowNum) {
-        String hint = hintCell.getStringCellValue().trim();
-        String penalty = penaltyCell.getStringCellValue().trim();
+        String hint = CellExtractor.getCellValueSafe(hintCell);
+        String penalty = CellExtractor.getCellValueSafe(penaltyCell);
 
         if (hint.isBlank() && penalty.isBlank()) {
             sb.appendTabbed(rowNum, "hat keinen Hinweis.");
@@ -157,15 +159,15 @@ public class AnalyserUtil {
     }
 
     public static void questionText(TabbedStringBuilder sb, XSSFCell cell, int rowNum) {
-        if (cell.getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(cell).isBlank()) {
             sb.appendTabbed(rowNum, "hat keine Fragestellung.");
         }
     }
 
     public static void questionAnswer(TabbedStringBuilder sb, XSSFCell answerCell, XSSFCell pointsCell, XSSFCell feedbackCell, int rowNum, int answerNum) {
-        String answer = answerCell.getStringCellValue().trim();
-        String points = pointsCell.getStringCellValue().trim();
-        String feedback = feedbackCell.getStringCellValue().trim();
+        String answer = CellExtractor.getCellValueSafe(answerCell);
+        String points = CellExtractor.getCellValueSafe(pointsCell);
+        String feedback = CellExtractor.getCellValueSafe(feedbackCell);
 
         if (!answer.isEmpty() & !points.isEmpty() & feedback.isEmpty()) {
             sb.appendTabbed(rowNum, "hat für Antwort " + answerNum + " kein Feedback.");
@@ -174,7 +176,7 @@ public class AnalyserUtil {
         } else if (answer.isEmpty() & !points.isEmpty() & !feedback.isEmpty()) {
             sb.appendTabbed(rowNum, "hat für Antwort " + answerNum + " eine leere Antwort.");
         } else if (answer.isEmpty() & points.isEmpty() & !feedback.isEmpty()) {
-            sb.appendTabbed(rowNum, "hat für Antwort " + answerNum +  " eine leere Antwort und keine Punktzahl.");
+            sb.appendTabbed(rowNum, "hat für Antwort " + answerNum + " eine leere Antwort und keine Punktzahl.");
         } else if (answer.isEmpty() & !points.isEmpty() & feedback.isEmpty()) {
             sb.appendTabbed(rowNum, "hat für Antwort " + answerNum + " eine leere Antwort und kein Feedback.");
         } else if (!answer.isEmpty() & points.isEmpty() & feedback.isEmpty()) {

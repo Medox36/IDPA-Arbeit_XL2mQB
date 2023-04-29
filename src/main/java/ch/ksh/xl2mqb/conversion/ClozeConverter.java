@@ -3,6 +3,8 @@ package ch.ksh.xl2mqb.conversion;
 import ch.ksh.xl2mqb.analysis.AnalyserUtil;
 import ch.ksh.xl2mqb.conversion.xml.XMLUtil;
 
+import ch.ksh.xl2mqb.excel.CellExtractor;
+import javafx.scene.control.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -35,25 +37,21 @@ public class ClozeConverter extends Converter {
 
     private boolean hasAllNecessaryContents(XSSFRow row) {
         // does the question have a Name
-        if (row.getCell(0).getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(row.getCell(0)).isBlank()) {
             return false;
         }
         // does the question have a formulation of a question
-        if (row.getCell(5).getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(row.getCell(5)).isBlank()) {
             return false;
         }
         // does the question have at least one sub-question
-        if (!hasSubQuestions(row)) {
-            return false;
-        }
-
-        return true;
+        return hasSubQuestions(row);
     }
 
     private boolean hasSubQuestions(XSSFRow row) {
         boolean hasSubQuestions = false;
         for (int i = 6; i < row.getRowNum(); i++) {
-            String cellValue = row.getCell(i).getStringCellValue().trim();
+            String cellValue = CellExtractor.getCellValueSafe(row.getCell(i));
             if (!cellValue.isBlank() && AnalyserUtil.isNumeric(cellValue)) {
                 hasSubQuestions = true;
                 break;
@@ -76,21 +74,21 @@ public class ClozeConverter extends Converter {
     }
 
     private void questionName(XSSFCell cell) {
-        String text = XMLUtil.getXMLForTextTag(cell.getStringCellValue().trim());
+        String text = XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(cell));
         xmlString += XMLUtil.getXMLForTag("name", text);
     }
 
     private void hint(XSSFCell cell) {
-        String text = XMLUtil.getXMLForTag("text", cell.getStringCellValue().trim());
+        String text = XMLUtil.getXMLForTag("text", CellExtractor.getCellValueSafe(cell));
         xmlString += XMLUtil.getXMLForTag("generalfeedback ", text, Format.AUTO_FORMAT);
     }
 
     private void penalty(XSSFCell cell) {
-        xmlString += XMLUtil.getXMLForTag("penalty", cell.getStringCellValue().trim());
+        xmlString += XMLUtil.getXMLForTag("penalty", CellExtractor.getCellValueSafe(cell));
     }
 
     private void generalFeedback(XSSFCell cell) {
-        String text = XMLUtil.getXMLForTextTag(cell.getStringCellValue().trim());
+        String text = XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(cell));
         xmlString += XMLUtil.getXMLForTag("generalfeedback ", text, Format.AUTO_FORMAT);
     }
 
@@ -115,18 +113,18 @@ public class ClozeConverter extends Converter {
     }
 
     private void nonSubQuestionText(XSSFCell cell) {
-        xmlString += XMLUtil.getXMLForTextTag(cell.getStringCellValue().trim());
+        xmlString += XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(cell));
     }
 
     private void picture(XSSFCell cell) {
-        String image = cell.getStringCellValue().trim();
+        String image = CellExtractor.getCellValueSafe(cell);
         if (!image.isBlank()) {
             xmlString += XMLUtil.getXMLForImgTag(image, image);
         }
     }
 
     private void subQuestion(XSSFCell cell) {
-        xmlString += convertSubQuestion(cell.getStringCellValue().trim(), cell.getRowIndex());
+        xmlString += convertSubQuestion(CellExtractor.getCellValueSafe(cell), cell.getRowIndex());
     }
 
     private String convertSubQuestion(String questionNumber, int rowNum) {
@@ -138,15 +136,15 @@ public class ClozeConverter extends Converter {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append(row.getCell(4).getStringCellValue().trim());
+        sb.append(CellExtractor.getCellValueSafe(row.getCell(4)));
 
-        String image = row.getCell(3).getStringCellValue().trim();
+        String image = CellExtractor.getCellValueSafe(row.getCell(3));
         if (!image.isBlank()) {
             sb.append(XMLUtil.getXMLForImgTag(image, image));
         }
 
         sb.append(" {");
-        sb.append(row.getCell(2).getStringCellValue().trim()).append(":");
+        sb.append(CellExtractor.getCellValueSafe(row.getCell(2))).append(":");
         sb.append("SHORTANSWER:");
 
         for (int colI = 5; colI < row.getLastCellNum(); colI ++) {
@@ -157,9 +155,9 @@ public class ClozeConverter extends Converter {
                 sb.append("~");
             }
             sb.append("%");
-            sb.append(row.getCell(colI + 1).getStringCellValue().trim().replaceAll("%", ""));
+            sb.append(CellExtractor.getCellValueSafe(row.getCell(colI + 1)).replaceAll("%", ""));
             sb.append("%");
-            sb.append(maskSpecialChars(row.getCell(colI).getStringCellValue().trim()));
+            sb.append(maskSpecialChars(CellExtractor.getCellValueSafe(row.getCell(colI))));
         }
 
         sb.append("} ");
@@ -171,7 +169,7 @@ public class ClozeConverter extends Converter {
         for (int rowI = 1; rowI < subQuestionSheet.getLastRowNum(); rowI++) {
             XSSFRow row = subQuestionSheet.getRow(rowI);
             XSSFCell cell = row.getCell(0);
-            if (Objects.equals(cell.getStringCellValue(), questionNumber)) {
+            if (Objects.equals(CellExtractor.getCellValueSafe(cell), questionNumber)) {
                 return row;
             }
         }

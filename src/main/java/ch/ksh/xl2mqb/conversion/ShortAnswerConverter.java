@@ -2,6 +2,7 @@ package ch.ksh.xl2mqb.conversion;
 
 import ch.ksh.xl2mqb.conversion.xml.XMLUtil;
 
+import ch.ksh.xl2mqb.excel.CellExtractor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
 public class ShortAnswerConverter extends Converter {
@@ -33,19 +34,19 @@ public class ShortAnswerConverter extends Converter {
             switch (colI) {
                 //question name
                 case 0 -> {
-                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("name", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim())));
+                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("name", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI)))));
                 }
                 //points
                 case 1 -> {
-                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("defaultgrade", row.getCell(colI).getStringCellValue().trim()));
+                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("defaultgrade", CellExtractor.getCellValueSafe(row.getCell(colI))));
                 }
                 //feedback
                 case 2 -> {
-                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("generalfeedback", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.AUTO_FORMAT));
+                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("generalfeedback", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
                 }
                 //case sensitive
                 case 4 -> {
-                    if (row.getCell(colI).getStringCellValue().trim().equals("Ja")) {
+                    if (CellExtractor.getCellValueSafe(row.getCell(colI)).equals("Ja")) {
                         aShortAnswerBuilder.append(XMLUtil.getXMLForTag("usecase","1"));
                     } else {
                         aShortAnswerBuilder.append(XMLUtil.getXMLForTag("usecase","0"));
@@ -53,27 +54,27 @@ public class ShortAnswerConverter extends Converter {
                 }
                 //hint
                 case 5 -> {
-                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("hint", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.AUTO_FORMAT));
+                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("hint", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
                 }
                 //penalty
                 case 6 -> {
-                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("penalty", row.getCell(colI).getStringCellValue().trim()));
+                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("penalty", CellExtractor.getCellValueSafe(row.getCell(colI))));
                 }
                 //question with picture
                 case 7 -> {
-                    if (row.getCell(3).getStringCellValue() == null || row.getCell(4).getStringCellValue().equals("")) {
+                    if (CellExtractor.getCellValueSafe(row.getCell(4)).equals("")) {
                         aShortAnswerBuilder.append(XMLUtil.getXMLForTag("questiontext",
-                                XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim()), Format.AUTO_FORMAT));
+                                XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
                     } else {
-                        aShortAnswerBuilder.append(XMLUtil.getXMLForTag("questiontext", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim() + XMLUtil.getXMLForImgTag(row.getCell(3).getStringCellValue().trim(),
+                        aShortAnswerBuilder.append(XMLUtil.getXMLForTag("questiontext", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI)) + XMLUtil.getXMLForImgTag(CellExtractor.getCellValueSafe(row.getCell(3)),
                                 "image", "role=\"presentation\"", "class=\"atto_image_button_text-bottom\"")), Format.AUTO_FORMAT));
                     }
                 }
                 //question answers
                 case 8, 11, 14, 17, 20, 23, 26, 29, 32, 35 -> {
-                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForTextTag(row.getCell(colI).getStringCellValue().trim())
-                            + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForTextTag(row.getCell(colI + 2).getStringCellValue().trim(),
-                            Format.AUTO_FORMAT)), "fraction=\"" + row.getCell(colI + 1).getStringCellValue().trim()
+                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI)))
+                            + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI+2)),
+                            Format.AUTO_FORMAT)), "fraction=\"" + CellExtractor.getCellValueSafe(row.getCell(colI+1))
                             + "\"", Format.AUTO_FORMAT));
                 }
             }
@@ -85,19 +86,19 @@ public class ShortAnswerConverter extends Converter {
 
     private boolean checkRow(XSSFRow row) {
         // does the question have a Name
-        if (row.getCell(0).getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(row.getCell(0)).isBlank()) {
             return false;
         }
         // does the question have a formulation of a question
-        if (row.getCell(7).getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(row.getCell(7)).isBlank()) {
             return false;
         }
         // does the question have answer
-        if (row.getCell(8).getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(row.getCell(8)).isBlank()) {
             return false;
         }
         // does the question have a fraction for the points of one answer
-        if (row.getCell(9).getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(row.getCell(9)).isBlank()) {
             return false;
         }
 
