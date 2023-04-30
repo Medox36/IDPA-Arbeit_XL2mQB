@@ -45,6 +45,10 @@ public class AnalyserUtil {
     }
 
     private static String removeTailingDecimalZeros(String strNum) {
+        if (!strNum.contains(".")) {
+            return strNum;
+        }
+
         String[] arr = strNum.split("\\.");
         while (arr[1].endsWith("0")) {
             arr[1] = arr[1].substring(0, arr[1].length() - 1);
