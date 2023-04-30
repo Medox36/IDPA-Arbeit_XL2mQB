@@ -28,7 +28,6 @@ public class ShortAnswerAnalyser extends Analyser {
                 AnalyserUtil.questionAnswer(analyseResult, row.getCell(8 + step), row.getCell(9 + step), row.getCell(10 + step), row.getRowNum(), i+1);
                 step += 3;
             }
-            System.out.println(rowI);
         }
 
         logger.info(analyseResult.toString());

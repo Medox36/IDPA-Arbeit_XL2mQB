@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 public abstract class Converter {
-    protected String xmlString;
+    protected String xmlString = "";
     protected XSSFSheet sheet;
     protected ExcelHandler excelHandler;
     protected Logger logger = ConvertFacade.getInstance().getLogger();

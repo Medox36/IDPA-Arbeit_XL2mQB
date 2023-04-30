@@ -9,6 +9,7 @@ import ch.ksh.xl2mqb.settings.Settings;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.nio.file.Path;
 
 public class StartupFacade {
@@ -74,6 +75,7 @@ public class StartupFacade {
         String path = new ArgsReader(gui.getParameters().getRaw()).getFileNameAndPathFromArgs();
 
         if (!path.isEmpty()) {
+            FileFacade.getInstance().setExcelFile(new File(path));
             gui.setPathOfFileToConvert(path);
         }
     }

@@ -22,8 +22,8 @@ public class FileFacade {
         excelFile = fileChooserOpenDialog("Datei Auswahl", new FileChooser.ExtensionFilter("Excel-Datei (*.xlsx/*.xlsm)","*.xlsx", "*.xlsm"));
 
         if (excelFile == null) {
-            AlertUtil.warningAlert("No file selected error", "No File .xlsx or .xlsm file was selected",
-                    "You did not select a file or the right type of file. \n Pleas try again and select an .xlsx or an .xlsm");
+            AlertUtil.warningAlert("Keine Datei ausgewählt", "Keine Datie mit der Endung .xlsx or .xlsm wurde ausgewählt.",
+                    "Sie haben eine Datei oder den richtigen Dateityp nicht ausgewählt. \n Bitte versuchen Sie es erneut und wählen Sie eine .xlsx oder eine .xlsm");
 
             return "";
         }
@@ -48,7 +48,7 @@ public class FileFacade {
         }
     }
     private Path makeNewXML() {
-        File file = fileChooserOpenDialog("Datei speichern in", new FileChooser.ExtensionFilter("XML-Datei (.xml)", ".xml"));
+        File file = fileChooserSaveDialog("Datei speichern in", new FileChooser.ExtensionFilter("XML-Datei (.xml)", ".xml"));
         if(file == null) {
             return null;
         }
@@ -71,11 +71,23 @@ public class FileFacade {
         return fileChooser.showOpenDialog(XL2mQB.getStage());
     }
 
+    public File fileChooserSaveDialog(String title, FileChooser.ExtensionFilter extensionFilter) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle(title);
+        fileChooser.setInitialDirectory(Path.of(System.getProperty("user.home"), "Documents").toFile());
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        return fileChooser.showSaveDialog(XL2mQB.getStage());
+    }
+
     public File directoryChooserDialog(String title) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle(title);
         directoryChooser.setInitialDirectory(Path.of(System.getProperty("user.home"), "Documents").toFile());
         return directoryChooser.showDialog(XL2mQB.getStage());
+    }
+
+    public void setExcelFile(File excelFile) {
+        this.excelFile = excelFile;
     }
 
     public static FileFacade getInstance() {

@@ -81,7 +81,7 @@ public class ClozeAnalyser extends Analyser {
         for (int rowI = 1; rowI < subQuestionSheet.getLastRowNum(); rowI++) {
             XSSFRow row = subQuestionSheet.getRow(rowI);
             XSSFCell cell = row.getCell(0);
-            if (Objects.equals(CellExtractor.getCellValueSafe(cell), questionNumber)) {
+            if (Double.parseDouble(CellExtractor.getCellValueSafe(cell)) == Double.parseDouble(questionNumber)) {
                 return row;
             }
         }
@@ -91,10 +91,10 @@ public class ClozeAnalyser extends Analyser {
 
     private void analyzeSubQuestionNumbers() {
         Set<Integer> nums = new HashSet<>();
-        for (int i = 1; i < subQuestionSheet.getLastRowNum(); i++) {
+        for (int i = 1; i <= subQuestionSheet.getLastRowNum(); i++) {
             String cellValue = CellExtractor.getCellValueSafe(subQuestionSheet.getRow(i).getCell(0));
             if (AnalyserUtil.isNumeric(cellValue)) {
-                if (nums.add(Integer.parseInt(cellValue))) {
+                if (!nums.add((int) Double.parseDouble(cellValue))) {
                     clozeShortanswerAnalyseResult.appendTabbed(i, "hat eine Fragenummer, die schon verwendet wird.");
                 }
             } else {

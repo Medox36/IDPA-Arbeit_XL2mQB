@@ -62,7 +62,7 @@ public class ShortAnswerConverter extends Converter {
                 }
                 //question with picture
                 case 7 -> {
-                    if (CellExtractor.getCellValueSafe(row.getCell(4)).equals("")) {
+                    if (CellExtractor.getCellValueSafe(row.getCell(3)).equals("")) {
                         aShortAnswerBuilder.append(XMLUtil.getXMLForTag("questiontext",
                                 XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
                     } else {
