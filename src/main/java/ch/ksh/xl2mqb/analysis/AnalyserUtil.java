@@ -3,6 +3,7 @@ package ch.ksh.xl2mqb.analysis;
 import ch.ksh.xl2mqb.excel.CellExtractor;
 import javafx.scene.control.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import javax.imageio.ImageIO;
 import javax.net.ssl.HttpsURLConnection;
@@ -136,9 +137,9 @@ public class AnalyserUtil {
         if (hint.isBlank() && penalty.isBlank()) {
             sb.appendTabbed(rowNum, "hat keinen Hinweis.");
         } else if (hint.isBlank() && !penalty.isBlank()) {
-            sb.appendTabbed(rowNum, "hat einen Hinweis ohne angegebenen Abzug.");
-        } else if (!hint.isBlank() && penalty.isBlank()) {
             sb.appendTabbed(rowNum, "hat einen Abzug ohne angegebenen Hinweis.");
+        } else if (!hint.isBlank() && penalty.isBlank()) {
+            sb.appendTabbed(rowNum, "hat einen Hinweis ohne angegebenen Abzug.");
         }
 
         if (!penalty.isBlank()) {

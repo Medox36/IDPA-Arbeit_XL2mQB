@@ -28,7 +28,7 @@ public class ClozeAnalyser extends Analyser {
     public void analyse() {
         analyzeSubQuestionNumbers();
 
-        for (int rowI = 1; rowI < sheet.getLastRowNum(); rowI++) {
+        for (int rowI = 1; rowI <= sheet.getLastRowNum(); rowI++) {
             XSSFRow row = sheet.getRow(rowI);
             analyseSingleQuestion(row);
         }
