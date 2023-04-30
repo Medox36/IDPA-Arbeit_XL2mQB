@@ -40,6 +40,7 @@ public class StartupFacade {
         String defaultSavePath = ((Path) settings.getSetting("defaultSavePath")).toString();
 
         if (!defaultSavePath.isBlank()) {
+            FileFacade.getInstance().setSaveDir(new File(defaultSavePath));
             gui.setSaveToPathTextFieldText(defaultSavePath);
         }
 
@@ -65,6 +66,10 @@ public class StartupFacade {
                 case SYSTEM -> gui.applySystemTheme();
             }
         });
+        settings.getSettingProperty("defaultSavePath").addListener((observable, oldValue, newValue) -> {
+            Path pathToSaveTo = (Path) newValue;
+            gui.setSaveToPathTextFieldText(pathToSaveTo.toString());
+        });
 
         Stage stage = XL2mQB.getStage();
         stage.xProperty().addListener((observable, oldValue, newValue) -> settings.setSetting("posX", newValue));
@@ -83,6 +88,7 @@ public class StartupFacade {
     private void setGUIReferenceToFacades() {
         ConvertFacade.getInstance().setGUI(gui);
         AnalysisFacade.getInstance().setGUI(gui);
+        FileFacade.getInstance().setGUI(gui);
     }
 
     private void initLogger() {
