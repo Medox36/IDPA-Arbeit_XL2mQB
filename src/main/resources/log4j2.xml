@@ -6,7 +6,7 @@
         </TextAreaAppender>
     </Appenders>
     <Loggers>
-        <Root level="debug">
+        <Root level="info">
             <AppenderRef ref="TextAreaAppender"/>
         </Root>
     </Loggers>
