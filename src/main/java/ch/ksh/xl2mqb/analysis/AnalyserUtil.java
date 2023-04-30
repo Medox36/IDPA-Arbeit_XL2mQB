@@ -1,9 +1,8 @@
 package ch.ksh.xl2mqb.analysis;
 
 import ch.ksh.xl2mqb.excel.CellExtractor;
-import javafx.scene.control.Cell;
+
 import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import javax.imageio.ImageIO;
 import javax.net.ssl.HttpsURLConnection;
@@ -40,7 +39,23 @@ public class AnalyserUtil {
             return false;
         }
 
+        strNum = removeTailingDecimalZeros(strNum);
+
         return numericPattern.matcher(strNum).matches();
+    }
+
+    private static String removeTailingDecimalZeros(String strNum) {
+        String[] arr = strNum.split("\\.");
+        while (arr[1].endsWith("0")) {
+            arr[1] = arr[1].substring(0, arr[1].length() - 1);
+        }
+
+        String newNum = arr[0] + arr[1];
+        if (newNum.endsWith(".")) {
+            newNum = newNum.substring(0, newNum.length() - 1);
+        }
+
+        return newNum;
     }
 
     public static boolean isDecimal(String strNum) {
