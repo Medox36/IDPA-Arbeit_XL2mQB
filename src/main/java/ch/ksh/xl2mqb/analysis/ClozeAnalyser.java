@@ -91,7 +91,7 @@ public class ClozeAnalyser extends Analyser {
 
     private void analyzeSubQuestionNumbers() {
         Set<Integer> nums = new HashSet<>();
-        for (int i = 1; i <= subQuestionSheet.getLastRowNum(); i++) {
+        for (int i = 1; i < subQuestionSheet.getLastRowNum(); i++) {
             String cellValue = CellExtractor.getCellValueSafe(subQuestionSheet.getRow(i).getCell(0));
             if (AnalyserUtil.isNumeric(cellValue)) {
                 if (!nums.add((int) Double.parseDouble(cellValue))) {
