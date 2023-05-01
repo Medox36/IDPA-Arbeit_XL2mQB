@@ -74,6 +74,9 @@ public class StartupFacade {
         Stage stage = XL2mQB.getStage();
         stage.xProperty().addListener((observable, oldValue, newValue) -> settings.setSetting("posX", newValue));
         stage.yProperty().addListener((observable, oldValue, newValue) -> settings.setSetting("posY", newValue));
+        // ensure first changes get saved
+        settings.setSetting("posX", stage.getX());
+        settings.setSetting("posY", stage.getY());
     }
 
     private void readArgumentsIfAvailable() {
