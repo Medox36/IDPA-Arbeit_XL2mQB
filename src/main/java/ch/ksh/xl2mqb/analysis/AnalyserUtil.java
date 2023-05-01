@@ -44,7 +44,7 @@ public class AnalyserUtil {
         return numericPattern.matcher(strNum).matches();
     }
 
-    private static String removeTailingDecimalZeros(String strNum) {
+    public static String removeTailingDecimalZeros(String strNum) {
         if (!strNum.contains(".")) {
             return strNum;
         }

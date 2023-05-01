@@ -1,5 +1,6 @@
 package ch.ksh.xl2mqb.analysis;
 
+import ch.ksh.xl2mqb.conversion.ClozeConverter;
 import ch.ksh.xl2mqb.excel.CellExtractor;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -8,7 +9,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 public class ClozeAnalyser extends Analyser {
@@ -67,7 +67,7 @@ public class ClozeAnalyser extends Analyser {
             if (!AnalyserUtil.isNumeric(cellValue)) {
                 clozeShortanswerAnalyseResult.appendTabbed(rowNum, "hat eine ungültige Fragenummer: \"" + cellValue + "\"");
             } else {
-                XSSFRow subQuestionRow = getRowForMatchingQuestionNumber(cellValue);
+                XSSFRow subQuestionRow = ClozeConverter.getRowForMatchingQuestionNumber(cellValue, subQuestionSheet);
                 if (subQuestionRow == null) {
                     clozeShortanswerAnalyseResult.appendTabbed(rowNum, "hat eine Fragenummer: \"" + cellValue + "\" zu der keine passende Frage gefunden werden kann.");
                 } else {
@@ -75,18 +75,6 @@ public class ClozeAnalyser extends Analyser {
                 }
             }
         }
-    }
-
-    private XSSFRow getRowForMatchingQuestionNumber(String questionNumber) {
-        for (int rowI = 1; rowI < subQuestionSheet.getLastRowNum(); rowI++) {
-            XSSFRow row = subQuestionSheet.getRow(rowI);
-            XSSFCell cell = row.getCell(0);
-            if (Double.parseDouble(CellExtractor.getCellValueSafe(cell)) == Double.parseDouble(questionNumber)) {
-                return row;
-            }
-        }
-
-        return null;
     }
 
     private void analyzeSubQuestionNumbers() {

@@ -4,12 +4,9 @@ import ch.ksh.xl2mqb.analysis.AnalyserUtil;
 import ch.ksh.xl2mqb.conversion.xml.XMLUtil;
 
 import ch.ksh.xl2mqb.excel.CellExtractor;
-import javafx.scene.control.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
-
-import java.util.Objects;
 
 public class ClozeConverter extends Converter {
 
@@ -50,7 +47,7 @@ public class ClozeConverter extends Converter {
 
     private boolean hasSubQuestions(XSSFRow row) {
         boolean hasSubQuestions = false;
-        for (int i = 6; i < row.getRowNum(); i++) {
+        for (int i = 6; i < row.getLastCellNum(); i++) {
             String cellValue = CellExtractor.getCellValueSafe(row.getCell(i));
             if (!cellValue.isBlank() && AnalyserUtil.isNumeric(cellValue)) {
                 hasSubQuestions = true;
@@ -95,13 +92,21 @@ public class ClozeConverter extends Converter {
     private void questionText(XSSFRow row) {
         xmlString += "<questiontext " + Format.AUTO_FORMAT + ">";
 
-        nonSubQuestionText(row.getCell(5));
-        picture(row.getCell(2));
+        StringBuilder questionTextSB = new StringBuilder();
+
+        // non sub question text
+        questionTextSB.append(CellExtractor.getCellValueSafe(row.getCell(5)));
+        // picture
+        questionTextSB.append(picture(row.getCell(2)));
 
         boolean skipped = true;
-        for (int cellI = 5; cellI < row.getLastCellNum(); cellI++) {
+        for (int cellI = 6; cellI < row.getLastCellNum(); cellI++) {
+            XSSFCell cell = row.getCell(cellI);
+            if (CellExtractor.getCellValueSafe(cell).isBlank()) {
+                continue;
+            }
             skipped = false;
-            subQuestion(row.getCell(cellI));
+            questionTextSB.append(convertSubQuestion(CellExtractor.getCellValueSafe(cell), cell.getRowIndex()));
         }
 
         if (skipped) {
@@ -109,22 +114,17 @@ public class ClozeConverter extends Converter {
                     + " vom Typ Cloze wurde(n) keine Teilfragen angegeben.");
         }
 
+        xmlString += XMLUtil.getXMLForTextTag(questionTextSB.toString());
         xmlString += "</questiontext>";
     }
 
-    private void nonSubQuestionText(XSSFCell cell) {
-        xmlString += XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(cell));
-    }
-
-    private void picture(XSSFCell cell) {
+    private String picture(XSSFCell cell) {
         String image = CellExtractor.getCellValueSafe(cell);
-        if (!image.isBlank()) {
-            xmlString += XMLUtil.getXMLForImgTag(image, image);
+        if (image.isBlank()) {
+            return "";
         }
-    }
 
-    private void subQuestion(XSSFCell cell) {
-        xmlString += convertSubQuestion(CellExtractor.getCellValueSafe(cell), cell.getRowIndex());
+        return XMLUtil.getXMLForImgTag(image, image);
     }
 
     private String convertSubQuestion(String questionNumber, int rowNum) {
@@ -132,6 +132,10 @@ public class ClozeConverter extends Converter {
         if (row == null) {
             logger.info("Für die Frage auf Zeile " + (rowNum + 1)
                     + " vom Typ Cloze wurde keine passende Teilfrage mit der Nummer " + questionNumber + " gefunden.");
+            return "";
+        }
+        if (!subQuestionHasAllNecessaryContents(row)) {
+            logger.info("Die Teilfrage auf Zeile " + (row.getRowNum() + 1) + " von Typ Cloze_Shortanswer hat nicht alle benötigten Angaben.");
             return "";
         }
 
@@ -144,20 +148,26 @@ public class ClozeConverter extends Converter {
         }
 
         sb.append(" {");
-        sb.append(CellExtractor.getCellValueSafe(row.getCell(2))).append(":");
+        sb.append(AnalyserUtil.removeTailingDecimalZeros(CellExtractor.getCellValueSafe(row.getCell(2))));
+        sb.append(":");
         sb.append("SHORTANSWER:");
 
-        for (int colI = 5; colI < row.getLastCellNum(); colI ++) {
-            if (colI % 2 == 0) {
+        for (int colI = 5; colI < row.getLastCellNum(); colI += 3) {
+            if (CellExtractor.getCellValueSafe(row.getCell(colI)).isBlank()) {
                 continue;
             }
             if (colI != 5) {
                 sb.append("~");
             }
             sb.append("%");
-            sb.append(CellExtractor.getCellValueSafe(row.getCell(colI + 1)).replaceAll("%", ""));
+            sb.append(AnalyserUtil.removeTailingDecimalZeros(CellExtractor.getCellValueSafe(row.getCell(colI + 1)).replaceAll("%", "")));
             sb.append("%");
             sb.append(maskSpecialChars(CellExtractor.getCellValueSafe(row.getCell(colI))));
+
+            String feedbackCellValue = CellExtractor.getCellValueSafe(row.getCell(colI  + 2));
+            if (!feedbackCellValue.isBlank()) {
+                sb.append("#").append(feedbackCellValue);
+            }
         }
 
         sb.append("} ");
@@ -165,11 +175,44 @@ public class ClozeConverter extends Converter {
         return sb.toString();
     }
 
+    private boolean subQuestionHasAllNecessaryContents(XSSFRow row) {
+        // has no number
+        if (!AnalyserUtil.isDecimal(CellExtractor.getCellValueSafe(row.getCell(0)))) {
+            return false;
+        }
+        // has no question name
+        if (CellExtractor.getCellValueSafe(row.getCell(1)).isBlank()) {
+            return false;
+        }
+        // has no points
+        if (CellExtractor.getCellValueSafe(row.getCell(2)).isBlank()) {
+            return false;
+        }
+        // has no formulation of a question
+        if (CellExtractor.getCellValueSafe(row.getCell(4)).isBlank()) {
+            return false;
+        }
+        // has no first answer
+        if (CellExtractor.getCellValueSafe(row.getCell(5)).isBlank()) {
+            return false;
+        }
+        // has no points for first answer
+        if (CellExtractor.getCellValueSafe(row.getCell(6)).isBlank()) {
+            return false;
+        }
+
+        return true;
+    }
+
     private XSSFRow getRowForMatchingQuestionNumber(String questionNumber) {
+        return getRowForMatchingQuestionNumber(questionNumber, subQuestionSheet);
+    }
+
+    public static XSSFRow getRowForMatchingQuestionNumber(String questionNumber, XSSFSheet subQuestionSheet) {
         for (int rowI = 1; rowI < subQuestionSheet.getLastRowNum(); rowI++) {
             XSSFRow row = subQuestionSheet.getRow(rowI);
             XSSFCell cell = row.getCell(0);
-            if (Objects.equals(CellExtractor.getCellValueSafe(cell), questionNumber)) {
+            if (Double.parseDouble(CellExtractor.getCellValueSafe(cell)) == Double.parseDouble(questionNumber)) {
                 return row;
             }
         }
