@@ -80,7 +80,7 @@ public class FileFacade {
                     Files.createFile(xmlPath);
                 } else {
                     AlertUtil.errorAlert("Fehler beim Speichern", "Es gab einen Fehler beim speichern der Datei.",
-                            "Die ausgewählten Ordner konnten nicht erstellt werden.\nBitter versuchen Si es erneut oder speichern Sie in einem anderen Ordner.");
+                            "Die ausgewählten Ordner konnten nicht erstellt werden.\nBitter versuchen Sie es erneut oder speichern Sie in einem anderen Ordner.");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
