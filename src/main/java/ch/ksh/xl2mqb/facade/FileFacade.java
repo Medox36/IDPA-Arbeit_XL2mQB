@@ -76,12 +76,13 @@ public class FileFacade {
         Path xmlPath = file.toPath();
         if (Files.notExists(xmlPath)) {
             try {
-                if (file.getParentFile().mkdirs()) {
-                    Files.createFile(xmlPath);
-                } else {
-                    AlertUtil.errorAlert("Fehler beim Speichern", "Es gab einen Fehler beim speichern der Datei.",
-                            "Die ausgewählten Ordner konnten nicht erstellt werden.\nBitter versuchen Sie es erneut oder speichern Sie in einem anderen Ordner.");
+                if (Files.notExists(file.getParentFile().toPath())) {
+                    if (!file.getParentFile().mkdirs()) {
+                        AlertUtil.errorAlert("Fehler beim Speichern", "Es gab einen Fehler beim speichern der Datei.",
+                                "Die ausgewählten Ordner konnten nicht erstellt werden.\nBitter versuchen Sie es erneut oder speichern Sie in einem anderen Ordner.");
+                    }
                 }
+                Files.createFile(xmlPath);
             } catch (IOException e) {
                 e.printStackTrace();
                 AlertUtil.errorAlert("Fehler beim Speichern", "Es gab einen Fehler beim speichern der Datei.",
