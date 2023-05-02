@@ -8,6 +8,8 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
+import java.util.Objects;
+
 public class ClozeConverter extends Converter {
 
     private final XSSFSheet subQuestionSheet;
@@ -19,7 +21,7 @@ public class ClozeConverter extends Converter {
     }
 
     public String convert() {
-        for (int rowI = 1; rowI < sheet.getLastRowNum(); rowI++) {
+        for (int rowI = 1; rowI <= sheet.getLastRowNum(); rowI++) {
             XSSFRow row = sheet.getRow(rowI);
             if (hasAllNecessaryContents(row)) {
                 convertSingleQuestion(row);
@@ -76,7 +78,7 @@ public class ClozeConverter extends Converter {
     }
 
     private void hint(XSSFCell cell) {
-        String text = XMLUtil.getXMLForTag("text", CellExtractor.getCellValueSafe(cell));
+        String text = XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(cell));
         xmlString += XMLUtil.getXMLForTag("generalfeedback ", text, Format.AUTO_FORMAT);
     }
 
@@ -148,7 +150,7 @@ public class ClozeConverter extends Converter {
         }
 
         sb.append(" {");
-        sb.append(AnalyserUtil.removeTailingDecimalZeros(CellExtractor.getCellValueSafe(row.getCell(2))));
+        sb.append(CellExtractor.getCellValueSafe(row.getCell(2)));
         sb.append(":");
         sb.append("SHORTANSWER:");
 
@@ -160,7 +162,7 @@ public class ClozeConverter extends Converter {
                 sb.append("~");
             }
             sb.append("%");
-            sb.append(AnalyserUtil.removeTailingDecimalZeros(CellExtractor.getCellValueSafe(row.getCell(colI + 1)).replaceAll("%", "")));
+            sb.append(CellExtractor.getCellValueSafe(row.getCell(colI + 1)).replaceAll("%", ""));
             sb.append("%");
             sb.append(maskSpecialChars(CellExtractor.getCellValueSafe(row.getCell(colI))));
 
@@ -209,10 +211,10 @@ public class ClozeConverter extends Converter {
     }
 
     public static XSSFRow getRowForMatchingQuestionNumber(String questionNumber, XSSFSheet subQuestionSheet) {
-        for (int rowI = 1; rowI < subQuestionSheet.getLastRowNum(); rowI++) {
+        for (int rowI = 1; rowI <= subQuestionSheet.getLastRowNum(); rowI++) {
             XSSFRow row = subQuestionSheet.getRow(rowI);
             XSSFCell cell = row.getCell(0);
-            if (Double.parseDouble(CellExtractor.getCellValueSafe(cell)) == Double.parseDouble(questionNumber)) {
+            if (Objects.equals(CellExtractor.getCellValueSafe(cell), questionNumber)) {
                 return row;
             }
         }
