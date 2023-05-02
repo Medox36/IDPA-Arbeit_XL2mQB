@@ -16,7 +16,7 @@ public class AnalyserUtil {
     private static final Pattern numericPattern = Pattern.compile("^\\d+$");
     private static final Pattern decimalPattern = Pattern.compile("^\\d+(\\.\\d+)?$");
     private static final String imageFileRegex = "^(?<Path>(?:[a-zA-Z]:)+\\\\(?:[\\w\\s.]+\\\\)*)(?<FileName>[\\w\\s.]+?)$";
-    private static final String imageFileExtensionRegex = "^(?<FileExtension>(\\.png)|(\\.jpg)|(\\.gif)|(\\.svg)|(\\.PNG)|(\\.JPG)|(\\.GIF)|(\\.SVG))$";
+    private static final String imageFileExtensionRegex = "^(?<FileExtension>(png)|(jpg)|(gif)|(svg)|(PNG)|(JPG)|(GIF)|(SVG))$";
 
     public static void questionName(TabbedStringBuilder sb, XSSFCell cell, int rowNum) {
         if (CellExtractor.getCellValueSafe(cell).isBlank()) {
