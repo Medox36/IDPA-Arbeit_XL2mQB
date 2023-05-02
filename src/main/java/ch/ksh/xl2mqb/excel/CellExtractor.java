@@ -1,5 +1,7 @@
 package ch.ksh.xl2mqb.excel;
 
+import ch.ksh.xl2mqb.analysis.AnalyserUtil;
+
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 
@@ -19,7 +21,7 @@ public class CellExtractor {
                 return String.valueOf(cell.getBooleanCellValue()).trim();
             }
             case NUMERIC -> {
-                return String.valueOf(cell.getNumericCellValue()).trim();
+                return AnalyserUtil.removeTailingDecimalZeros(String.valueOf(cell.getNumericCellValue()).trim());
             }
             default -> {
                 return "";
