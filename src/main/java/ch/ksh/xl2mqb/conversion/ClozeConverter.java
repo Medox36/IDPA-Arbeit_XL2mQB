@@ -23,6 +23,9 @@ public class ClozeConverter extends Converter {
     public String convert() {
         for (int rowI = 1; rowI <= sheet.getLastRowNum(); rowI++) {
             XSSFRow row = sheet.getRow(rowI);
+            if (isRowEmpty(row)) {
+                continue;
+            }
             if (hasAllNecessaryContents(row)) {
                 convertSingleQuestion(row);
             } else {
