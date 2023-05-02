@@ -15,7 +15,9 @@ public class ShortAnswerConverter extends Converter {
     public String convert() {
         for (int rowI = 1; rowI <= sheet.getLastRowNum(); rowI++) {
             XSSFRow row = sheet.getRow(rowI);
-            System.out.println(row.getRowNum());
+            if (isRowEmpty(row)) {
+                continue;
+            }
             if (!checkRow(row)) {
                 logger.info("Die Frage auf Zeile " + (row.getRowNum()+1)
                         + " vom Typ Shortanswer hat nicht alle benötigten Daten.");
@@ -31,7 +33,7 @@ public class ShortAnswerConverter extends Converter {
         StringBuilder aShortAnswerBuilder = new StringBuilder("<question " + Type.SHORTANSWER + ">");
 
         for (int colI = 0; colI < row.getLastCellNum(); colI++) {
-            switch (colI) {
+                switch (colI) {
                 //question name
                 case 0 -> {
                     aShortAnswerBuilder.append(XMLUtil.getXMLForTag("name", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI)))));
