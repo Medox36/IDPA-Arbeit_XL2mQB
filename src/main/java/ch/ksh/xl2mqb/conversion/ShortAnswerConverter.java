@@ -13,9 +13,15 @@ public class ShortAnswerConverter extends Converter {
     }
 
     public String convert() {
-        for (int rowI = 1; rowI < sheet.getLastRowNum(); rowI++) {
+        for (int rowI = 1; rowI <= sheet.getLastRowNum(); rowI++) {
             XSSFRow row = sheet.getRow(rowI);
-            convertSingleQuestion(row);
+            System.out.println(row.getRowNum());
+            if (!checkRow(row)) {
+                logger.info("Die Frage auf Zeile " + (row.getRowNum()+1)
+                        + " vom Typ Shortanswer hat nicht alle benötigten Daten.");
+            }else {
+                convertSingleQuestion(row);
+            }
         }
 
         return xmlString;
@@ -23,12 +29,6 @@ public class ShortAnswerConverter extends Converter {
 
     private void convertSingleQuestion(XSSFRow row) {
         StringBuilder aShortAnswerBuilder = new StringBuilder("<question " + Type.SHORTANSWER + ">");
-
-        if (!checkRow(row)) {
-            logger.info("Die Frage auf Zeile " + (row.getRowNum() + 1)
-                    + " vom Typ Shortanswer hat nicht alle benötigten Daten.");
-            return;
-        }
 
         for (int colI = 0; colI < row.getLastCellNum(); colI++) {
             switch (colI) {
@@ -85,20 +85,24 @@ public class ShortAnswerConverter extends Converter {
     }
 
     private boolean checkRow(XSSFRow row) {
-        // does the question have a Name
-        if (CellExtractor.getCellValueSafe(row.getCell(0)).isBlank()) {
-            return false;
-        }
-        // does the question have a formulation of a question
-        if (CellExtractor.getCellValueSafe(row.getCell(7)).isBlank()) {
-            return false;
-        }
-        // does the question have answer
-        if (CellExtractor.getCellValueSafe(row.getCell(8)).isBlank()) {
-            return false;
-        }
-        // does the question have a fraction for the points of one answer
-        if (CellExtractor.getCellValueSafe(row.getCell(9)).isBlank()) {
+        try {
+            // does the question have a Name
+            if (CellExtractor.getCellValueSafe(row.getCell(0)).isBlank()) {
+                return false;
+            }
+            // does the question have a formulation of a question
+            if (CellExtractor.getCellValueSafe(row.getCell(7)).isBlank()) {
+                return false;
+            }
+            // does the question have answer
+            if (CellExtractor.getCellValueSafe(row.getCell(8)).isBlank()) {
+                return false;
+            }
+            // does the question have a fraction for the points of one answer
+            if (CellExtractor.getCellValueSafe(row.getCell(9)).isBlank()) {
+                return false;
+            }
+        }catch(Exception e){
             return false;
         }
 
