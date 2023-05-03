@@ -173,7 +173,11 @@ public class AnalyserUtil {
                     sb.appendTabbed(rowNum, "hat einen ungültigen Abzug, den das Programm nicht versteht.");
                 }
             } else {
-                sb.appendTabbed(rowNum, "hat einen ungültigen Abzug (Nur Dezimalzahlen).");
+                if (penalty.startsWith("-")) {
+                    sb.appendTabbed(rowNum, "hat einen ungültigen Abzug (keine Negativen Zahlen).");
+                } else {
+                    sb.appendTabbed(rowNum, "hat einen ungültigen Abzug (Nur Dezimalzahlen).");
+                }
             }
         }
     }
