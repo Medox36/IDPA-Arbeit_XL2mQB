@@ -12,7 +12,7 @@ public class TabbedStringBuilder {
     }
 
     public void appendTabbed(int rowNum, String str) {
-        sb.append("\t").append("Frage auf Zeile ").append(rowNum).append(" ").append(str).append("\n");
+        sb.append("\t").append("Frage auf Zeile ").append((rowNum + 1)).append(" ").append(str).append("\n");
     }
 
     @Override
