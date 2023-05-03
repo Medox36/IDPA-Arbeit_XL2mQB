@@ -80,7 +80,7 @@ public class FileFacade {
                     "Personal"
             );
 
-            return Path.of(value);
+            return Path.of(replaceVars(value));
         }
 
         public Path getUserDesktopFolder() {
@@ -90,7 +90,11 @@ public class FileFacade {
                     "Desktop"
             );
 
-            return Path.of(value);
+            return Path.of(replaceVars(value));
+        }
+
+        private String replaceVars(String path) {
+            return path.replace("%USERPROFILE%", System.getenv("USERPROFILE"));
         }
     }
 }
