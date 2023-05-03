@@ -20,7 +20,7 @@ import java.util.Optional;
 
 public class MenuFacade {
     private static MenuFacade INSTANCE;
-    private final Path excelTemplatePath = Path.of("Moodle-Question-Converter(Xl2mQB)_Vorlage.xltm");
+    private final Path excelTemplatePath = Path.of("Moodle-Question-Converter(XL2mQB)_Vorlage.xltm");
     private static final FileFacade fileFacade = FileFacade.getInstance();
     private final Settings settings = Settings.getInstance();
 
@@ -51,16 +51,31 @@ public class MenuFacade {
     }
 
     private void saveExcelTemplateToPath(String dirPath) throws IOException {
-        Files.copy(excelTemplatePath, Path.of(dirPath).resolve(excelTemplatePath.getFileName()));
+        Path result = Files.copy(excelTemplatePath, Path.of(dirPath).resolve(excelTemplatePath.getFileName()));
+        showUserStateOfExcelTemplate(result);
     }
 
     private void saveExcelTemplateToPathAndOverride(String dirPath) throws IOException {
-        Files.copy(excelTemplatePath, Path.of(dirPath).resolve(excelTemplatePath.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+        Path result = Files.copy(excelTemplatePath, Path.of(dirPath).resolve(excelTemplatePath.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+        showUserStateOfExcelTemplate(result);
+    }
+
+    private void showUserStateOfExcelTemplate(Path excelTemplatePath) {
+        if (Files.exists(excelTemplatePath)) {
+            AlertUtil.infoAlert("Excel-Vorlage einrichten", "Excel-Vorlage erfolgreich eingerichtet.", "");
+        } else {
+            AlertUtil.warningAlert("Excel-Vorlage einrichten", "Das Einrichten der Excel-Vorlage war nicht erfolgreich.",
+                    "Bitte versuchen Sie es erneut oder wählen Sie im Menu Excel-Vorlage > Neue Excel-Datei von Vorlage.");
+        }
     }
 
     public void selectPathToSaveExcelTemplateTo() {
         try {
             File dir = fileFacade.directoryChooserDialog("Excel-Vorlage speichern unter");
+
+            if (dir == null) {
+                return;
+            }
 
             if (Files.exists(Path.of(dir.getPath(), "Moodle-Question-Converter(Xl2mQB)_Vorlage.xltm"))) {
                 Optional<ButtonType> buttonType = AlertUtil.confirmAlert("Excel-Vorlage einrichten", "Excel-Vorlage existiert bereits in diesem Ordner", "Möchten Sie die Excel-Vorlage überschreiben?");
