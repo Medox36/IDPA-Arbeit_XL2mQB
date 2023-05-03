@@ -18,6 +18,7 @@ import javafx.scene.control.ButtonType;
 import java.util.Optional;
 
 public class ConvertFacade {
+
     private static ConvertFacade INSTANCE;
     private Thread converterThread;
     private String xml;
@@ -43,8 +44,11 @@ public class ConvertFacade {
             String convertedQuestions = "";
 
             //convertedQuestions += new MultipleChoiceConverter().convert();
+            Platform.runLater(() -> progressContainer.setProgress(0.3));
             convertedQuestions += new ShortAnswerConverter().convert();
+            Platform.runLater(() -> progressContainer.setProgress(0.6));
             convertedQuestions += new ClozeConverter().convert();
+            Platform.runLater(() -> progressContainer.setProgress(0.9));
 
             xml += XMLUtil.getXMLForTag("quiz", convertedQuestions);
 
@@ -75,9 +79,10 @@ public class ConvertFacade {
             FileFacade.getInstance().saveXML(xml);
         } else {
             AlertUtil.errorAlert("Konvertieren", "XML abspeichern nicht möglich",
-                    "Konvertieren der Excel-Datei scheint nicht richtig abgeschlossen zu sein, daher keine XML-Datei generiert werden." +
-                            "\nVersuchen sie noch einmal zu speichern oder Konvertieren sie erneut." +
-                            "\nAllenfalls empfiehlt sich eine Fehleranalyse.");
+                    """
+                            Konvertieren der Excel-Datei scheint nicht richtig abgeschlossen zu sein, daher keine XML-Datei generiert werden.
+                            Versuchen sie noch einmal zu speichern oder Konvertieren sie erneut.
+                            Allenfalls empfiehlt sich eine Fehleranalyse.""");
         }
     }
     public Logger getLogger() {

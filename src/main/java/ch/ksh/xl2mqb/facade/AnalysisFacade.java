@@ -14,10 +14,9 @@ import java.util.Optional;
 
 public class AnalysisFacade {
 
-    private Thread analyserThread;
-
-    private volatile boolean isAnalyserFinished;
     private static AnalysisFacade INSTANCE;
+    private Thread analyserThread;
+    private volatile boolean isAnalyserFinished;
     private XL2mQB gui;
 
     public void setGUI(XL2mQB gui) {
@@ -33,8 +32,11 @@ public class AnalysisFacade {
         analyserThread = new Thread(() -> {
 
             //new MultipleChoiceAnalyser().analyse();
+            Platform.runLater(() -> progressContainer.setProgress(0.3));
             new ShortAnswerAnalyser().analyse();
+            Platform.runLater(() -> progressContainer.setProgress(0.6));
             new ClozeAnalyser().analyse();
+            Platform.runLater(() -> progressContainer.setProgress(0.9));
 
             isAnalyserFinished = true;
 
