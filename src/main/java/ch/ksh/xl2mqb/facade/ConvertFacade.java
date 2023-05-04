@@ -43,7 +43,7 @@ public class ConvertFacade {
             xml = XMLUtil.xmlHeader;
             String convertedQuestions = "";
 
-            //convertedQuestions += new MultipleChoiceConverter().convert();
+            convertedQuestions += new MultipleChoiceConverter().convert();
             Platform.runLater(() -> progressContainer.setProgress(0.3));
             convertedQuestions += new ShortAnswerConverter().convert();
             Platform.runLater(() -> progressContainer.setProgress(0.6));

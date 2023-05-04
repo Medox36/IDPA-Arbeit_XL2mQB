@@ -5,7 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 public class MultipleChoiceConverter extends Converter {
     public MultipleChoiceConverter(){
         super();
-        sheet = excelHandler.getSheetByName("Multiplechoice");
+        sheet = excelHandler.getSheetByName("Multiple-Choice");
     }
 
     public String convert() {
@@ -91,12 +91,12 @@ public class MultipleChoiceConverter extends Converter {
                 }
                 //question with picture
                 case 10 -> {
-                    if (CellExtractor.getCellValueSafe(row.getCell(11)).equals("")) {
+                    if (CellExtractor.getCellValueSafe(row.getCell(9)).equals("")) {
                         mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
                                 XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
                     } else {
                         mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
-                                XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI)) + XMLUtil.getXMLForImgTag(CellExtractor.getCellValueSafe(row.getCell(3)),
+                                XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI)) + XMLUtil.getXMLForImgTag(CellExtractor.getCellValueSafe(row.getCell(9)),
                                         "image", "role=\"presentation\"", "class=\"atto_image_button_text-bottom\"")), Format.AUTO_FORMAT));
                     }
                 }
@@ -129,19 +129,19 @@ public class MultipleChoiceConverter extends Converter {
 
     private boolean checkRow(XSSFRow row){
         // does the question have a Name
-        if (row.getCell(0).getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(row.getCell(0)).isBlank()) {
             return false;
         }
         // does the question have a formulation of a question
-        if (row.getCell(11).getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(row.getCell(11)).isBlank()) {
             return false;
         }
         // does the question have answer
-        if (row.getCell(12).getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(row.getCell(12)).isBlank()) {
             return false;
         }
         // does the question have a fraction for the points of one answer
-        if (row.getCell(13).getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(row.getCell(13)).isBlank()) {
             return false;
         }
         return true;

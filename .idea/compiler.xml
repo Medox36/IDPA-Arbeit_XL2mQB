@@ -11,7 +11,6 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="IDPA-Arbeit_XL2mQB" target="11" />
-      <module name="XL2mQB" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
