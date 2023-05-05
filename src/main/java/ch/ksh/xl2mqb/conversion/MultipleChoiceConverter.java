@@ -141,9 +141,6 @@ public class MultipleChoiceConverter extends Converter {
             return false;
         }
         // does the question have a fraction for the points of one answer
-        if (CellExtractor.getCellValueSafe(row.getCell(13)).isBlank()) {
-            return false;
-        }
-        return true;
+        return !CellExtractor.getCellValueSafe(row.getCell(13)).isBlank();
     }
 }

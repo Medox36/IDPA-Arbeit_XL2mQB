@@ -4,7 +4,7 @@ public class MultipleChoiceAnalyser extends Analyser {
 
     public MultipleChoiceAnalyser() {
         super();
-        sheet = excelHandler.getSheetByName("Multiplechoice");
+        sheet = excelHandler.getSheetByName("Multiple-Choice");
 
         analyseResult = new TabbedStringBuilder("Mappe \"Multiplechoice\":\n");
     }

@@ -5,13 +5,30 @@ import ch.ksh.xl2mqb.conversion.xml.XMLUtil;
 import ch.ksh.xl2mqb.excel.CellExtractor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
+/**
+ * coverts all questions in the Shortanswer sheet into a XML String.
+ *
+ * @author Niklas Vogel
+ * @date 05.05.2023
+ * @version 1.0
+ *
+ */
+
 public class ShortAnswerConverter extends Converter {
 
+    /**
+     * Constructor: gets the wright sheet.
+     */
     public ShortAnswerConverter() {
         super();
         sheet = excelHandler.getSheetByName("Shortanswer");
     }
 
+    /**
+     * iterates through the sheet rows and checks for empty row or rows with not enough data.
+     *
+     * @return XML String
+     */
     public String convert() {
         for (int rowI = 1; rowI <= sheet.getLastRowNum(); rowI++) {
             XSSFRow row = sheet.getRow(rowI);
@@ -29,6 +46,11 @@ public class ShortAnswerConverter extends Converter {
         return xmlString;
     }
 
+    /**
+     * iterates through a row and converts the single cells into a XML String.
+     *
+     * @param row
+     */
     private void convertSingleQuestion(XSSFRow row) {
         StringBuilder aShortAnswerBuilder = new StringBuilder("<question " + Type.SHORTANSWER + ">");
 
@@ -86,6 +108,12 @@ public class ShortAnswerConverter extends Converter {
         xmlString += aShortAnswerBuilder.toString();
     }
 
+    /**
+     * checks the wor for missing data.
+     *
+     * @param row
+     * @return true if there is no data missing
+     */
     private boolean checkRow(XSSFRow row) {
         try {
             // does the question have a Name
