@@ -117,7 +117,7 @@ public class MultipleChoiceConverter extends Converter {
                                 "image", "role=\"presentation\"", "class=\"atto_image_button_text-bottom\"")), Format.AUTO_FORMAT));
                     }
                 }
-                //hint
+                //question answers
                 case 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43 -> {
                     mcQuestionBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI)))
                             + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI+2)),
