@@ -27,6 +27,15 @@ public class XMLUtil {
         return getXMLForTag("text", value, attributes);
     }
 
+    public static String getXMLForCDATATextTag(String value, String... attributes) {
+        value = "<![CDATA[" + replaceNewLineWithLineBreak(value) + "]]>";
+        return getXMLForTag("text", value, attributes);
+    }
+
+    public static String replaceNewLineWithLineBreak(String value) {
+        return value.replace("\n", "<br>");
+    }
+
     public static String getXMLForImgTag(String src, String alt, String... otherAttributes) {
         StringBuilder xml = new StringBuilder();
 
@@ -38,7 +47,7 @@ public class XMLUtil {
         for (String attribute : otherAttributes) {
             xml.append(" ").append(attribute);
         }
-        xml.append("/>");
+        xml.append(">");
 
         return xml.toString();
     }

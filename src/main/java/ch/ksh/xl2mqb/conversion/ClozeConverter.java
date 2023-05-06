@@ -81,7 +81,7 @@ public class ClozeConverter extends Converter {
     }
 
     private void hint(XSSFCell cell) {
-        String text = XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(cell));
+        String text = XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(cell));
         xmlString += XMLUtil.getXMLForTag("generalfeedback ", text, Format.AUTO_FORMAT);
     }
 
@@ -90,7 +90,7 @@ public class ClozeConverter extends Converter {
     }
 
     private void generalFeedback(XSSFCell cell) {
-        String text = XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(cell));
+        String text = XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(cell));
         xmlString += XMLUtil.getXMLForTag("generalfeedback ", text, Format.AUTO_FORMAT);
     }
 
@@ -119,7 +119,7 @@ public class ClozeConverter extends Converter {
                     + " vom Typ Cloze wurde(n) keine Teilfragen angegeben.");
         }
 
-        xmlString += XMLUtil.getXMLForTextTag(questionTextSB.toString());
+        xmlString += XMLUtil.getXMLForCDATATextTag(questionTextSB.toString());
         xmlString += "</questiontext>";
     }
 

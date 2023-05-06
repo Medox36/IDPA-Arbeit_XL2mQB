@@ -1,8 +1,8 @@
 package ch.ksh.xl2mqb.conversion;
 
 import ch.ksh.xl2mqb.conversion.xml.XMLUtil;
-
 import ch.ksh.xl2mqb.excel.CellExtractor;
+
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
 /**
@@ -66,7 +66,7 @@ public class ShortAnswerConverter extends Converter {
                 }
                 //feedback
                 case 2 -> {
-                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("generalfeedback", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
+                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("generalfeedback", XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
                 }
                 //case sensitive
                 case 4 -> {
@@ -78,7 +78,7 @@ public class ShortAnswerConverter extends Converter {
                 }
                 //hint
                 case 5 -> {
-                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("hint", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
+                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("hint", XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
                 }
                 //penalty
                 case 6 -> {
@@ -88,16 +88,16 @@ public class ShortAnswerConverter extends Converter {
                 case 7 -> {
                     if (CellExtractor.getCellValueSafe(row.getCell(3)).equals("")) {
                         aShortAnswerBuilder.append(XMLUtil.getXMLForTag("questiontext",
-                                XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
+                                XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
                     } else {
-                        aShortAnswerBuilder.append(XMLUtil.getXMLForTag("questiontext", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI)) + XMLUtil.getXMLForImgTag(CellExtractor.getCellValueSafe(row.getCell(3)),
+                        aShortAnswerBuilder.append(XMLUtil.getXMLForTag("questiontext", XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI)) + XMLUtil.getXMLForImgTag(CellExtractor.getCellValueSafe(row.getCell(3)),
                                 "image", "role=\"presentation\"", "class=\"atto_image_button_text-bottom\"")), Format.AUTO_FORMAT));
                     }
                 }
                 //question answers
                 case 8, 11, 14, 17, 20, 23, 26, 29, 32, 35 -> {
-                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI)))
-                            + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI+2)),
+                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI)))
+                            + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI+2)),
                             Format.AUTO_FORMAT)), "fraction=\"" + CellExtractor.getCellValueSafe(row.getCell(colI+1))
                             + "\"", Format.AUTO_FORMAT));
                 }
