@@ -202,11 +202,7 @@ public class ClozeConverter extends Converter {
             return false;
         }
         // has no points for first answer
-        if (CellExtractor.getCellValueSafe(row.getCell(6)).isBlank()) {
-            return false;
-        }
-
-        return true;
+        return !CellExtractor.getCellValueSafe(row.getCell(6)).isBlank();
     }
 
     private XSSFRow getRowForMatchingQuestionNumber(String questionNumber) {

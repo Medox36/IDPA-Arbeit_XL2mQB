@@ -17,6 +17,14 @@ import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
 
+/**
+ *  Facade for the converter classes
+ *
+ * @author Isuf Hasani, Lorenzo Giuntini, Niklas Vogel
+ * @date 05.05.2023
+ * @version 1.0
+ *
+ */
 public class ConvertFacade {
 
     private static ConvertFacade INSTANCE;
@@ -26,10 +34,18 @@ public class ConvertFacade {
     private XL2mQB gui;
     private final Logger logger = LogManager.getLogger(TextAreaAppender.class);
 
+    /**
+     * gives the converters a gui
+     *
+     * @param gui
+     */
     public void setGUI(XL2mQB gui) {
         this.gui = gui;
     }
 
+    /**
+     * starts all converters
+     */
     public void startConvert() {
         gui.convertRunningScene();
         ProgressContainer progressContainer = gui.getProgressContainer();
@@ -43,7 +59,7 @@ public class ConvertFacade {
             xml = XMLUtil.xmlHeader;
             String convertedQuestions = "";
 
-            //convertedQuestions += new MultipleChoiceConverter().convert();
+            convertedQuestions += new MultipleChoiceConverter().convert();
             Platform.runLater(() -> progressContainer.setProgress(0.3));
             convertedQuestions += new ShortAnswerConverter().convert();
             Platform.runLater(() -> progressContainer.setProgress(0.6));
@@ -62,6 +78,9 @@ public class ConvertFacade {
         converterThread.start();
     }
 
+    /**
+     * cancels the conversion
+     */
     public void cancelConversion() {
         Optional<ButtonType> buttonType = AlertUtil.confirmAlert("Konvertieren", "Konvertiervorgang abbrechen", "Wollen Sie wirklich den Konvertiervorgang abbrechen?");
 
@@ -74,6 +93,9 @@ public class ConvertFacade {
         }
     }
 
+    /**
+     * saves the xml in a file if the conversion is finished.
+     */
     public void saveIfReady() {
         if (isConversionFinished) {
             FileFacade.getInstance().saveXML(xml);
@@ -85,10 +107,21 @@ public class ConvertFacade {
                             Allenfalls empfiehlt sich eine Fehleranalyse.""");
         }
     }
+
+    /**
+     * gets the Logger
+     *
+     * @return Logger
+     */
     public Logger getLogger() {
         return logger;
     }
 
+    /**
+     * crates an instance of the ConverterFacade
+     *
+     * @return an instance of the Facade
+     */
     public static ConvertFacade getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new ConvertFacade();

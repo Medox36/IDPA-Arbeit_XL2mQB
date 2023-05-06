@@ -12,16 +12,32 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ *  Facade to get and save the excel file.
+ *
+ * @author Isuf Hasani, Lorenzo Giuntini, Niklas Vogel
+ * @date 05.05.2023
+ * @version 1.0
+ *
+ */
 public class FileFacade {
     private static FileFacade INSTANCE;
     private File excelFile;
     private File saveDir;
     private XL2mQB gui;
 
+    /**
+     * sets a gui
+     *
+     * @param gui
+     */
     public void setGUI(XL2mQB gui) {
         this.gui = gui;
     }
 
+    /**
+     * get an excel file
+     */
     public void selectExcelFile() {
         excelFile = fileChooserOpenDialog("Datei Auswahl", new FileChooser.ExtensionFilter("Excel-Datei (*.xlsx/*.xlsm)","*.xlsx", "*.xlsm"));
 
@@ -33,6 +49,9 @@ public class FileFacade {
         }
     }
 
+    /**
+     * gets a directory path
+     */
     public void selectSaveDirectory() {
         saveDir = directoryChooserDialog("Speicherort auswählen");
 
@@ -44,14 +63,30 @@ public class FileFacade {
         }
     }
 
+    /**
+     * reads an excel file
+     *
+     * @return ExcelHandler
+     */
     public ExcelHandler readFile() {
         return new ExcelHandler(excelFile);
     }
 
+    /**
+     * saves xml string
+     *
+     * @param xml converted xml string
+     */
     public void saveXML(String xml) {
         writeXMLTo(makeNewXML(), xml);
     }
 
+    /**
+     * wirtes xml into file
+     *
+     * @param path
+     * @param xml
+     */
     private void writeXMLTo(Path path, String xml) {
         if (path != null) {
             try {
@@ -62,6 +97,11 @@ public class FileFacade {
         }
     }
 
+    /**
+     * creates a new file
+     *
+     * @return file path
+     */
     private Path makeNewXML() {
         File file;
         if (saveDir == null) {
@@ -92,6 +132,13 @@ public class FileFacade {
         return xmlPath;
     }
 
+    /**
+     * file chooser for opening
+     *
+     * @param title
+     * @param extensionFilter
+     * @return file
+     */
     public File fileChooserOpenDialog(String title, FileChooser.ExtensionFilter extensionFilter) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(title);
@@ -100,10 +147,25 @@ public class FileFacade {
         return fileChooser.showOpenDialog(XL2mQB.getStage());
     }
 
+    /**
+     * file chooser for saving without initial Directory
+     *
+     * @param title
+     * @param extensionFilter
+     * @return file
+     */
     public File fileChooserStandardSaveDialog(String title, FileChooser.ExtensionFilter extensionFilter) {
         return fileChooserSaveDialog(title, extensionFilter, Path.of(System.getProperty("user.home"), "Documents").toFile());
     }
 
+    /**
+     * file chooser for saving with initial Directory
+     *
+     * @param title
+     * @param extensionFilter
+     * @param initialDirectory
+     * @return file
+     */
     public File fileChooserSaveDialog(String title, FileChooser.ExtensionFilter extensionFilter, File initialDirectory) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(title);
@@ -112,6 +174,12 @@ public class FileFacade {
         return fileChooser.showSaveDialog(XL2mQB.getStage());
     }
 
+    /**
+     * file chooser for directorys
+     *
+     * @param title
+     * @return file
+     */
     public File directoryChooserDialog(String title) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle(title);
@@ -119,14 +187,29 @@ public class FileFacade {
         return directoryChooser.showDialog(XL2mQB.getStage());
     }
 
+    /**
+     * sets an excel file
+     *
+     * @param excelFile
+     */
     public void setExcelFile(File excelFile) {
         this.excelFile = excelFile;
     }
 
+    /**
+     * sets a directory
+     *
+     * @param saveDir
+     */
     public void setSaveDir(File saveDir) {
         this.saveDir = saveDir;
     }
 
+    /**
+     * crates an instance of the FileFacade
+     *
+     * @return an instance of the Facade
+     */
     public static FileFacade getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new FileFacade();

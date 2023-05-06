@@ -5,7 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 public class MultipleChoiceConverter extends Converter {
     public MultipleChoiceConverter(){
         super();
-        sheet = excelHandler.getSheetByName("Multiplechoice");
+        sheet = excelHandler.getSheetByName("Multiple-Choice");
     }
 
     public String convert() {
@@ -130,7 +130,7 @@ public class MultipleChoiceConverter extends Converter {
         xmlString += mcQuestionBuilder.toString();
     }
 
-    private boolean checkRow(XSSFRow row) {
+    private boolean checkRow(XSSFRow row){
         // does the question have a Name
         if (CellExtractor.getCellValueSafe(row.getCell(0)).isBlank()) {
             return false;
