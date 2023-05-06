@@ -12,6 +12,14 @@ import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
 
+/**
+ *  Facade for the Analyser classes
+ *
+ * @author Lorenzo Giuntini, Niklas Vogel
+ * @date 05.05.2023
+ * @version 1.0
+ *
+ */
 public class AnalysisFacade {
 
     private static AnalysisFacade INSTANCE;
@@ -19,10 +27,18 @@ public class AnalysisFacade {
     private volatile boolean isAnalyserFinished;
     private XL2mQB gui;
 
+    /**
+     * gives the analysers a gui
+     *
+     * @param gui
+     */
     public void setGUI(XL2mQB gui) {
         this.gui = gui;
     }
 
+    /**
+     * starts all the analysers
+     */
     public void startAnalysis() {
         gui.analysisRunningScene();
         ProgressContainer progressContainer = gui.getProgressContainer();
@@ -49,10 +65,18 @@ public class AnalysisFacade {
 
     }
 
+    /**
+     * checks if analyser is finished
+     *
+     * @return boolean
+     */
     public boolean isAnalyserFinished() {
         return isAnalyserFinished;
     }
 
+    /**
+     * cancels the analysis
+     */
     public void cancelAnalysis() {
         Optional<ButtonType> buttonType = AlertUtil.confirmAlert("Analyse", "Analyse abbrechen", "Wollen Sie wirklich die Analyse abbrechen?");
 
@@ -65,6 +89,11 @@ public class AnalysisFacade {
         }
     }
 
+    /**
+     * crates an instance of the AnalyserFacade
+     *
+     * @return an instance of the Facade
+     */
     public static AnalysisFacade getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new AnalysisFacade();

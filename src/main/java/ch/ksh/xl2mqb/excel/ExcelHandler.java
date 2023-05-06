@@ -9,10 +9,21 @@ import java.io.IOException;
 
 /**
  * Makes new Workbook out of excel file
+ *
+ * @author Niklas Vogel
+ * @date 05.05.2023
+ * @version 1.0
+ *
  */
+
 public class ExcelHandler {
     private XSSFWorkbook workbook;
 
+    /**
+     * Makes a new workbook from a file
+     *
+     * @param file
+     */
     public ExcelHandler(File file) {
         try {
             workbook = new XSSFWorkbook(file);
@@ -21,6 +32,12 @@ public class ExcelHandler {
         }
     }
 
+    /**
+     * gets a sheet by ist name
+     *
+     * @param sheetName
+     * @return XSSFSheet
+     */
     public XSSFSheet getSheetByName(String sheetName) {
         return workbook.getSheet(sheetName);
     }
