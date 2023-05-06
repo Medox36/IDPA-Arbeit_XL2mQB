@@ -11,7 +11,15 @@ public class MultipleChoiceConverter extends Converter {
     public String convert() {
         for (int rowI = 1; rowI <= sheet.getLastRowNum(); rowI++) {
             XSSFRow row = sheet.getRow(rowI);
-            convertSingleQuestion(row);
+            if (isRowEmpty(row)) {
+                continue;
+            }
+            if (!checkRow(row)) {
+                logger.info("Die Frage auf Zeile " + (row.getRowNum() + 1)
+                        + " vom Typ Multiple Choice hat nicht alle benötigen Daten.");
+            }else {
+                convertSingleQuestion(row);
+            }
         }
         return xmlString;
     }
@@ -38,88 +46,83 @@ public class MultipleChoiceConverter extends Converter {
                     mcQuestionBuilder.append(XMLUtil.getXMLForTag("defaultgrade",
                             CellExtractor.getCellValueSafe(row.getCell(colI))));
                 }
-                //penalty
+                //feedback
                 case 2 -> {
-                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("penalty",
-                            CellExtractor.getCellValueSafe(row.getCell(colI))));
+                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("generalfeedback",
+                            XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
+                }
+                //incorrect feedback
+                case 3 -> {
+                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("incorrectfeedback",
+                            XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
+                }
+                //partially correct feedback
+                case 4 -> {
+                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("partiallycorrectfeedback",
+                            XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))),
+                            Format.AUTO_FORMAT));
+                }
+                //correct feedback
+                case 5 -> {
+                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("correctfeedback",
+                            XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))),
+                            Format.AUTO_FORMAT));
+                }
+                //answer numbering
+                case 6 -> {
+                    String cellValue = CellExtractor.getCellValueSafe(row.getCell(colI));
+                    if (cellValue.equals("keine")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("shuffleanswers", "keine"));
+                    } else if (cellValue.equals("abc")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("shuffleanswers", "abc"));
+                    } else if (cellValue.equals("ABCD")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("shuffleanswers", "ABCD"));
+                    } else if (cellValue.equals("123")) {
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("shuffleanswers", "123"));
+                    }
                 }
                 //single
-                case 3 -> {
+                case 7 -> {
                     if (CellExtractor.getCellValueSafe(row.getCell(colI)).equals("Ja")) {
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("single","true"));
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("single", "true"));
                     } else {
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("single","false"));
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("single", "false"));
                     }
                 }
                 //shuffle answers
-                case 4 -> {
+                case 8 ->{
                     if (CellExtractor.getCellValueSafe(row.getCell(colI)).equals("Ja")) {
                         mcQuestionBuilder.append(XMLUtil.getXMLForTag("shuffleanswers", "true"));
                     } else {
                         mcQuestionBuilder.append(XMLUtil.getXMLForTag("shuffleanswers", "false"));
                     }
                 }
-                //no answer feedback
-                case 5 -> {
-                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("incorrectfeedback",
+                //hint
+                case 10 -> {
+                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("hint",
                             XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
                 }
-                //incorrect answer feedback
-                case 6 -> {
-                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("partiallycorrectfeedback",
-                            XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))),
-                            Format.AUTO_FORMAT));
-                }
-                //correct answer feedback
-                case 7 -> {
-                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("correctfeedback",
-                            XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))),
-                            Format.AUTO_FORMAT));
-                }
-                //answer numbering
-                case 8 ->{
-                    String cellValue = CellExtractor.getCellValueSafe(row.getCell(colI));
-                    if (cellValue.equals("keine")) {
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("shuffleanswers", "keine"));
-                    } else if (cellValue.equals("abc")){
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("shuffleanswers", "abc"));
-                    } else if (cellValue.equals("ABCD")){
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("shuffleanswers", "abcd"));
-                    } else if (cellValue.equals("123")){
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("shuffleanswers", "123"));
-                    }
+                //penalty
+                case 11 -> {
+                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("penalty",
+                            CellExtractor.getCellValueSafe(row.getCell(colI))));
                 }
                 //question with picture
-                case 10 -> {
-                    if (CellExtractor.getCellValueSafe(row.getCell(11)).equals("")) {
+                case 12 -> {
+                    if (CellExtractor.getCellValueSafe(row.getCell(9)).equals("")) {
                         mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
                                 XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
                     } else {
-                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
-                                XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI)) + XMLUtil.getXMLForImgTag(CellExtractor.getCellValueSafe(row.getCell(3)),
-                                        "image", "role=\"presentation\"", "class=\"atto_image_button_text-bottom\"")), Format.AUTO_FORMAT));
+                        mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI)) + XMLUtil.getXMLForImgTag(CellExtractor.getCellValueSafe(row.getCell(9)),
+                                "image", "role=\"presentation\"", "class=\"atto_image_button_text-bottom\"")), Format.AUTO_FORMAT));
                     }
                 }
-                //question text
-                case 11 -> {
-                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("questiontext",
-                            XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
-                }
-                //question answers
-                case 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32 -> {
-                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI)))
-                            + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI + 2)),
-                            Format.AUTO_FORMAT)), "fraction=\"" + CellExtractor.getCellValueSafe(row.getCell(colI + 1))
-                            + "\"", Format.AUTO_FORMAT));
-                }
                 //hint
-                case 13 -> {
-                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("hint", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
-                }
-                //feedback
-                case 15 -> {
-                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("generalfeedback",
-                            XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
+                case 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43 -> {
+                    mcQuestionBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI)))
+                            + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI+2)),
+                            Format.AUTO_FORMAT)), "fraction=\"" + CellExtractor.getCellValueSafe(row.getCell(colI+1))
+                            + "\"", Format.AUTO_FORMAT));
                 }
             }
         }
@@ -127,21 +130,21 @@ public class MultipleChoiceConverter extends Converter {
         xmlString += mcQuestionBuilder.toString();
     }
 
-    private boolean checkRow(XSSFRow row){
+    private boolean checkRow(XSSFRow row) {
         // does the question have a Name
-        if (row.getCell(0).getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(row.getCell(0)).isBlank()) {
             return false;
         }
         // does the question have a formulation of a question
-        if (row.getCell(11).getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(row.getCell(12)).isBlank()) {
             return false;
         }
         // does the question have answer
-        if (row.getCell(12).getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(row.getCell(13)).isBlank()) {
             return false;
         }
         // does the question have a fraction for the points of one answer
-        if (row.getCell(13).getStringCellValue().isBlank()) {
+        if (CellExtractor.getCellValueSafe(row.getCell(14)).isBlank()) {
             return false;
         }
         return true;
