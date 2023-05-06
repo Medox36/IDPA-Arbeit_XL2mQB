@@ -31,7 +31,7 @@ public class AnalysisFacade {
 
         analyserThread = new Thread(() -> {
 
-            //new MultipleChoiceAnalyser().analyse();
+            new MultipleChoiceAnalyser().analyse();
             Platform.runLater(() -> progressContainer.setProgress(0.3));
             new ShortAnswerAnalyser().analyse();
             Platform.runLater(() -> progressContainer.setProgress(0.6));

@@ -38,7 +38,7 @@ public class XMLUtil {
         for (String attribute : otherAttributes) {
             xml.append(" ").append(attribute);
         }
-        xml.append(">");
+        xml.append("/>");
 
         return xml.toString();
     }
