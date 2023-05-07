@@ -70,6 +70,7 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         Menu colorSubmenu = new Menu("Farbe wählen");
         ObservableList<MenuItem> colorSubMenuItems = colorSubmenu.getItems();
         settingsMenuItems.add(colorSubmenu);
+
         showConversionErrors.selectedProperty().addListener((observable, oldValue, newValue) -> {
             menuFacade.showConversionErrors(newValue);
 

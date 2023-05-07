@@ -6,6 +6,7 @@ module IDPA_Arbeit_XL2mQB {
     requires org.apache.poi.ooxml;
     requires org.jfxtras.styles.jmetro;
     requires com.jthemedetector;
+    requires com.sun.jna.platform;
     requires javafx.graphics;
     requires javafx.controls;
     requires java.base;
