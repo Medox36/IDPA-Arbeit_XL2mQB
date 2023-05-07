@@ -162,6 +162,7 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         // menu items
         MenuItem newExcelfile = new MenuItem("Neue Excel-Date von Vorlage");
         newExcelfile.setOnAction(event -> menuFacade.newExcelFileFromTemplate());
+        newExcelfile.setDisable(true);
         templateMenuItems.add(newExcelfile);
 
         MenuItem setUpTemplate = new MenuItem("Excel-Vorlage einrichten");
