@@ -14,6 +14,11 @@ public class TabbedStringBuilder {
         sb = new StringBuilder();
     }
 
+    /**
+     * Constructor which initializes the underlying StringBuilder with a sting value
+     *
+     * @param str value to initialize the StringBuilder with
+     */
     public TabbedStringBuilder(String str) {
         sb = new StringBuilder(str);
     }
