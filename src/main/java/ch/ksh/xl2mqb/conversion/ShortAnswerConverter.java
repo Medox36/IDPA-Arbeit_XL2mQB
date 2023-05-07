@@ -6,7 +6,7 @@ import ch.ksh.xl2mqb.excel.CellExtractor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
 /**
- * coverts all questions in the Shortanswer sheet into a XML String.
+ * coverts all questions in the Shortanswer sheet into an XML String.
  *
  * @author Niklas Vogel
  * @version 1.0
@@ -46,7 +46,7 @@ public class ShortAnswerConverter extends Converter {
     }
 
     /**
-     * iterates through a row and converts the single cells into a XML String.
+     * iterates through a row and converts the single cells into an XML String.
      *
      * @param row
      */
@@ -56,17 +56,11 @@ public class ShortAnswerConverter extends Converter {
         for (int colI = 0; colI < row.getLastCellNum(); colI++) {
                 switch (colI) {
                 //question name
-                case 0 -> {
-                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("name", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI)))));
-                }
+                case 0 -> aShortAnswerBuilder.append(XMLUtil.getXMLForTag("name", XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI)))));
                 //points
-                case 1 -> {
-                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("defaultgrade", CellExtractor.getCellValueSafe(row.getCell(colI))));
-                }
+                case 1 -> aShortAnswerBuilder.append(XMLUtil.getXMLForTag("defaultgrade", CellExtractor.getCellValueSafe(row.getCell(colI))));
                 //feedback
-                case 2 -> {
-                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("generalfeedback", XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
-                }
+                case 2 -> aShortAnswerBuilder.append(XMLUtil.getXMLForTag("generalfeedback", XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
                 //case sensitive
                 case 4 -> {
                     if (CellExtractor.getCellValueSafe(row.getCell(colI)).equals("Ja")) {
@@ -76,13 +70,9 @@ public class ShortAnswerConverter extends Converter {
                     }
                 }
                 //hint
-                case 5 -> {
-                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("hint", XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
-                }
+                case 5 -> aShortAnswerBuilder.append(XMLUtil.getXMLForTag("hint", XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI))), Format.AUTO_FORMAT));
                 //penalty
-                case 6 -> {
-                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("penalty", CellExtractor.getCellValueSafe(row.getCell(colI))));
-                }
+                case 6 -> aShortAnswerBuilder.append(XMLUtil.getXMLForTag("penalty", CellExtractor.getCellValueSafe(row.getCell(colI))));
                 //question with picture
                 case 7 -> {
                     if (CellExtractor.getCellValueSafe(row.getCell(3)).equals("")) {
@@ -94,12 +84,10 @@ public class ShortAnswerConverter extends Converter {
                     }
                 }
                 //question answers
-                case 8, 11, 14, 17, 20, 23, 26, 29, 32, 35 -> {
-                    aShortAnswerBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI)))
-                            + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI+2)),
-                            Format.AUTO_FORMAT)), "fraction=\"" + CellExtractor.getCellValueSafe(row.getCell(colI+1))
-                            + "\"", Format.AUTO_FORMAT));
-                }
+                case 8, 11, 14, 17, 20, 23, 26, 29, 32, 35 -> aShortAnswerBuilder.append(XMLUtil.getXMLForTag("answer", XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI)))
+                        + XMLUtil.getXMLForTag("feedback", XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI+2)),
+                        Format.AUTO_FORMAT)), "fraction=\"" + CellExtractor.getCellValueSafe(row.getCell(colI+1))
+                        + "\"", Format.AUTO_FORMAT));
             }
         }
         aShortAnswerBuilder.append("</question>");
@@ -114,24 +102,20 @@ public class ShortAnswerConverter extends Converter {
      * @return true if there is no data missing
      */
     private boolean checkRow(XSSFRow row) {
-        try {
-            // does the question have a Name
-            if (CellExtractor.getCellValueSafe(row.getCell(0)).isBlank()) {
-                return false;
-            }
-            // does the question have a formulation of a question
-            if (CellExtractor.getCellValueSafe(row.getCell(7)).isBlank()) {
-                return false;
-            }
-            // does the question have answer
-            if (CellExtractor.getCellValueSafe(row.getCell(8)).isBlank()) {
-                return false;
-            }
-            // does the question have a fraction for the points of one answer
-            if (CellExtractor.getCellValueSafe(row.getCell(9)).isBlank()) {
-                return false;
-            }
-        }catch(Exception e){
+        // does the question have a Name
+        if (CellExtractor.getCellValueSafe(row.getCell(0)).isBlank()) {
+            return false;
+        }
+        // does the question have a formulation of a question
+        if (CellExtractor.getCellValueSafe(row.getCell(7)).isBlank()) {
+            return false;
+        }
+        // does the question have answer
+        if (CellExtractor.getCellValueSafe(row.getCell(8)).isBlank()) {
+            return false;
+        }
+        // does the question have a fraction for the points of one answer
+        if (CellExtractor.getCellValueSafe(row.getCell(9)).isBlank()) {
             return false;
         }
 

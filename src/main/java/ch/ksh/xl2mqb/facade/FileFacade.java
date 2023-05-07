@@ -47,7 +47,7 @@ public class FileFacade {
         excelFile = fileChooserOpenDialog("Datei Auswahl", new FileChooser.ExtensionFilter("Excel-Datei (*.xlsx/*.xlsm)","*.xlsx", "*.xlsm"));
 
         if (excelFile == null) {
-            AlertUtil.warningAlert("Keine Datei ausgewählt", "Keine Datie mit der Endung .xlsx or .xlsm wurde ausgewählt.",
+            AlertUtil.warningAlert("Keine Datei ausgewählt", "Keine Datei mit der Endung .xlsx or .xlsm wurde ausgewählt.",
                     "Sie haben eine Datei oder den richtigen Dateityp nicht ausgewählt.\nBitte versuchen Sie es erneut und wählen Sie eine .xlsx oder eine .xlsm Datei.");
         } else {
             gui.setPathOfFileToConvert(excelFile.getPath());
@@ -180,7 +180,7 @@ public class FileFacade {
     }
 
     /**
-     * file chooser for directorys
+     * file chooser for directories
      *
      * @param title
      * @return file
