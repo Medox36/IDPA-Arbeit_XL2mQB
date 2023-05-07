@@ -4,6 +4,7 @@ import ch.ksh.xl2mqb.analysis.AnalyserUtil;
 import ch.ksh.xl2mqb.conversion.xml.XMLUtil;
 import ch.ksh.xl2mqb.excel.CellExtractor;
 
+import ch.ksh.xl2mqb.settings.Settings;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -29,8 +30,10 @@ public class ClozeConverter extends Converter {
             if (hasAllNecessaryContents(row)) {
                 convertSingleQuestion(row);
             } else {
-                logger.info("Die Frage auf Zeile " + (row.getRowNum() + 1)
-                        + " vom Typ Cloze hat nicht alle benötigten Daten.");
+                if((Boolean) Settings.getInstance().getSetting("showErrors")) {
+                    logger.info("Die Frage auf Zeile " + (row.getRowNum() + 1)
+                            + " vom Typ Cloze hat nicht alle benötigten Daten.");
+                }
             }
         }
 
@@ -114,7 +117,7 @@ public class ClozeConverter extends Converter {
             questionTextSB.append(convertSubQuestion(CellExtractor.getCellValueSafe(cell), cell.getRowIndex()));
         }
 
-        if (skipped) {
+        if (skipped && (Boolean) Settings.getInstance().getSetting("showErrors")) {
             logger.info("Für die Frage auf Zeile " + (row.getRowNum() + 1)
                     + " vom Typ Cloze wurde(n) keine Teilfragen angegeben.");
         }
@@ -135,12 +138,16 @@ public class ClozeConverter extends Converter {
     private String convertSubQuestion(String questionNumber, int rowNum) {
         XSSFRow row = getRowForMatchingQuestionNumber(questionNumber);
         if (row == null) {
-            logger.info("Für die Frage auf Zeile " + (rowNum + 1)
-                    + " vom Typ Cloze wurde keine passende Teilfrage mit der Nummer " + questionNumber + " gefunden.");
+            if ((Boolean) Settings.getInstance().getSetting("showErrors")) {
+                logger.info("Für die Frage auf Zeile " + (rowNum + 1)
+                        + " vom Typ Cloze wurde keine passende Teilfrage mit der Nummer " + questionNumber + " gefunden.");
+            }
             return "";
         }
         if (!subQuestionHasAllNecessaryContents(row)) {
-            logger.info("Die Teilfrage auf Zeile " + (row.getRowNum() + 1) + " von Typ Cloze_Shortanswer hat nicht alle benötigten Angaben.");
+            if ((Boolean) Settings.getInstance().getSetting("showErrors")){
+                logger.info("Die Teilfrage auf Zeile " + (row.getRowNum() + 1) + " von Typ Cloze_Shortanswer hat nicht alle benötigten Angaben.");
+            }
             return "";
         }
 

@@ -3,6 +3,7 @@ package ch.ksh.xl2mqb.conversion;
 import ch.ksh.xl2mqb.conversion.xml.XMLUtil;
 import ch.ksh.xl2mqb.excel.CellExtractor;
 
+import ch.ksh.xl2mqb.settings.Settings;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
 public class MultipleChoiceConverter extends Converter {
@@ -18,7 +19,7 @@ public class MultipleChoiceConverter extends Converter {
             if (isRowEmpty(row)) {
                 continue;
             }
-            if (!checkRow(row)) {
+            if (!checkRow(row) && (Boolean) Settings.getInstance().getSetting("showErrors")) {
                 logger.info("Die Frage auf Zeile " + (row.getRowNum() + 1)
                         + " vom Typ Multiple Choice hat nicht alle benötigen Daten.");
             }else {
@@ -34,8 +35,10 @@ public class MultipleChoiceConverter extends Converter {
             return;
         }
         if (!checkRow(row)) {
-            logger.info("Die Frage auf Zeile " + (row.getRowNum() + 1)
-                    + " vom Typ Multiple Choice hat nicht alle benötigen Daten.");
+            if ((Boolean) Settings.getInstance().getSetting("showErrors")) {
+                logger.info("Die Frage auf Zeile " + (row.getRowNum() + 1)
+                        + " vom Typ Multiple Choice hat nicht alle benötigen Daten.");
+            }
             return;
         }
         mcQuestionBuilder.append(XMLUtil.getXMLForTag("question", "", "type=\"multichoice\""));
