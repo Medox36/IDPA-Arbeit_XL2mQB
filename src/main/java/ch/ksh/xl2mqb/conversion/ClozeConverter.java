@@ -11,16 +11,30 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import java.util.Objects;
 
+/**
+ * coverts all questions in the Cloze and the Cloz_Shortanswer sheet into an XML String.
+ *
+ * @author Lorenzo Giuntini
+ * @version 1.0
+ */
 public class ClozeConverter extends Converter {
 
     private final XSSFSheet subQuestionSheet;
 
+    /**
+     * Constructor: gets the wright sheets.
+     */
     public ClozeConverter() {
         super();
         sheet = excelHandler.getSheetByName("Cloze");
         subQuestionSheet = excelHandler.getSheetByName("Cloze_Shortanswer");
     }
 
+    /**
+     * iterates through the sheet rows and checks for empty row or rows with not enough data.
+     *
+     * @return XML String
+     */
     public String convert() {
         for (int rowI = 1; rowI <= sheet.getLastRowNum(); rowI++) {
             XSSFRow row = sheet.getRow(rowI);
@@ -39,6 +53,12 @@ public class ClozeConverter extends Converter {
         return xmlString;
     }
 
+    /**
+     * checks if a question has all necessary inputs
+     *
+     * @param row
+     * @return boolean
+     */
     private boolean hasAllNecessaryContents(XSSFRow row) {
         // does the question have a Name
         if (CellExtractor.getCellValueSafe(row.getCell(0)).isBlank()) {
@@ -52,6 +72,12 @@ public class ClozeConverter extends Converter {
         return hasSubQuestions(row);
     }
 
+    /**
+     * checks if a question has a sub-question
+     *
+     * @param row
+     * @return boolean
+     */
     private boolean hasSubQuestions(XSSFRow row) {
         boolean hasSubQuestions = false;
         for (int i = 6; i < row.getLastCellNum(); i++) {
@@ -64,6 +90,11 @@ public class ClozeConverter extends Converter {
         return hasSubQuestions;
     }
 
+    /**
+     * converts a single question into a XML string.
+     *
+     * @param row
+     */
     private void convertSingleQuestion(XSSFRow row) {
         xmlString += "<question " + Type.CLOZE + ">";
 
@@ -76,25 +107,50 @@ public class ClozeConverter extends Converter {
         xmlString += "</question>";
     }
 
+    /**
+     * converts the question name into an XML string.
+     *
+     * @param cell
+     */
     private void questionName(XSSFCell cell) {
         String text = XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(cell));
         xmlString += XMLUtil.getXMLForTag("name", text);
     }
 
+    /**
+     * converts the question hint into an XML string.
+     *
+     * @param cell
+     */
     private void hint(XSSFCell cell) {
         String text = XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(cell));
         xmlString += XMLUtil.getXMLForTag("generalfeedback ", text, Format.AUTO_FORMAT);
     }
 
+    /**
+     * converts the question penalty into an XML string.
+     *
+     * @param cell
+     */
     private void penalty(XSSFCell cell) {
         xmlString += XMLUtil.getXMLForTag("penalty", CellExtractor.getCellValueSafe(cell));
     }
 
+    /**
+     * converts the questions general feedback into an XML string.
+     *
+     * @param cell
+     */
     private void generalFeedback(XSSFCell cell) {
         String text = XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(cell));
         xmlString += XMLUtil.getXMLForTag("generalfeedback ", text, Format.AUTO_FORMAT);
     }
 
+    /**
+     * converts the question text into an XML string.
+     *
+     * @param row
+     */
     private void questionText(XSSFRow row) {
         xmlString += "<questiontext " + Format.AUTO_FORMAT + ">";
 
@@ -124,6 +180,11 @@ public class ClozeConverter extends Converter {
         xmlString += "</questiontext>";
     }
 
+    /**
+     * converts the question picture into an XML string.
+     *
+     * @param cell
+     */
     private String picture(XSSFCell cell) {
         String image = CellExtractor.getCellValueSafe(cell);
         if (image.isBlank()) {
@@ -132,6 +193,13 @@ public class ClozeConverter extends Converter {
         return XMLUtil.getXMLForImgTag(image, image);
     }
 
+    /**
+     * converts a sub-question into an XML string.
+     *
+     * @param questionNumber
+     * @param rowNum
+     * @return xml string
+     */
     private String convertSubQuestion(String questionNumber, int rowNum) {
         XSSFRow row = getRowForMatchingQuestionNumber(questionNumber);
         if (row == null) {
@@ -186,6 +254,12 @@ public class ClozeConverter extends Converter {
         return sb.toString();
     }
 
+    /**
+     * checks if all sub-questions have the necessary inputs.
+     *
+     * @param row
+     * @return boolean
+     */
     private boolean subQuestionHasAllNecessaryContents(XSSFRow row) {
         // has no number
         if (!AnalyserUtil.isDecimal(CellExtractor.getCellValueSafe(row.getCell(0)))) {
@@ -211,6 +285,12 @@ public class ClozeConverter extends Converter {
         return !CellExtractor.getCellValueSafe(row.getCell(6)).isBlank();
     }
 
+    /**
+     * gets a sub-question according to the answer number in the question.
+     *
+     * @param questionNumber
+     * @return
+     */
     private XSSFRow getRowForMatchingQuestionNumber(String questionNumber) {
         return getRowForMatchingQuestionNumber(questionNumber, subQuestionSheet);
     }
@@ -227,6 +307,12 @@ public class ClozeConverter extends Converter {
         return null;
     }
 
+    /**
+     * masks all special Chars.
+     *
+     * @param str xml string
+     * @return xml string
+     */
     private String maskSpecialChars(String str) {
         str = str.replaceAll("\\{", "\\{");
         str = str.replaceAll("}", "\\}}");

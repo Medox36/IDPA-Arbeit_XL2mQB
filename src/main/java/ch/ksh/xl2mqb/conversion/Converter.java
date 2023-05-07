@@ -9,6 +9,12 @@ import org.apache.logging.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
+/**
+ * Abstract class for the converters
+ *
+ * @author Lorenzo Giuntini
+ * @version 1.0
+ */
 public abstract class Converter {
     protected String xmlString = "";
     protected XSSFSheet sheet;

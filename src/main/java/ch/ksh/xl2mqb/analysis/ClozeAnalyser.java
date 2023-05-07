@@ -11,10 +11,20 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * checks all Cloze questions for errors.
+ *
+ * @author Lorenzo Giuntini
+ * @version 1.0
+ */
+
 public class ClozeAnalyser extends Analyser {
     private final XSSFSheet subQuestionSheet;
     private final TabbedStringBuilder clozeShortanswerAnalyseResult;
 
+    /**
+     * Constructor: gets the wright sheets and crates new TabbedStringBuilders.
+     */
     public ClozeAnalyser() {
         super();
         sheet = excelHandler.getSheetByName("Cloze");
@@ -24,6 +34,9 @@ public class ClozeAnalyser extends Analyser {
         clozeShortanswerAnalyseResult = new TabbedStringBuilder("Mappe \"Cloze_Shortanswer\":\n");
     }
 
+    /**
+     * iterates through all the question rows.
+     */
     @Override
     public void analyse() {
         analyzeSubQuestionNumbers();
@@ -37,6 +50,10 @@ public class ClozeAnalyser extends Analyser {
         logger.info(clozeShortanswerAnalyseResult.toString());
     }
 
+    /**
+     * checks a row for mistakes.
+     * @param row
+     */
     private void analyseSingleQuestion(XSSFRow row) {
         final int rowNum = row.getRowNum();
 
@@ -49,6 +66,10 @@ public class ClozeAnalyser extends Analyser {
         analyseSubQuestions(row);
     }
 
+    /**
+     * checks the answer number in the question
+     * @param row
+     */
     private void analyseSubQuestions(XSSFRow row) {
         XSSFCell[] cells = new XSSFCell[10];
         int rowNum = row.getRowNum();
@@ -84,6 +105,9 @@ public class ClozeAnalyser extends Analyser {
         }
     }
 
+    /**
+     * checks the sub-question numbers for mistakes.
+     */
     private void analyzeSubQuestionNumbers() {
         Set<Integer> nums = new HashSet<>();
         for (int i = 1; i <= subQuestionSheet.getLastRowNum(); i++) {
@@ -98,6 +122,10 @@ public class ClozeAnalyser extends Analyser {
         }
     }
 
+    /**
+     * checks a sub-question for mistakes.
+     * @param row
+     */
     private void analyseSubQuestion(XSSFRow row) {
         final int rowNum = row.getRowNum();
 

@@ -6,13 +6,27 @@ import ch.ksh.xl2mqb.facade.MenuFacade;
 
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
+/**
+ * coverts all questions in the Multiple-Choice sheet into an XML String.
+ *
+ * @author Isuf Hasani
+ * @version 1.0
+ */
 public class MultipleChoiceConverter extends Converter {
 
+    /**
+     * Constructor: gets the wright sheet.
+     */
     public MultipleChoiceConverter() {
         super();
         sheet = excelHandler.getSheetByName("Multiple-Choice");
     }
 
+    /**
+     * iterates through the sheet rows and checks for empty row or rows with not enough data.
+     *
+     * @return XML String
+     */
     public String convert() {
         for (int rowI = 1; rowI <= sheet.getLastRowNum(); rowI++) {
             XSSFRow row = sheet.getRow(rowI);
@@ -29,6 +43,11 @@ public class MultipleChoiceConverter extends Converter {
         return xmlString;
     }
 
+    /**
+     * iterates through a row and converts the single cells into an XML String.
+     *
+     * @param row
+     */
     private void convertSingleQuestion(XSSFRow row) {
         StringBuilder mcQuestionBuilder = new StringBuilder("<question " + Type.MULTICHOICE + ">");
         if (isRowEmpty(row)) {
@@ -160,6 +179,12 @@ public class MultipleChoiceConverter extends Converter {
         xmlString += mcQuestionBuilder.toString();
     }
 
+    /**
+     * checks a row for missing data.
+     *
+     * @param row
+     * @return true if there is no data missing
+     */
     private boolean checkRow(XSSFRow row) {
         // does the question have a Name
         if (CellExtractor.getCellValueSafe(row.getCell(0)).isBlank()) {

@@ -2,8 +2,17 @@ package ch.ksh.xl2mqb.analysis;
 
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
+/**
+ * checks all Multiple-Choice questions for errors.
+ *
+ * @author Isuf Hasani
+ * @version 1.0
+ */
 public class MultipleChoiceAnalyser extends Analyser {
 
+    /**
+     * Constructor: gets the wright sheet and crates a new TabbedStringBuilder
+     */
     public MultipleChoiceAnalyser() {
         super();
         sheet = excelHandler.getSheetByName("Multiple-Choice");
@@ -11,6 +20,9 @@ public class MultipleChoiceAnalyser extends Analyser {
         analyseResult = new TabbedStringBuilder("Mappe \"Multiplechoice\":\n");
     }
 
+    /**
+     * checks the Multiple-Choice sheet for mistakes
+     */
     @Override
     public void analyse() {
         for (int rowI = 1; rowI <= sheet.getLastRowNum(); rowI++) {

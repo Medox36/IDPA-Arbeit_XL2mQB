@@ -143,7 +143,7 @@ public class ShortAnswerConverter extends Converter {
     }
 
     /**
-     * checks the wor for missing data.
+     * checks a row for missing data.
      *
      * @param row
      * @return true if there is no data missing
