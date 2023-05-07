@@ -21,7 +21,6 @@ import java.util.Optional;
  *  Facade for the converter classes
  *
  * @author Isuf Hasani, Lorenzo Giuntini, Niklas Vogel
- * @date 05.05.2023
  * @version 1.0
  *
  */

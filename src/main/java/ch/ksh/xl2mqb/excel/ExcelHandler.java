@@ -11,7 +11,6 @@ import java.io.IOException;
  * Makes new Workbook out of excel file
  *
  * @author Niklas Vogel
- * @date 05.05.2023
  * @version 1.0
  *
  */

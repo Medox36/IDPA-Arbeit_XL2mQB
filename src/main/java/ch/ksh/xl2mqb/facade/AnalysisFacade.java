@@ -16,7 +16,6 @@ import java.util.Optional;
  *  Facade for the Analyser classes
  *
  * @author Lorenzo Giuntini, Niklas Vogel
- * @date 05.05.2023
  * @version 1.0
  *
  */
