@@ -46,7 +46,9 @@ public class InfoDialog extends Alert {
         licence.setPrefHeight(400);
         String licenceText = "";
         try {
-            licenceText = Files.readString(Paths.get(Objects.requireNonNull(InfoDialog.class.getResource("/META-INF/LICENSE")).toURI()));
+            licenceText = Files.readString(
+                    Paths.get(Objects.requireNonNull(InfoDialog.class.getResource("/META-INF/LICENSE")).toURI())
+            );
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }

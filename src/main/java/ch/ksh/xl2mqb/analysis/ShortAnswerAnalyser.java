@@ -1,6 +1,5 @@
 package ch.ksh.xl2mqb.analysis;
 
-import ch.ksh.xl2mqb.settings.Settings;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
 /**

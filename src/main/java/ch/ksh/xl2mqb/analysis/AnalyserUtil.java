@@ -40,7 +40,6 @@ public class AnalyserUtil {
         }
 
         strNum = removeTailingDecimalZeros(strNum);
-
         return numericPattern.matcher(strNum).matches();
     }
 
@@ -58,7 +57,6 @@ public class AnalyserUtil {
         if (newNum.endsWith(".")) {
             newNum = newNum.substring(0, newNum.length() - 1);
         }
-
         return newNum;
     }
 
@@ -66,7 +64,6 @@ public class AnalyserUtil {
         if (strNum == null) {
             return false;
         }
-
         return decimalPattern.matcher(strNum).matches();
     }
 
@@ -95,10 +92,14 @@ public class AnalyserUtil {
     public static void picture(TabbedStringBuilder sb, XSSFCell cell, int rowNum) {
         ImageResult result = AnalyserUtil.pictureExistence(CellExtractor.getCellValueSafe(cell));
         switch (result) {
-            case NotExistRemote -> sb.appendTabbed(rowNum, "hat ein Bild das online nicht gefunden werden kann oder es besteht gerade keine Internetverbindung.");
-            case NotExistLocal -> sb.appendTabbed(rowNum, "hat ein Bild das lokal nicht gefunden werden kann/nicht existiert.");
-            case WrongFileFormat -> sb.appendTabbed(rowNum, "hat ein Bildformat das nicht von Moodle unterstützt wird (Nur .png .jpg .gif und .svg werden unterstützt).");
-            case NonExistent -> sb.appendTabbed(rowNum, "hat ein Bild das weder lokal noch online verfügbar ist oder falsch angegeben wurde.");
+            case NotExistRemote -> sb.appendTabbed(rowNum, "hat ein Bild das online nicht gefunden werden kann " +
+                    "oder es besteht gerade keine Internetverbindung.");
+            case NotExistLocal -> sb.appendTabbed(rowNum, "hat ein Bild das lokal nicht gefunden werden " +
+                    "kann/nicht existiert.");
+            case WrongFileFormat -> sb.appendTabbed(rowNum, "hat ein Bildformat das nicht von Moodle unterstützt " +
+                    "wird (Nur .png .jpg .gif und .svg werden unterstützt).");
+            case NonExistent -> sb.appendTabbed(rowNum, "hat ein Bild das weder lokal noch online verfügbar " +
+                    "ist oder falsch angegeben wurde.");
         }
     }
 
@@ -188,7 +189,14 @@ public class AnalyserUtil {
         }
     }
 
-    public static void questionAnswer(TabbedStringBuilder sb, XSSFCell answerCell, XSSFCell pointsCell, XSSFCell feedbackCell, int rowNum, int answerNum) {
+    public static void questionAnswer(
+            TabbedStringBuilder sb,
+            XSSFCell answerCell,
+            XSSFCell pointsCell,
+            XSSFCell feedbackCell,
+            int rowNum,
+            int answerNum
+    ) {
         String answer = CellExtractor.getCellValueSafe(answerCell);
         String points = CellExtractor.getCellValueSafe(pointsCell);
         String feedback = CellExtractor.getCellValueSafe(feedbackCell);

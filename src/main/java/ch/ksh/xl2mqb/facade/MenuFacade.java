@@ -36,7 +36,11 @@ public class MenuFacade {
             Path templateFolder = fileFacade.getDocumentsFolderPath().resolve("Benutzerdefinierte Office-Vorlagen");
 
             if (Files.exists(templateFolder.resolve("Moodle-Question-Converter(Xl2mQB)_Vorlage.xltm"))) {
-                Optional<ButtonType> buttonType = AlertUtil.confirmAlert("Excel-Vorlage einrichten", "Excel-Vorlage bereits eingerichtet", "Möchten Sie die Excel-Vorlage überschreiben?");
+                Optional<ButtonType> buttonType = AlertUtil.confirmAlert(
+                        "Excel-Vorlage einrichten",
+                        "Excel-Vorlage bereits eingerichtet",
+                        "Möchten Sie die Excel-Vorlage überschreiben?"
+                );
                 if (buttonType.isPresent()) {
                     if (buttonType.get().equals(ButtonType.YES)) {
                         saveExcelTemplateToPathAndOverride(templateFolder.toString());
@@ -56,16 +60,28 @@ public class MenuFacade {
     }
 
     private void saveExcelTemplateToPathAndOverride(String dirPath) throws IOException {
-        Path result = Files.copy(excelTemplatePath, Path.of(dirPath).resolve(excelTemplatePath.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+        Path result = Files.copy(
+                excelTemplatePath,
+                Path.of(dirPath).resolve(excelTemplatePath.getFileName()),
+                StandardCopyOption.REPLACE_EXISTING
+        );
         showUserStateOfExcelTemplate(result);
     }
 
     private void showUserStateOfExcelTemplate(Path excelTemplatePath) {
         if (Files.exists(excelTemplatePath)) {
-            AlertUtil.infoAlert("Excel-Vorlage einrichten", "Excel-Vorlage erfolgreich eingerichtet.", "");
+            AlertUtil.infoAlert(
+                    "Excel-Vorlage einrichten",
+                    "Excel-Vorlage erfolgreich eingerichtet.",
+                    ""
+            );
         } else {
-            AlertUtil.warningAlert("Excel-Vorlage einrichten", "Das Einrichten der Excel-Vorlage war nicht erfolgreich.",
-                    "Bitte versuchen Sie es erneut oder wählen Sie im Menu Excel-Vorlage > Neue Excel-Datei von Vorlage.");
+            AlertUtil.warningAlert(
+                    "Excel-Vorlage einrichten",
+                    "Das Einrichten der Excel-Vorlage war nicht erfolgreich.",
+                    "Bitte versuchen Sie es erneut oder wählen Sie im Menu Excel-Vorlage > " +
+                    "Neue Excel-Datei von Vorlage."
+            );
         }
     }
 
@@ -78,7 +94,11 @@ public class MenuFacade {
             }
 
             if (Files.exists(Path.of(dir.getPath(), "Moodle-Question-Converter(Xl2mQB)_Vorlage.xltm"))) {
-                Optional<ButtonType> buttonType = AlertUtil.confirmAlert("Excel-Vorlage einrichten", "Excel-Vorlage existiert bereits in diesem Ordner", "Möchten Sie die Excel-Vorlage überschreiben?");
+                Optional<ButtonType> buttonType = AlertUtil.confirmAlert(
+                        "Excel-Vorlage einrichten",
+                        "Excel-Vorlage existiert bereits in diesem Ordner",
+                        "Möchten Sie die Excel-Vorlage überschreiben?"
+                );
                 if (buttonType.isPresent()) {
                     if (buttonType.get().equals(ButtonType.YES)) {
                         saveExcelTemplateToPathAndOverride(dir.getPath());
@@ -103,7 +123,12 @@ public class MenuFacade {
 
     public void addDesktopShortcut() {
         try {
-            String[] command = new String[]{"wscript", Objects.requireNonNull(MenuFacade.class.getResource("/ch/ksh/xl2mqb/scripts/desktopShortcut.vbs")).toString()};
+            String[] command = new String[]{
+                    "wscript",
+                    Objects.requireNonNull(
+                            MenuFacade.class.getResource("/ch/ksh/xl2mqb/scripts/desktopShortcut.vbs")
+                    ).toString()
+            };
             Runtime.getRuntime().exec(command);
         } catch (IOException e) {
             e.printStackTrace();
@@ -134,7 +159,9 @@ public class MenuFacade {
 
     public void openInstructions() {
         try {
-            Desktop.getDesktop().browse(new URI("https://github.com/Medox36/IDPA-Arbeit_XL2mQB/wiki/Instruktionen"));
+            Desktop.getDesktop().browse(
+                    new URI("https://github.com/Medox36/IDPA-Arbeit_XL2mQB/wiki/Instruktionen")
+            );
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -142,7 +169,9 @@ public class MenuFacade {
 
     public void openAttributions() {
         try {
-            Desktop.getDesktop().browse(new URI("https://github.com/Medox36/IDPA-Arbeit_XL2mQB/wiki/Verwendete-Bibliotheken"));
+            Desktop.getDesktop().browse(
+                    new URI("https://github.com/Medox36/IDPA-Arbeit_XL2mQB/wiki/Verwendete-Bibliotheken")
+            );
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }

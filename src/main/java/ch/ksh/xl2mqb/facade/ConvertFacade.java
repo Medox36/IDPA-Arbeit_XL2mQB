@@ -81,7 +81,11 @@ public class ConvertFacade {
      * cancels the conversion
      */
     public void cancelConversion() {
-        Optional<ButtonType> buttonType = AlertUtil.confirmAlert("Konvertieren", "Konvertiervorgang abbrechen", "Wollen Sie wirklich den Konvertiervorgang abbrechen?");
+        Optional<ButtonType> buttonType = AlertUtil.confirmAlert(
+                "Konvertieren",
+                "Konvertiervorgang abbrechen",
+                "Wollen Sie wirklich den Konvertiervorgang abbrechen?"
+        );
 
         if (buttonType.isPresent()) {
             if (buttonType.get() == ButtonType.YES) {
@@ -100,10 +104,10 @@ public class ConvertFacade {
             FileFacade.getInstance().saveXML(xml);
         } else {
             AlertUtil.errorAlert("Konvertieren", "XML abspeichern nicht möglich",
-                    """
-                            Konvertieren der Excel-Datei scheint nicht richtig abgeschlossen zu sein, daher keine XML-Datei generiert werden.
-                            Versuchen sie noch einmal zu speichern oder Konvertieren sie erneut.
-                            Allenfalls empfiehlt sich eine Fehleranalyse.""");
+                    "Konvertieren der Excel-Datei scheint nicht richtig abgeschlossen zu sein, " +
+                    "daher keine XML-Datei generiert werden.\n" +
+                    "Versuchen sie noch einmal zu speichern oder Konvertieren sie erneut.\n" +
+                    "Allenfalls empfiehlt sich eine Fehleranalyse.");
         }
     }
 

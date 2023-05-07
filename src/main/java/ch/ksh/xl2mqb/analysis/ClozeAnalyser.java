@@ -65,11 +65,13 @@ public class ClozeAnalyser extends Analyser {
                 continue;
             }
             if (!AnalyserUtil.isNumeric(cellValue)) {
-                clozeShortanswerAnalyseResult.appendTabbed(rowNum, "hat eine ungültige Fragenummer: \"" + cellValue + "\"");
+                clozeShortanswerAnalyseResult.appendTabbed(rowNum, "hat eine ungültige Fragenummer: " +
+                        "\"" + cellValue + "\"");
             } else {
                 XSSFRow subQuestionRow = ClozeConverter.getRowForMatchingQuestionNumber(cellValue, subQuestionSheet);
                 if (subQuestionRow == null) {
-                    clozeShortanswerAnalyseResult.appendTabbed(rowNum, "hat eine Fragenummer: \"" + cellValue + "\" zu der keine passende Frage gefunden werden kann.");
+                    clozeShortanswerAnalyseResult.appendTabbed(rowNum, "hat eine Fragenummer: " +
+                            "\"" + cellValue + "\" zu der keine passende Frage gefunden werden kann.");
                 } else {
                     analyseSubQuestion(subQuestionRow);
                 }
@@ -101,7 +103,8 @@ public class ClozeAnalyser extends Analyser {
 
         int answerNum = 1;
         for (int i = 5; i < row.getLastCellNum(); i += 3) {
-            AnalyserUtil.questionAnswer(clozeShortanswerAnalyseResult, row.getCell(i), row.getCell(i + 1), row.getCell(i + 2), rowNum, answerNum);
+            AnalyserUtil.questionAnswer(clozeShortanswerAnalyseResult, row.getCell(i), row.getCell(i + 1),
+                    row.getCell(i + 2), rowNum, answerNum);
             answerNum++;
         }
     }

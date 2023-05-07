@@ -23,7 +23,6 @@ public class ImageConverter {
             return prefix + base64Encoded;
         } catch (IOException e) {
             e.printStackTrace();
-            // TODO log exception
             return "";
         }
     }

@@ -19,7 +19,10 @@ public class Settings {
     private final Map<String, ObjectProperty<Object>> settings = new HashMap<>();
 
     private Settings() {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> Settings.getInstance().save(), "Save-Settings-ShutdownHook"));
+        Runtime.getRuntime().addShutdownHook(new Thread(
+                () -> Settings.getInstance().save(),
+                "Save-Settings-ShutdownHook")
+        );
         try {
             readSettingsFile();
         } catch (Exception e) {

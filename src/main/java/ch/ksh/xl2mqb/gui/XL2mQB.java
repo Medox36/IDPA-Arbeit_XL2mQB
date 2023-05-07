@@ -54,7 +54,9 @@ public class XL2mQB extends Application {
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
-        stage.getIcons().add(new Image(Objects.requireNonNull(XL2mQB.class.getResourceAsStream("/ch/ksh/xl2mqb/images/icon.png"))));
+        stage.getIcons().add(new Image(
+                Objects.requireNonNull(XL2mQB.class.getResourceAsStream("/ch/ksh/xl2mqb/images/icon.png"))
+        ));
         stage.setTitle("Moodle Question Converter");
         stage.setMinWidth(350);
         stage.setMinHeight(70);
@@ -322,7 +324,9 @@ public class XL2mQB extends Application {
     }
 
     private ImageView _getImageView(String fileName, double fitHeightAndWidth) {
-        ImageView folderImageView = new ImageView(new Image(Objects.requireNonNull(XL2mQB.class.getResourceAsStream("/ch/ksh/xl2mqb/images/" + fileName + ".png"))));
+        ImageView folderImageView = new ImageView(new Image(Objects.requireNonNull(
+                XL2mQB.class.getResourceAsStream("/ch/ksh/xl2mqb/images/" + fileName + ".png")
+        )));
         folderImageView.setFitHeight(fitHeightAndWidth);
         folderImageView.setFitWidth(fitHeightAndWidth);
         return folderImageView;

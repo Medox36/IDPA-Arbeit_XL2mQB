@@ -20,7 +20,6 @@ public class XMLUtil {
         xml.append(">");
         xml.append(value);
         xml.append("</").append(tag).append(">");
-
         return xml.toString();
     }
 

@@ -77,7 +77,11 @@ public class AnalysisFacade {
      * cancels the analysis
      */
     public void cancelAnalysis() {
-        Optional<ButtonType> buttonType = AlertUtil.confirmAlert("Analyse", "Analyse abbrechen", "Wollen Sie wirklich die Analyse abbrechen?");
+        Optional<ButtonType> buttonType = AlertUtil.confirmAlert(
+                "Analyse",
+                "Analyse abbrechen",
+                "Wollen Sie wirklich die Analyse abbrechen?"
+        );
 
         if (buttonType.isPresent()) {
             if (buttonType.get() == ButtonType.YES) {

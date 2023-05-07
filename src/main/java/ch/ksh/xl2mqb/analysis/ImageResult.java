@@ -7,4 +7,5 @@ public enum ImageResult {
     ExistRemote,
     WrongFileFormat,
     NonExistent
+
 }

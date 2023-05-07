@@ -25,7 +25,8 @@ public class MultipleChoiceAnalyser extends Analyser {
             AnalyserUtil.hintAndPenalty(analyseResult, row.getCell(10), row.getCell(11), row.getRowNum());
             AnalyserUtil.questionText(analyseResult, row.getCell(12), row.getRowNum());
             for (int i = 0; i < 11; i++) {
-                AnalyserUtil.questionAnswer(analyseResult, row.getCell(13 + step), row.getCell(14 + step), row.getCell(15 + step), row.getRowNum(), i+1);
+                AnalyserUtil.questionAnswer(analyseResult, row.getCell(13 + step), row.getCell(14 + step),
+                        row.getCell(15 + step), row.getRowNum(), i+1);
                 step += 3;
             }
         }

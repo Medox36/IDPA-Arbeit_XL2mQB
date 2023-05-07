@@ -52,7 +52,10 @@ public class StartupFacade {
             }
         });
 
-        gui.getMenuBar().setStates((ExtendedStyle) settings.getSetting("style"), (boolean) settings.getSetting("showErrors"));
+        gui.getMenuBar().setStates(
+                (ExtendedStyle) settings.getSetting("style"),
+                (boolean) settings.getSetting("showErrors")
+        );
     }
 
     private void initChangListeners() {

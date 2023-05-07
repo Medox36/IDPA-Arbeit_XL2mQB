@@ -39,7 +39,12 @@ public class AlertUtil {
         return alert(Alert.AlertType.ERROR, title, headerText, contextText);
     }
 
-    private static Optional<ButtonType> alert(Alert.AlertType alertType, String title, String headerText, String contextText) {
+    private static Optional<ButtonType> alert(
+            Alert.AlertType alertType,
+            String title,
+            String headerText,
+            String contextText
+    ) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(headerText);
@@ -57,8 +62,14 @@ public class AlertUtil {
             cssPath = "/ch/ksh/xl2mqb/css/alert_light.css";
         }
 
-        alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(AlertUtil.class.getResource(cssPath)).toExternalForm());
-        ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Objects.requireNonNull(AlertUtil.class.getResourceAsStream("/ch/ksh/xl2mqb/images/icon.png"))));
+        alert.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(AlertUtil.class.getResource(cssPath)).toExternalForm()
+        );
+        ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(
+                new Image(Objects.requireNonNull(
+                        AlertUtil.class.getResourceAsStream("/ch/ksh/xl2mqb/images/icon.png"))
+                )
+        );
 
         XL2mQB.positionDialogRelativeToStage(alert);
     }

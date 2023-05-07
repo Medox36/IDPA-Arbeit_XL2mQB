@@ -5,7 +5,6 @@ import ch.ksh.xl2mqb.conversion.xml.XMLUtil;
 import ch.ksh.xl2mqb.excel.CellExtractor;
 
 import ch.ksh.xl2mqb.facade.MenuFacade;
-import ch.ksh.xl2mqb.settings.Settings;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -37,7 +36,6 @@ public class ClozeConverter extends Converter {
                 }
             }
         }
-
         return xmlString;
     }
 
@@ -63,7 +61,6 @@ public class ClozeConverter extends Converter {
                 break;
             }
         }
-
         return hasSubQuestions;
     }
 
@@ -132,7 +129,6 @@ public class ClozeConverter extends Converter {
         if (image.isBlank()) {
             return "";
         }
-
         return XMLUtil.getXMLForImgTag(image, image);
     }
 
@@ -141,13 +137,15 @@ public class ClozeConverter extends Converter {
         if (row == null) {
             if (MenuFacade.getInstance().areConversionErrorsShown()) {
                 logger.info("Für die Frage auf Zeile " + (rowNum + 1)
-                        + " vom Typ Cloze wurde keine passende Teilfrage mit der Nummer " + questionNumber + " gefunden.");
+                        + " vom Typ Cloze wurde keine passende Teilfrage mit der Nummer " + questionNumber
+                        + " gefunden.");
             }
             return "";
         }
         if (!subQuestionHasAllNecessaryContents(row)) {
             if (MenuFacade.getInstance().areConversionErrorsShown()){
-                logger.info("Die Teilfrage auf Zeile " + (row.getRowNum() + 1) + " von Typ Cloze_Shortanswer hat nicht alle benötigten Angaben.");
+                logger.info("Die Teilfrage auf Zeile " + (row.getRowNum() + 1) + " von Typ Cloze_Shortanswer hat " +
+                        "nicht alle benötigten Angaben.");
             }
             return "";
         }
