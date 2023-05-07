@@ -44,7 +44,7 @@ public class FileFacade {
     /**
      * get an excel file
      */
-    public String selectExcelFile() {
+    public void selectExcelFile() {
         excelFile = fileChooserOpenDialog("Datei Auswahl", new FileChooser.ExtensionFilter("Excel-Datei (*.xlsx/*.xlsm)","*.xlsx", "*.xlsm"));
 
         if (excelFile == null) {
@@ -161,7 +161,7 @@ public class FileFacade {
      * @return file
      */
     public File fileChooserStandardSaveDialog(String title, FileChooser.ExtensionFilter extensionFilter) {
-        return fileChooserSaveDialog(title, extensionFilter, Path.of(System.getProperty("user.home"), "Documents").toFile());
+        return fileChooserSaveDialog(title, extensionFilter, documentsFolderPath.toFile());
     }
 
     /**

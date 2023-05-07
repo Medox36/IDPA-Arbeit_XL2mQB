@@ -2,7 +2,6 @@ package ch.ksh.xl2mqb.gui;
 
 import ch.ksh.xl2mqb.facade.AnalysisFacade;
 import ch.ksh.xl2mqb.facade.ConvertFacade;
-import ch.ksh.xl2mqb.facade.StartupFacade;
 import ch.ksh.xl2mqb.facade.FileFacade;
 import ch.ksh.xl2mqb.facade.StartupFacade;
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class ArgsReader {
+
     private final List<String> args;
 
     public ArgsReader(List<String> args) {

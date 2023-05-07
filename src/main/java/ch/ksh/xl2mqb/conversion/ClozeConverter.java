@@ -2,8 +2,8 @@ package ch.ksh.xl2mqb.conversion;
 
 import ch.ksh.xl2mqb.analysis.AnalyserUtil;
 import ch.ksh.xl2mqb.conversion.xml.XMLUtil;
-
 import ch.ksh.xl2mqb.excel.CellExtractor;
+
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;

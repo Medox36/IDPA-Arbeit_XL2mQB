@@ -28,5 +28,15 @@
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.18.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-collections4:4.4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.18.0" level="project" />
+    <orderEntry type="library" name="Maven: org.jfxtras:jmetro:11.6.16" level="project" />
+    <orderEntry type="library" name="Maven: com.github.Dansoftowner:jSystemThemeDetector:3.8" level="project" />
+    <orderEntry type="library" name="Maven: net.java.dev.jna:jna:5.10.0" level="project" />
+    <orderEntry type="library" name="Maven: net.java.dev.jna:jna-platform:5.10.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: de.jangassen:jfa:1.2.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: com.github.oshi:oshi-core:5.8.6" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: io.github.g00fy2:versioncompare:1.4.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.jetbrains:annotations:22.0.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:slf4j-api:1.7.32" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:slf4j-nop:1.7.32" level="project" />
   </component>
 </module>

@@ -1,8 +1,6 @@
 package ch.ksh.xl2mqb.analysis;
 
-import ch.ksh.xl2mqb.excel.CellExtractor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 public class MultipleChoiceAnalyser extends Analyser {
 

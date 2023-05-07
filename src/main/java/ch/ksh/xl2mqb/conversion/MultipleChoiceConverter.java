@@ -2,6 +2,7 @@ package ch.ksh.xl2mqb.conversion;
 
 import ch.ksh.xl2mqb.conversion.xml.XMLUtil;
 import ch.ksh.xl2mqb.excel.CellExtractor;
+
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
 public class MultipleChoiceConverter extends Converter {
