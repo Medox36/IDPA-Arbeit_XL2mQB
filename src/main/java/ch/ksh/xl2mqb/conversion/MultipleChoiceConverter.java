@@ -134,6 +134,13 @@ public class MultipleChoiceConverter extends Converter {
         if (CellExtractor.getCellValueSafe(row.getCell(14)).isBlank()) {
             return false;
         }
+        if (CellExtractor.getCellValueSafe(row.getCell(16)).isBlank()) {
+            return false;
+        }
+        // does the question have a fraction for the points of one answer
+        if (CellExtractor.getCellValueSafe(row.getCell(17)).isBlank()) {
+            return false;
+        }
         return true;
     }
 }
