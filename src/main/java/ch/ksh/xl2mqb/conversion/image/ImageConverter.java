@@ -19,7 +19,7 @@ public class ImageConverter {
         try {
             byte[] imageContent = Files.readAllBytes(Path.of(image));
             String base64Encoded = Base64.getEncoder().encodeToString(imageContent);
-            String prefix = "data:image/"+ getFileType(image) + ";base64,";
+            String prefix = "data:image/" + getFileType(image) + ";base64,";
             return prefix + base64Encoded;
         } catch (IOException e) {
             e.printStackTrace();

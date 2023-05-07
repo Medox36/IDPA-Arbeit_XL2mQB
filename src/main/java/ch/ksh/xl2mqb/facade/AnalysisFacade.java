@@ -13,11 +13,10 @@ import javafx.scene.control.ButtonType;
 import java.util.Optional;
 
 /**
- *  Facade for the Analyser classes
+ * Facade for the Analyser classes
  *
  * @author Lorenzo Giuntini, Niklas Vogel
  * @version 1.0
- *
  */
 public class AnalysisFacade {
 

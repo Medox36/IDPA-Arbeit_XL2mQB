@@ -93,13 +93,13 @@ public class AnalyserUtil {
         ImageResult result = AnalyserUtil.pictureExistence(CellExtractor.getCellValueSafe(cell));
         switch (result) {
             case NotExistRemote -> sb.appendTabbed(rowNum, "hat ein Bild das online nicht gefunden werden kann " +
-                    "oder es besteht gerade keine Internetverbindung.");
+                                                           "oder es besteht gerade keine Internetverbindung.");
             case NotExistLocal -> sb.appendTabbed(rowNum, "hat ein Bild das lokal nicht gefunden werden " +
-                    "kann/nicht existiert.");
+                                                          "kann/nicht existiert.");
             case WrongFileFormat -> sb.appendTabbed(rowNum, "hat ein Bildformat das nicht von Moodle unterstützt " +
-                    "wird (Nur .png .jpg .gif und .svg werden unterstützt).");
+                                                            "wird (Nur .png .jpg .gif und .svg werden unterstützt).");
             case NonExistent -> sb.appendTabbed(rowNum, "hat ein Bild das weder lokal noch online verfügbar " +
-                    "ist oder falsch angegeben wurde.");
+                                                        "ist oder falsch angegeben wurde.");
         }
     }
 

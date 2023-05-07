@@ -7,7 +7,6 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
  *
  * @author Niklas Vogel
  * @version 1.0
- *
  */
 public class ShortAnswerAnalyser extends Analyser {
 

@@ -2,8 +2,8 @@ package ch.ksh.xl2mqb.facade;
 
 import ch.ksh.xl2mqb.gui.AlertUtil;
 import ch.ksh.xl2mqb.gui.InfoDialog;
-import ch.ksh.xl2mqb.settings.Settings;
 import ch.ksh.xl2mqb.settings.ExtendedStyle;
+import ch.ksh.xl2mqb.settings.Settings;
 
 import javafx.scene.control.ButtonType;
 
@@ -31,6 +31,7 @@ public class MenuFacade {
             e.printStackTrace();
         }
     }
+
     public void arrangeExcelTemplate() {
         try {
             Path templateFolder = fileFacade.getDocumentsFolderPath().resolve("Benutzerdefinierte Office-Vorlagen");

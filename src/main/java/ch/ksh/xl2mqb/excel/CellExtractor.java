@@ -10,7 +10,6 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
  *
  * @author Niklas Vogel
  * @version 1.0
- *
  */
 
 public class CellExtractor {

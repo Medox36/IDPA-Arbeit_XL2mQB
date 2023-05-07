@@ -8,7 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 
 public class MultipleChoiceConverter extends Converter {
 
-    public MultipleChoiceConverter(){
+    public MultipleChoiceConverter() {
         super();
         sheet = excelHandler.getSheetByName("Multiple-Choice");
     }
@@ -21,15 +21,15 @@ public class MultipleChoiceConverter extends Converter {
             }
             if (!checkRow(row) && MenuFacade.getInstance().areConversionErrorsShown()) {
                 logger.info("Die Frage auf Zeile " + (row.getRowNum() + 1)
-                        + " vom Typ Multiple Choice hat nicht alle benötigen Daten.");
-            }else {
+                            + " vom Typ Multiple Choice hat nicht alle benötigen Daten.");
+            } else {
                 convertSingleQuestion(row);
             }
         }
         return xmlString;
     }
 
-    private void convertSingleQuestion(XSSFRow row){
+    private void convertSingleQuestion(XSSFRow row) {
         StringBuilder mcQuestionBuilder = new StringBuilder("<question " + Type.MULTICHOICE + ">");
         if (isRowEmpty(row)) {
             return;
@@ -37,7 +37,7 @@ public class MultipleChoiceConverter extends Converter {
         if (!checkRow(row)) {
             if (MenuFacade.getInstance().areConversionErrorsShown()) {
                 logger.info("Die Frage auf Zeile " + (row.getRowNum() + 1)
-                        + " vom Typ Multiple Choice hat nicht alle benötigen Daten.");
+                            + " vom Typ Multiple Choice hat nicht alle benötigen Daten.");
             }
             return;
         }
@@ -98,7 +98,7 @@ public class MultipleChoiceConverter extends Converter {
                     }
                 }
                 //shuffle answers
-                case 8 ->{
+                case 8 -> {
                     if (CellExtractor.getCellValueSafe(row.getCell(colI)).equals("Ja")) {
                         mcQuestionBuilder.append(XMLUtil.getXMLForTag("shuffleanswers", "true"));
                     } else {
@@ -141,17 +141,17 @@ public class MultipleChoiceConverter extends Converter {
                 //question answers
                 case 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43 -> mcQuestionBuilder.append(
                         XMLUtil.getXMLForTag(
-                            "answer",
-                            XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI)))
-                            + XMLUtil.getXMLForTag(
-                                    "feedback",
-                                    XMLUtil.getXMLForCDATATextTag(
-                                            CellExtractor.getCellValueSafe(row.getCell(colI+2)),
-                                            Format.AUTO_FORMAT
-                                    )
-                            ),
-                            "fraction=\"" + CellExtractor.getCellValueSafe(row.getCell(colI+1)) + "\"",
-                            Format.AUTO_FORMAT
+                                "answer",
+                                XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI)))
+                                + XMLUtil.getXMLForTag(
+                                        "feedback",
+                                        XMLUtil.getXMLForCDATATextTag(
+                                                CellExtractor.getCellValueSafe(row.getCell(colI + 2)),
+                                                Format.AUTO_FORMAT
+                                        )
+                                ),
+                                "fraction=\"" + CellExtractor.getCellValueSafe(row.getCell(colI + 1)) + "\"",
+                                Format.AUTO_FORMAT
                         )
                 );
             }
@@ -160,7 +160,7 @@ public class MultipleChoiceConverter extends Converter {
         xmlString += mcQuestionBuilder.toString();
     }
 
-    private boolean checkRow(XSSFRow row){
+    private boolean checkRow(XSSFRow row) {
         // does the question have a Name
         if (CellExtractor.getCellValueSafe(row.getCell(0)).isBlank()) {
             return false;

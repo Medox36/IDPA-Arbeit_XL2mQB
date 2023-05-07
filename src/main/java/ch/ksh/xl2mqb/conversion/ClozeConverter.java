@@ -3,8 +3,8 @@ package ch.ksh.xl2mqb.conversion;
 import ch.ksh.xl2mqb.analysis.AnalyserUtil;
 import ch.ksh.xl2mqb.conversion.xml.XMLUtil;
 import ch.ksh.xl2mqb.excel.CellExtractor;
-
 import ch.ksh.xl2mqb.facade.MenuFacade;
+
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -30,9 +30,9 @@ public class ClozeConverter extends Converter {
             if (hasAllNecessaryContents(row)) {
                 convertSingleQuestion(row);
             } else {
-                if(MenuFacade.getInstance().areConversionErrorsShown()) {
+                if (MenuFacade.getInstance().areConversionErrorsShown()) {
                     logger.info("Die Frage auf Zeile " + (row.getRowNum() + 1)
-                            + " vom Typ Cloze hat nicht alle benötigten Daten.");
+                                + " vom Typ Cloze hat nicht alle benötigten Daten.");
                 }
             }
         }
@@ -117,7 +117,7 @@ public class ClozeConverter extends Converter {
 
         if (skipped && MenuFacade.getInstance().areConversionErrorsShown()) {
             logger.info("Für die Frage auf Zeile " + (row.getRowNum() + 1)
-                    + " vom Typ Cloze wurde(n) keine Teilfragen angegeben.");
+                        + " vom Typ Cloze wurde(n) keine Teilfragen angegeben.");
         }
 
         xmlString += XMLUtil.getXMLForCDATATextTag(questionTextSB.toString());
@@ -137,15 +137,15 @@ public class ClozeConverter extends Converter {
         if (row == null) {
             if (MenuFacade.getInstance().areConversionErrorsShown()) {
                 logger.info("Für die Frage auf Zeile " + (rowNum + 1)
-                        + " vom Typ Cloze wurde keine passende Teilfrage mit der Nummer " + questionNumber
-                        + " gefunden.");
+                            + " vom Typ Cloze wurde keine passende Teilfrage mit der Nummer " + questionNumber
+                            + " gefunden.");
             }
             return "";
         }
         if (!subQuestionHasAllNecessaryContents(row)) {
-            if (MenuFacade.getInstance().areConversionErrorsShown()){
+            if (MenuFacade.getInstance().areConversionErrorsShown()) {
                 logger.info("Die Teilfrage auf Zeile " + (row.getRowNum() + 1) + " von Typ Cloze_Shortanswer hat " +
-                        "nicht alle benötigten Angaben.");
+                            "nicht alle benötigten Angaben.");
             }
             return "";
         }
@@ -175,7 +175,7 @@ public class ClozeConverter extends Converter {
             sb.append("%");
             sb.append(maskSpecialChars(CellExtractor.getCellValueSafe(row.getCell(colI))));
 
-            String feedbackCellValue = CellExtractor.getCellValueSafe(row.getCell(colI  + 2));
+            String feedbackCellValue = CellExtractor.getCellValueSafe(row.getCell(colI + 2));
             if (!feedbackCellValue.isBlank()) {
                 sb.append("#").append(feedbackCellValue);
             }

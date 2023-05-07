@@ -18,11 +18,10 @@ import javafx.scene.control.ButtonType;
 import java.util.Optional;
 
 /**
- *  Facade for the converter classes
+ * Facade for the converter classes
  *
  * @author Isuf Hasani, Lorenzo Giuntini, Niklas Vogel
  * @version 1.0
- *
  */
 public class ConvertFacade {
 

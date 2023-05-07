@@ -26,10 +26,11 @@ public class MultipleChoiceAnalyser extends Analyser {
             AnalyserUtil.questionText(analyseResult, row.getCell(12), row.getRowNum());
             for (int i = 0; i < 11; i++) {
                 AnalyserUtil.questionAnswer(analyseResult, row.getCell(13 + step), row.getCell(14 + step),
-                        row.getCell(15 + step), row.getRowNum(), i+1);
+                        row.getCell(15 + step), row.getRowNum(), i + 1);
                 step += 3;
             }
         }
+
         logger.info(analyseResult.toString());
     }
 }

@@ -16,11 +16,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- *  Facade to get and save the excel file.
+ * Facade to get and save the excel file.
  *
  * @author Isuf Hasani, Lorenzo Giuntini, Niklas Vogel
  * @version 1.0
- *
  */
 public class FileFacade {
     private static FileFacade INSTANCE;
@@ -44,11 +43,14 @@ public class FileFacade {
      * get an excel file
      */
     public void selectExcelFile() {
-        excelFile = fileChooserOpenDialog("Datei Auswahl", new FileChooser.ExtensionFilter("Excel-Datei (*.xlsx/*.xlsm)","*.xlsx", "*.xlsm"));
+        excelFile = fileChooserOpenDialog("Datei Auswahl", new FileChooser.ExtensionFilter("Excel-Datei (*.xlsx/*.xlsm)", "*.xlsx", "*.xlsm"));
 
         if (excelFile == null) {
-            AlertUtil.warningAlert("Keine Datei ausgewählt", "Keine Datei mit der Endung .xlsx or .xlsm wurde ausgewählt.",
-                    "Sie haben eine Datei oder den richtigen Dateityp nicht ausgewählt.\nBitte versuchen Sie es erneut und wählen Sie eine .xlsx oder eine .xlsm Datei.");
+            AlertUtil.warningAlert(
+                    "Keine Datei ausgewählt",
+                    "Keine Datei mit der Endung .xlsx or .xlsm wurde ausgewählt.",
+                    "Sie haben eine Datei oder den richtigen Dateityp nicht ausgewählt.\n" +
+                    "Bitte versuchen Sie es erneut und wählen Sie eine .xlsx oder eine .xlsm Datei.");
         } else {
             gui.setPathOfFileToConvert(excelFile.getPath());
         }

@@ -65,13 +65,18 @@ public class ClozeAnalyser extends Analyser {
                 continue;
             }
             if (!AnalyserUtil.isNumeric(cellValue)) {
-                clozeShortanswerAnalyseResult.appendTabbed(rowNum, "hat eine ungültige Fragenummer: " +
-                        "\"" + cellValue + "\"");
+                clozeShortanswerAnalyseResult.appendTabbed(
+                        rowNum,
+                        "hat eine ungültige Fragenummer: " + "\"" + cellValue + "\""
+                );
             } else {
                 XSSFRow subQuestionRow = ClozeConverter.getRowForMatchingQuestionNumber(cellValue, subQuestionSheet);
                 if (subQuestionRow == null) {
-                    clozeShortanswerAnalyseResult.appendTabbed(rowNum, "hat eine Fragenummer: " +
-                            "\"" + cellValue + "\" zu der keine passende Frage gefunden werden kann.");
+                    clozeShortanswerAnalyseResult.appendTabbed(
+                            rowNum,
+                            "hat eine Fragenummer: " + "\"" + cellValue
+                            + "\" zu der keine passende Frage gefunden werden kann."
+                    );
                 } else {
                     analyseSubQuestion(subQuestionRow);
                 }

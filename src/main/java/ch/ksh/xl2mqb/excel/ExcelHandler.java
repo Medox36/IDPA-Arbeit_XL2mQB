@@ -12,7 +12,6 @@ import java.io.IOException;
  *
  * @author Niklas Vogel
  * @version 1.0
- *
  */
 
 public class ExcelHandler {

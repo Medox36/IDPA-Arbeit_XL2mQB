@@ -11,7 +11,6 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
  *
  * @author Niklas Vogel
  * @version 1.0
- *
  */
 
 public class ShortAnswerConverter extends Converter {
@@ -36,9 +35,9 @@ public class ShortAnswerConverter extends Converter {
                 continue;
             }
             if (!checkRow(row) && MenuFacade.getInstance().areConversionErrorsShown()) {
-                    logger.info("Die Frage auf Zeile " + (row.getRowNum() + 1)
+                logger.info("Die Frage auf Zeile " + (row.getRowNum() + 1)
                             + " vom Typ Shortanswer hat nicht alle benötigten Daten.");
-            }else {
+            } else {
                 convertSingleQuestion(row);
             }
         }
@@ -54,11 +53,11 @@ public class ShortAnswerConverter extends Converter {
         StringBuilder aShortAnswerBuilder = new StringBuilder("<question " + Type.SHORTANSWER + ">");
 
         for (int colI = 0; colI < row.getLastCellNum(); colI++) {
-                switch (colI) {
+            switch (colI) {
                 //question name
                 case 0 -> aShortAnswerBuilder.append(
                         XMLUtil.getXMLForTag("name",
-                        XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))))
+                                XMLUtil.getXMLForTextTag(CellExtractor.getCellValueSafe(row.getCell(colI))))
                 );
                 //points
                 case 1 -> aShortAnswerBuilder.append(
@@ -75,9 +74,9 @@ public class ShortAnswerConverter extends Converter {
                 //case sensitive
                 case 4 -> {
                     if (CellExtractor.getCellValueSafe(row.getCell(colI)).equals("Ja")) {
-                        aShortAnswerBuilder.append(XMLUtil.getXMLForTag("usecase","1"));
+                        aShortAnswerBuilder.append(XMLUtil.getXMLForTag("usecase", "1"));
                     } else {
-                        aShortAnswerBuilder.append(XMLUtil.getXMLForTag("usecase","0"));
+                        aShortAnswerBuilder.append(XMLUtil.getXMLForTag("usecase", "0"));
                     }
                 }
                 //hint
@@ -125,14 +124,14 @@ public class ShortAnswerConverter extends Converter {
                         XMLUtil.getXMLForTag(
                                 "answer",
                                 XMLUtil.getXMLForCDATATextTag(CellExtractor.getCellValueSafe(row.getCell(colI)))
-                                        + XMLUtil.getXMLForTag(
-                                                "feedback",
+                                + XMLUtil.getXMLForTag(
+                                        "feedback",
                                         XMLUtil.getXMLForCDATATextTag(
-                                                CellExtractor.getCellValueSafe(row.getCell(colI+2)),
+                                                CellExtractor.getCellValueSafe(row.getCell(colI + 2)),
                                                 Format.AUTO_FORMAT
                                         )
                                 ),
-                                "fraction=\"" + CellExtractor.getCellValueSafe(row.getCell(colI+1)) + "\"",
+                                "fraction=\"" + CellExtractor.getCellValueSafe(row.getCell(colI + 1)) + "\"",
                                 Format.AUTO_FORMAT
                         )
                 );
