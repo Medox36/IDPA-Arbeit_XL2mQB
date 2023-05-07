@@ -1,0 +1,82 @@
+Sub Start_XL2mQB()
+
+    RegEx
+    
+    Dim userDirectory As String
+    userDir = Environ("USERPROFILE")
+    
+    Dim applicationPath As String
+    applicationPath = userDir & "\AppData\Local\XL2mQB\XL2mQB.exe"
+    
+    If Dir(applicationPath) = "" Then
+        MsgBox "Applikation nicht gefunden. " & applicationPath
+    Else
+        Launch applicationPath
+    End If
+
+End Sub
+
+Sub Launch(applicationPath As String)
+
+    Dim fileName As String
+    fileName = ThisWorkbook.FullName
+    
+    If Left(fileName, 4) = "http" Then
+        MsgBox "Share-Point Dateien und Dateien aus dem Internet werden nicht unterstützt."
+        Exit Sub
+    End If
+    
+    Dim args As String
+    args = "-f " & fileName
+    
+    Shell applicationPath & " " & args
+    ThisWorkbook.Close SaveChanges:=True
+
+End Sub
+
+Sub RegEx()
+
+    Dim RegEx As Object
+    Dim Match As Object
+    Dim Range As Object
+    Dim Zelle As Object
+    Dim i As Long
+    Dim j As Long
+    Dim RegExArray() As String
+    
+    'RegEx für jede Spalte
+    RegExArray = Split("^[^\x00-\x1F\x80-\xFF]*$,^[0-9]+$,^[0-9]+$,^(Ja|Nein)$,^(Ja|Nein)$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^(keine|abc|ABCD|123)$,^(Klartext|HTML|Markdown|moodle_auto_format)$,^https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+|([a-zA-Z]:)?(?:\\[\w-]+)+\\?$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$,^[^\x00-\x1F\x80-\xFF]*$", ",")
+    
+    'Definieren Bereich
+    Set Range = ActiveSheet.Tabelle1
+    
+    'Überprüfung von jede Zeile, Header wird ignoriert
+    For Each Zelle In Range.Offset(1).Resize(Range.Rows.Count - 1)
+        j = Zelle.Column - Range.Columns(1).Column
+        Set RegEx = CreateObject("VBScript.RegExp")
+        LeereZelleCounter = 0
+        
+        'Überprüfen, ob Zelle leer ist
+        If IsEmpty(Zelle.Value) Then
+            LeereZelleCounter = LeereZelleCounter + 1
+            
+            'Falls Zelle leer ist, fragen ob es so sein sollte oder es ändern möchte
+            If LeereZelleCounter > 0 Then
+                Prompt = "Sollte die Zeile " & Zelle.Row & " bei Spalte " & Zelle.Column & " leer sein?"
+                Answer = MsgBox(Prompt, vbQuestion + vbYesNo, "Ja oder Nein?")
+                If Answer = vbNo Then
+                    Exit Sub
+                End If
+            End If
+                
+            j = j + 1
+            
+        Else
+            'Überprüfen, ob RegEx-Muster mit der Zelle übereinstimmen
+            If Not RegEx.test(MyCell.Value) Then
+                MsgBox "Fehler in Zeile " & Zelle.Row & " in Spalte " & Zelle.Column & ": " & Zelle.Value
+                Exit Sub
+            End If
+        End If
+        Next Zelle
+End Sub

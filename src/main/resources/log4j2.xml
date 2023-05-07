@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="error" packages="ch.ksh.xl2mqb.log">
+    <Appenders>
+        <TextAreaAppender name="TextAreaAppender">
+            <PatternLayout pattern="[%4.7p]: %m"/>
+        </TextAreaAppender>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="TextAreaAppender"/>
+        </Root>
+    </Loggers>
+    <CustomLevels>
+        <CustomLevel name="INFO" intLevel="200" />
+        <CustomLevel name="WARNUNG" intLevel="250" />
+        <CustomLevel name="FEHLER" intLevel="400" />
+    </CustomLevels>
+</Configuration>
