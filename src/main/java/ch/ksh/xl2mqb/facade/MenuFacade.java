@@ -22,6 +22,7 @@ import java.util.Optional;
  * Menu related facade
  *
  * @author Lorenzo Giuntini
+ * @version 1.0
  */
 public class MenuFacade {
     private static MenuFacade INSTANCE;
