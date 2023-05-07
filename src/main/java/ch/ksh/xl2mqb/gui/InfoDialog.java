@@ -15,10 +15,8 @@ import javafx.scene.text.TextAlignment;
 import jfxtras.styles.jmetro.Style;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Objects;
+import java.nio.file.Path;
 
 /**
  * This class is a custom Alert dialog to show the user the licence, version and a link to all user libraries.
@@ -52,10 +50,8 @@ public class InfoDialog extends Alert {
         licence.setPrefHeight(400);
         String licenceText = "";
         try {
-            licenceText = Files.readString(
-                    Paths.get(Objects.requireNonNull(InfoDialog.class.getResource("/META-INF/LICENSE")).toURI())
-            );
-        } catch (IOException | URISyntaxException e) {
+            licenceText = Files.readString(Path.of("LICENSE"));
+        } catch (IOException e) {
             e.printStackTrace();
         }
         licence.setText(licenceText);
