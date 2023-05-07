@@ -34,7 +34,7 @@ public class InfoDialog extends Alert {
         setTitle("Info");
         setHeaderText("Moodle Question Converter \"XL2mQB\"");
 
-        Label contentText = new Label(" Version: 0.0.0.0\n");
+        Label contentText = new Label(" Version: 1.0.0.0\n");
         contentText.setTextAlignment(TextAlignment.LEFT);
 
         Hyperlink hyperlink = new Hyperlink("Verwendete Bibliotheken");
