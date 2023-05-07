@@ -3,6 +3,7 @@ package ch.ksh.xl2mqb.conversion;
 import ch.ksh.xl2mqb.conversion.xml.XMLUtil;
 import ch.ksh.xl2mqb.excel.CellExtractor;
 
+import ch.ksh.xl2mqb.facade.MenuFacade;
 import ch.ksh.xl2mqb.settings.Settings;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
@@ -35,7 +36,7 @@ public class ShortAnswerConverter extends Converter {
             if (isRowEmpty(row)) {
                 continue;
             }
-            if (!checkRow(row) && (Boolean) Settings.getInstance().getSetting("showErrors")) {
+            if (!checkRow(row) && MenuFacade.getInstance().areConversionErrorsShown()) {
                     logger.info("Die Frage auf Zeile " + (row.getRowNum() + 1)
                             + " vom Typ Shortanswer hat nicht alle benötigten Daten.");
             }else {
