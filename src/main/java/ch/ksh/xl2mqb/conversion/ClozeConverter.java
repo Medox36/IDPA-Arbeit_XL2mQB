@@ -12,7 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import java.util.Objects;
 
 /**
- * coverts all questions in the Cloze and the Cloz_Shortanswer sheet into an XML String.
+ * Coverts all questions in the Cloze and the Cloz_Shortanswer sheet into an XML String.
  *
  * @author Lorenzo Giuntini
  * @version 1.0
@@ -31,7 +31,7 @@ public class ClozeConverter extends Converter {
     }
 
     /**
-     * iterates through the sheet rows and checks for empty row or rows with not enough data.
+     * Iterates through the sheet rows and checks for empty row or rows with not enough data.
      *
      * @return XML String
      */
@@ -54,7 +54,7 @@ public class ClozeConverter extends Converter {
     }
 
     /**
-     * checks if a question has all necessary inputs
+     * Checks if a question has all necessary inputs
      *
      * @param row
      * @return boolean
@@ -73,7 +73,7 @@ public class ClozeConverter extends Converter {
     }
 
     /**
-     * checks if a question has a sub-question
+     * Checks if a question has a sub-question
      *
      * @param row
      * @return boolean
@@ -91,7 +91,7 @@ public class ClozeConverter extends Converter {
     }
 
     /**
-     * converts a single question into a XML string.
+     * Converts a single question into a XML string.
      *
      * @param row
      */
@@ -108,7 +108,7 @@ public class ClozeConverter extends Converter {
     }
 
     /**
-     * converts the question name into an XML string.
+     * Converts the question name into an XML string.
      *
      * @param cell
      */
@@ -118,7 +118,7 @@ public class ClozeConverter extends Converter {
     }
 
     /**
-     * converts the question hint into an XML string.
+     * Converts the question hint into an XML string.
      *
      * @param cell
      */
@@ -128,7 +128,7 @@ public class ClozeConverter extends Converter {
     }
 
     /**
-     * converts the question penalty into an XML string.
+     * Converts the question penalty into an XML string.
      *
      * @param cell
      */
@@ -137,7 +137,7 @@ public class ClozeConverter extends Converter {
     }
 
     /**
-     * converts the questions general feedback into an XML string.
+     * Converts the questions general feedback into an XML string.
      *
      * @param cell
      */
@@ -147,7 +147,7 @@ public class ClozeConverter extends Converter {
     }
 
     /**
-     * converts the question text into an XML string.
+     * Converts the question text into an XML string.
      *
      * @param row
      */
@@ -181,7 +181,7 @@ public class ClozeConverter extends Converter {
     }
 
     /**
-     * converts the question picture into an XML string.
+     * Converts the question picture into an XML string.
      *
      * @param cell
      */
@@ -194,7 +194,7 @@ public class ClozeConverter extends Converter {
     }
 
     /**
-     * converts a sub-question into an XML string.
+     * Converts a sub-question into an XML string.
      *
      * @param questionNumber
      * @param rowNum
@@ -255,7 +255,7 @@ public class ClozeConverter extends Converter {
     }
 
     /**
-     * checks if all sub-questions have the necessary inputs.
+     * Checks if all sub-questions have the necessary inputs.
      *
      * @param row
      * @return boolean
@@ -286,7 +286,7 @@ public class ClozeConverter extends Converter {
     }
 
     /**
-     * gets a sub-question according to the answer number in the question.
+     * Gets a sub-question according to the answer number in the question.
      *
      * @param questionNumber
      * @return
@@ -308,7 +308,7 @@ public class ClozeConverter extends Converter {
     }
 
     /**
-     * masks all special Chars.
+     * Masks all special Chars.
      *
      * @param str xml string
      * @return xml string

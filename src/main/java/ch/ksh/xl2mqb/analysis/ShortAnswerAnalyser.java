@@ -3,7 +3,7 @@ package ch.ksh.xl2mqb.analysis;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
 /**
- * checks all Shortanswer questionns for errors.
+ * Checks all Shortanswer questionns for errors.
  *
  * @author Niklas Vogel
  * @version 1.0
@@ -21,7 +21,7 @@ public class ShortAnswerAnalyser extends Analyser {
     }
 
     /**
-     * checks the Shortanswer sheet for mistakes
+     * Checks the Shortanswer sheet for mistakes
      */
     @Override
     public void analyse() {

@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * checks all Cloze questions for errors.
+ * Checks all Cloze questions for errors.
  *
  * @author Lorenzo Giuntini
  * @version 1.0
@@ -35,7 +35,7 @@ public class ClozeAnalyser extends Analyser {
     }
 
     /**
-     * iterates through all the question rows.
+     * Iterates through all the question rows.
      */
     @Override
     public void analyse() {
@@ -67,7 +67,7 @@ public class ClozeAnalyser extends Analyser {
     }
 
     /**
-     * checks the answer number in the question
+     * Checks the answer number in the question
      * @param row
      */
     private void analyseSubQuestions(XSSFRow row) {
@@ -106,7 +106,7 @@ public class ClozeAnalyser extends Analyser {
     }
 
     /**
-     * checks the sub-question numbers for mistakes.
+     * Checks the sub-question numbers for mistakes.
      */
     private void analyzeSubQuestionNumbers() {
         Set<Integer> nums = new HashSet<>();
@@ -123,7 +123,7 @@ public class ClozeAnalyser extends Analyser {
     }
 
     /**
-     * checks a sub-question for mistakes.
+     * Checks a sub-question for mistakes.
      * @param row
      */
     private void analyseSubQuestion(XSSFRow row) {

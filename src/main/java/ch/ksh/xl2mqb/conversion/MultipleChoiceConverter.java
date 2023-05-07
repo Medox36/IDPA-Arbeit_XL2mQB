@@ -7,7 +7,7 @@ import ch.ksh.xl2mqb.facade.MenuFacade;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
 /**
- * coverts all questions in the Multiple-Choice sheet into an XML String.
+ * Coverts all questions in the Multiple-Choice sheet into an XML String.
  *
  * @author Isuf Hasani
  * @version 1.0
@@ -23,7 +23,7 @@ public class MultipleChoiceConverter extends Converter {
     }
 
     /**
-     * iterates through the sheet rows and checks for empty row or rows with not enough data.
+     * Iterates through the sheet rows and checks for empty row or rows with not enough data.
      *
      * @return XML String
      */
@@ -44,7 +44,7 @@ public class MultipleChoiceConverter extends Converter {
     }
 
     /**
-     * iterates through a row and converts the single cells into an XML String.
+     * Iterates through a row and converts the single cells into an XML String.
      *
      * @param row
      */
@@ -180,7 +180,7 @@ public class MultipleChoiceConverter extends Converter {
     }
 
     /**
-     * checks a row for missing data.
+     * Checks a row for missing data.
      *
      * @param row
      * @return true if there is no data missing

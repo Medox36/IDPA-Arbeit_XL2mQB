@@ -3,7 +3,7 @@ package ch.ksh.xl2mqb.analysis;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
 /**
- * checks all Multiple-Choice questions for errors.
+ * Checks all Multiple-Choice questions for errors.
  *
  * @author Isuf Hasani
  * @version 1.0
@@ -21,7 +21,7 @@ public class MultipleChoiceAnalyser extends Analyser {
     }
 
     /**
-     * checks the Multiple-Choice sheet for mistakes
+     * Checks the Multiple-Choice sheet for mistakes
      */
     @Override
     public void analyse() {
