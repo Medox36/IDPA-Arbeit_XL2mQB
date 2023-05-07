@@ -43,7 +43,10 @@ public class FileFacade {
      * get an excel file
      */
     public void selectExcelFile() {
-        excelFile = fileChooserOpenDialog("Datei Auswahl", new FileChooser.ExtensionFilter("Excel-Datei (*.xlsx/*.xlsm)", "*.xlsx", "*.xlsm"));
+        excelFile = fileChooserOpenDialog(
+                "Datei Auswahl",
+                new FileChooser.ExtensionFilter("Excel-Datei (*.xlsx/*.xlsm)", "*.xlsx", "*.xlsm")
+        );
 
         if (excelFile == null) {
             AlertUtil.warningAlert(
@@ -243,8 +246,20 @@ public class FileFacade {
         return INSTANCE;
     }
 
+    /**
+     * This inner class provides methods to get the documents and desktop folders of the user via the registry.
+     * This assures that if the user has changed these folders ot if they have been changed by OneDrive that the program
+     * will use these change folders instead of potentially non-existent folders.
+     */
     private static final class FolderFinder {
 
+        /**
+         * Reads the value "Personal" from the registry of the key
+         * "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\\" and
+         * the root key "HKEY_CURRENT_USER".
+         *
+         * @return the path to the User's Documents folder
+         */
         public Path getUserDocumentsFolder() {
             String value = Advapi32Util.registryGetStringValue(
                     WinReg.HKEY_CURRENT_USER,
@@ -255,6 +270,13 @@ public class FileFacade {
             return Path.of(replaceVars(value));
         }
 
+        /**
+         * Reads the value "Desktop" from the registry of the key
+         * "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\\" and
+         * the root key "HKEY_CURRENT_USER".
+         *
+         * @return the path to the User's Desktop folder
+         */
         public Path getUserDesktopFolder() {
             String value = Advapi32Util.registryGetStringValue(
                     WinReg.HKEY_CURRENT_USER,
@@ -265,6 +287,12 @@ public class FileFacade {
             return Path.of(replaceVars(value));
         }
 
+        /**
+         * Replaces thee %USERPROFILE% variable in the registry value to its actual variable value.
+         *
+         * @param path to replace the variable %USERPROFILE% with the variable value
+         * @return String ot the path with the value of the system variable %USERPROFILE%
+         */
         private String replaceVars(String path) {
             return path.replace("%USERPROFILE%", System.getenv("USERPROFILE"));
         }

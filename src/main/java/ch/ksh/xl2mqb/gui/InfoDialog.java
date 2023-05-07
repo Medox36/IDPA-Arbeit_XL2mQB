@@ -20,6 +20,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+/**
+ * This class is a custom Alert dialog to show the user the licence, version and a link to all user libraries.
+ *
+ * @author Lorenzo Giuntini
+ * @version 1.0
+ */
 public class InfoDialog extends Alert {
 
     public InfoDialog() {

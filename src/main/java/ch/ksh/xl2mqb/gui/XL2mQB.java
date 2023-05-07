@@ -33,6 +33,12 @@ import jfxtras.styles.jmetro.Style;
 
 import java.util.Objects;
 
+/**
+ * The main GUI class
+ *
+ * @author Lorenzo Giuntini
+ * @version 1.0
+ */
 public class XL2mQB extends Application {
 
     private final ConvertFacade convertFacade = ConvertFacade.getInstance();
@@ -51,6 +57,14 @@ public class XL2mQB extends Application {
     private TextField saveToPath;
     private TextField pathToFile;
 
+    /**
+     * Method to start the gui.
+     *
+     * @param primaryStage the primary stage for this application, onto which
+     * the application scene can be set.
+     * Applications may create other stages, if needed, but they will not be
+     * primary stages.
+     */
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
@@ -79,10 +93,18 @@ public class XL2mQB extends Application {
         new StartupFacade(this).onStartup();
     }
 
+    /**
+     * Show the home scene
+     */
     public void homeScene() {
         rootPane.setCenter(homeContainer);
     }
 
+    /**
+     * Generates the home container.
+     *
+     * @return home container
+     */
     private VBox homeContainer() {
         // Excel-File
         pathToFile = new TextField();
@@ -166,10 +188,16 @@ public class XL2mQB extends Application {
         return mainContainer;
     }
 
+    /**
+     * Generates a scene where the conversion is running/in progress.
+     */
     public void convertRunningScene() {
         _runningProgressScene("Datei wird konvertiert...", true);
     }
 
+    /**
+     * Generates a scene where the conversion is finished.
+     */
     public void convertFinishScene() {
         Button errorAnalysisButton = new Button("Fehleranalyse");
         errorAnalysisButton.setOnAction(event -> analysisFacade.startAnalysis());
@@ -199,10 +227,16 @@ public class XL2mQB extends Application {
         menuBar.setDisableTemplateMenu(false);
     }
 
+    /**
+     * Generates a scene where the analysis is running/in progress.
+     */
     public void analysisRunningScene() {
         _runningProgressScene("Datei wird überprüft...", false);
     }
 
+    /**
+     * Generates the scene where the analysis is finished
+     */
     public void analysisFinishScene() {
         Button cancelButton = new Button("Zurück");
         cancelButton.setDefaultButton(true);
@@ -221,6 +255,12 @@ public class XL2mQB extends Application {
         menuBar.setDisableTemplateMenu(false);
     }
 
+    /**
+     * Generates a scene where a process is running.
+     *
+     * @param labelText of the scene
+     * @param isConverting if the current process is conversion
+     */
     private void _runningProgressScene(String labelText, boolean isConverting) {
         Button cancelButton = new Button("Abbrechen");
         cancelButton.setStyle("-fx-background-color: #f1c0a2; -fx-text-fill: black");
@@ -247,6 +287,9 @@ public class XL2mQB extends Application {
         cancelButton.requestFocus();
     }
 
+    /**
+     * Correctly centers the stage on screen.
+     */
     public void centerStageOnScreen() {
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
         double screenWidth = visualBounds.getWidth();
@@ -268,23 +311,47 @@ public class XL2mQB extends Application {
         stage.setY(y);
     }
 
+    /**
+     * Positiones the given Dialog relative to the stage by an offset of 50 on both x and y.
+     *
+     * @param dialog to position
+     */
     protected static void positionDialogRelativeToStage(Dialog<?> dialog) {
         dialog.setX(stage.getX() + 50);
         dialog.setY(stage.getY() + 50);
     }
 
+    /**
+     * Sets a given String representing a path to the saveToPath text filed
+     *
+     * @param path String to set.
+     */
     public void setSaveToPathTextFieldText(String path) {
         saveToPath.setText(path);
     }
 
+    /**
+     * Sets a given String representing a path to the pathToFile text filed
+     *
+     * @param path String to set.
+     */
     public void setPathOfFileToConvert(String path) {
         pathToFile.setText(path);
     }
 
+    /**
+     * Applies a given JMetroStyle
+     *
+     * @param jMetroStyle to apply
+     * @see Style
+     */
     private void applyJMetroTheme(Style jMetroStyle) {
         jMetro.setStyle(jMetroStyle);
     }
 
+    /**
+     * Applies the dark theme.
+     */
     public void applyDarkTheme() {
         applyJMetroTheme(Style.DARK);
         if (saveToPathButton != null) pathToFileButton.setGraphic(getWhiteFolderImageView());
@@ -292,6 +359,9 @@ public class XL2mQB extends Application {
         if (saveButton != null) saveButton.setGraphic(_getWhiteFolderImageView(15));
     }
 
+    /**
+     * Applies the light theme.
+     */
     public void applyLightTheme() {
         applyJMetroTheme(Style.LIGHT);
         if (saveToPathButton != null) pathToFileButton.setGraphic(getFolderImageView());
@@ -299,6 +369,9 @@ public class XL2mQB extends Application {
         if (saveButton != null) saveButton.setGraphic(_getFolderImageView(15));
     }
 
+    /**
+     * Applies the light or dark theme depending on what the system theme is.
+     */
     public void applySystemTheme() {
         if (OsThemeDetector.getDetector().isDark()) {
             applyDarkTheme();
@@ -307,22 +380,53 @@ public class XL2mQB extends Application {
         }
     }
 
+    /**
+     * Creates Creates a ImageView of a black folder icon/image.
+     * ImageView has the height and width of 20
+     *
+     * @return ImageView with a black folder icon/image
+     */
     private ImageView getFolderImageView() {
         return _getFolderImageView(20);
     }
 
+    /**
+     * Creates Creates a ImageView of a white folder icon/image.
+     * ImageView has the height and width of 20
+     *
+     * @return ImageView with a white folder icon/image
+     */
     private ImageView getWhiteFolderImageView() {
         return _getWhiteFolderImageView(20);
     }
 
+    /**
+     * Creates Creates a ImageView of a black folder icon/image.
+     *
+     * @param fitHeightAndWidth of the ImageView
+     * @return ImageView with a black folder icon/image
+     */
     private ImageView _getFolderImageView(double fitHeightAndWidth) {
         return _getImageView("folder", fitHeightAndWidth);
     }
 
+    /**
+     * Creates Creates a ImageView of a white folder icon/image.
+     *
+     * @param fitHeightAndWidth of the ImageView
+     * @return ImageView with a white folder icon/image
+     */
     private ImageView _getWhiteFolderImageView(double fitHeightAndWidth) {
         return _getImageView("folder_w", fitHeightAndWidth);
     }
 
+    /**
+     * Creates a ImageView of a folder icon/image, given by its file name.
+     *
+     * @param fileName of the folder icon/image
+     * @param fitHeightAndWidth of the ImageView
+     * @return ImageView with a folder icon/image
+     */
     private ImageView _getImageView(String fileName, double fitHeightAndWidth) {
         ImageView folderImageView = new ImageView(new Image(Objects.requireNonNull(
                 XL2mQB.class.getResourceAsStream("/ch/ksh/xl2mqb/images/" + fileName + ".png")
@@ -332,14 +436,31 @@ public class XL2mQB extends Application {
         return folderImageView;
     }
 
+    /**
+     * Gets the progress container.
+     *
+     * @return the progress container
+     * @see ProgressContainer
+     */
     public ProgressContainer getProgressContainer() {
         return progressContainer;
     }
 
+    /**
+     * Gets the menu bar.
+     *
+     * @return the menu bar
+     * @see MenuBar
+     */
     public MenuBar getMenuBar() {
         return menuBar;
     }
 
+    /**
+     * Gets the stage.
+     *
+     * @return the gui stage
+     */
     public static Stage getStage() {
         if (stage == null) {
             throw new IllegalStateException("No stage available");
@@ -347,6 +468,12 @@ public class XL2mQB extends Application {
         return stage;
     }
 
+    /**
+     * Gets the current JMetroStyle.
+     *
+     * @return current JMetroStyle
+     * @see Style
+     */
     public static Style getCurrentJMetroStyle() {
         return jMetro.getStyle();
     }

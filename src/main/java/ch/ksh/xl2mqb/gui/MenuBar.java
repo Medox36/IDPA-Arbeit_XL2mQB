@@ -19,6 +19,12 @@ import jfxtras.styles.jmetro.Style;
 
 import java.util.function.Consumer;
 
+/**
+ * Custom menu bar containing all menu items of the gui.
+ *
+ * @author Lorenzo Giuntini
+ * @version 1.0
+ */
 public class MenuBar extends javafx.scene.control.MenuBar {
 
     private final MenuFacade menuFacade = MenuFacade.getInstance();
@@ -48,6 +54,11 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         themeChangeListenerIsRegistered = false;
     }
 
+    /**
+     * Generates the settings sub menu
+     *
+     * @return the settings sub menu
+     */
     private Menu settingsMenu() {
         // menu itself
         Menu settingsMenu = new Menu("Einstellungen");
@@ -127,6 +138,10 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         return settingsMenu;
     }
 
+    /**
+     * Unregister the ChangeListener, which listens for system them changes.
+     * @see OsThemeDetector
+     */
     private void unregisterThemeChangeListenerIfRegistered() {
         if (themeChangeListenerIsRegistered) {
             OsThemeDetector.getDetector().removeListener(systemThemeChangeConsumer);
@@ -134,6 +149,11 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         }
     }
 
+    /**
+     * Generates the template sub menu
+     *
+     * @return the template sub menu
+     */
     private Menu templateMenu() {
         // menu itself
         Menu templateMenu = new Menu("Excel-Vorlage");
@@ -158,6 +178,11 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         return templateMenu;
     }
 
+    /**
+     * Generates the help sub menu
+     *
+     * @return the help sub menu
+     */
     private Menu helpMenu() {
         // menu itself
         Menu helpMenu = new Menu("Hilfe");
@@ -178,14 +203,31 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         return helpMenu;
     }
 
+    /**
+     * Disables or enables the settings menu
+     *
+     * @param disabled value to set
+     */
     public void setDisableSettingsMenu(boolean disabled) {
         settingsMenu.setDisable(disabled);
     }
 
+    /**
+     * Disables or enables the template menu
+     *
+     * @param disabled value to set
+     */
     public void setDisableTemplateMenu(boolean disabled) {
         templateMenu.setDisable(disabled);
     }
 
+    /**
+     * Set the states of the settings to the menu.
+     * Only used at startup.
+     *
+     * @param extendedStyle style/theme to set
+     * @param showConversionErrors boolean value to set
+     */
     public void setStates(ExtendedStyle extendedStyle, boolean showConversionErrors) {
         ObservableList<Toggle> toggles = themeToggleGroup.getToggles();
         Toggle toggle = null;

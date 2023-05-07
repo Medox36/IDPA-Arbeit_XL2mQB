@@ -13,6 +13,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class stores all settings and provides methods to read and set each setting.
+ *
+ * @author Lorenzo Giuntini
+ * @version 1.0
+ */
 public class Settings {
     private static Settings INSTANCE;
     private final Path settingsPath = Path.of("settings.conf");
@@ -30,14 +36,33 @@ public class Settings {
         }
     }
 
+    /**
+     * Returns a setting value by the given key.
+     *
+     * @param settingKey to get value from
+     * @return the value or null if key isn^t present
+     */
     public Object getSetting(String settingKey) {
         return getSettingProperty(settingKey).get();
     }
 
+    /**
+     * Returns the ObjectProperty of a setting containing the setting value by the given key
+     *
+     * @param settingKey to het the ObjetProperty from
+     * @return the ObjetProperty or null if key isn^t present
+     */
     public ObjectProperty<Object> getSettingProperty(String settingKey) {
         return settings.getOrDefault(settingKey, null);
     }
 
+    /**
+     * Set a value of a setting by its key.
+     * If the key is not yet present a new setting entry will be created.
+     *
+     * @param settingKey of setting to set value
+     * @param valueObject the value to set
+     */
     public void setSetting(String settingKey, Object valueObject) {
         if (settings.containsKey(settingKey)) {
             getSettingProperty(settingKey).set(valueObject);
@@ -46,6 +71,11 @@ public class Settings {
         }
     }
 
+    /**
+     * Reads the settings file and loads all settings.
+     *
+     * @throws IOException if an I/O error occurs
+     */
     private void readSettingsFile() throws IOException {
         if (Files.notExists(settingsPath)) {
             resetSettings();
@@ -61,6 +91,14 @@ public class Settings {
         }
     }
 
+    /**
+     * Creates a SimpleObjectProperty with the correct class as object for the value
+     *
+     * @param settingName fo the setting
+     * @param val value of the setting
+     * @return the nre SimpleObjectProperty
+     * @see SimpleObjectProperty
+     */
     private SimpleObjectProperty<Object> getProperClass(String settingName, String val) {
         switch (settingName) {
             case "posX", "posY" -> {
@@ -81,6 +119,9 @@ public class Settings {
         }
     }
 
+    /**
+     * Resets settings to theirs default value.
+     */
     public void resetSettings() {
         replaceOrCreate("posY", -1.0);
         replaceOrCreate("posX", -1.0);
@@ -89,6 +130,13 @@ public class Settings {
         replaceOrCreate("showErrors", Boolean.FALSE);
     }
 
+    /**
+     * Adds the given settings pair of key and value to the settings map.
+     * It either overrides if the given key is already existing or adds a new entry.
+     *
+     * @param key of the setting
+     * @param value of the setting
+     */
     private void replaceOrCreate(String key, Object value) {
         if (settings.containsKey(key)) {
             settings.get(key).set(value);
@@ -97,6 +145,9 @@ public class Settings {
         }
     }
 
+    /**
+     * Invokes saving of settings.
+     */
     public void save() {
         try {
             if (settings.size() < 5) {
@@ -108,6 +159,11 @@ public class Settings {
         }
     }
 
+    /**
+     * Saves all settings to the settings file.
+     *
+     * @throws IOException if an I/O error occurs
+     */
     private void saveToFile() throws IOException {
         if (Files.notExists(settingsPath)) {
             Files.createFile(settingsPath);
@@ -125,6 +181,10 @@ public class Settings {
         bufferedWriter.close();
     }
 
+    /**
+     * Creates an instance of the Settings class if not already done.
+     * @return an instance of the Settings class
+     */
     public static Settings getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new Settings();

@@ -17,6 +17,12 @@ import javafx.application.Platform;
 
 import java.io.Serializable;
 
+/**
+ * A Custom Appender to append to a text area, using Log4j plugins.
+ *
+ * @author Lorenzo Giuntini
+ * @version 1.0
+ */
 @Plugin(name = "TextAreaAppender",
         category = Core.CATEGORY_NAME,
         elementType = Appender.ELEMENT_TYPE)
@@ -27,6 +33,12 @@ public class TextAreaAppender extends AbstractAppender {
         super(name, null, layout, false, Property.EMPTY_ARRAY);
     }
 
+    /**
+     * Appends a log event to the text area of the progress container.
+     * Used by Log4j
+     *
+     * @param event The LogEvent.
+     */
     @Override
     public void append(LogEvent event) {
         if (progressContainer != null) {
@@ -35,6 +47,14 @@ public class TextAreaAppender extends AbstractAppender {
         }
     }
 
+    /**
+     * Creates an instance of a TextAreaAppender.
+     * Used by Log4j
+     *
+     * @param name of the appender
+     * @param layout of the appender
+     * @return an instance of a TextAreaAppender
+     */
     @PluginFactory
     public static TextAreaAppender createAppender(
             @PluginAttribute("name") String name,
@@ -43,6 +63,11 @@ public class TextAreaAppender extends AbstractAppender {
         return new TextAreaAppender(name, layout);
     }
 
+    /**
+     * Sets the progress container reference used by this appender.
+     *
+     * @param progressContainer reference to set
+     */
     public static void setProgressContainer(ProgressContainer progressContainer) {
         TextAreaAppender.progressContainer = progressContainer;
     }

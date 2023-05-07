@@ -12,18 +12,40 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.regex.Pattern;
 
+/**
+ * This Util class contains all methods for analysing an Excel File and prompt the user with all the mistakes
+ *
+ * @author Lorenzo Giuntini
+ * @version 1.0
+ */
 public class AnalyserUtil {
     private static final Pattern numericPattern = Pattern.compile("^\\d+$");
     private static final Pattern decimalPattern = Pattern.compile("^\\d+(\\.\\d+)?$");
     private static final String imageFileRegex = "^(?<Path>(?:[a-zA-Z]:)+\\\\(?:[\\w\\s.]+\\\\)*)(?<FileName>[\\w\\s.]+?)$";
     private static final String imageFileExtensionRegex = "^(?<FileExtension>(png)|(jpg)|(gif)|(svg)|(PNG)|(JPG)|(GIF)|(SVG))$";
 
+    /**
+     * Checks if the cell containing the name of a question is empty.
+     * It also appends the error message to the given TabbedStringBuilder.
+     *
+     * @param sb TabbedStringBuilder to append to
+     * @param cell to analyse
+     * @param rowNum row number of the given cell
+     */
     public static void questionName(TabbedStringBuilder sb, XSSFCell cell, int rowNum) {
         if (CellExtractor.getCellValueSafe(cell).isBlank()) {
             sb.appendTabbed(rowNum, "hat keinen Namen.");
         }
     }
 
+    /**
+     * Checks if the cell containing the points for a question is empty and if it isn't empty if it is a decimal number
+     * It also appends the error message to the given TabbedStringBuilder.
+     *
+     * @param sb TabbedStringBuilder to append to
+     * @param cell to analyse
+     * @param rowNum row number of the given cell
+     */
     public static void points(TabbedStringBuilder sb, XSSFCell cell, int rowNum) {
         String cellValue = CellExtractor.getCellValueSafe(cell);
         if (cellValue.isEmpty()) {
@@ -34,6 +56,12 @@ public class AnalyserUtil {
         }
     }
 
+    /**
+     * Checks if the given String represents a numeric value
+     *
+     * @param strNum to check
+     * @return true if the given String represents a numeric value, otherwise false
+     */
     public static boolean isNumeric(String strNum) {
         if (strNum == null) {
             return false;
@@ -43,6 +71,14 @@ public class AnalyserUtil {
         return numericPattern.matcher(strNum).matches();
     }
 
+    /**
+     * Removes all tailing zeros of a String which represents a numeric or decimal value.
+     * If the String represents a decimal value and there are only zeroes after the decimal point.
+     * The decimal point will be removed as well.
+     *
+     * @param strNum to check
+     * @return String representing a numeric or decimal value without tailing zeros.
+     */
     public static String removeTailingDecimalZeros(String strNum) {
         if (!strNum.contains(".")) {
             return strNum;
@@ -60,6 +96,12 @@ public class AnalyserUtil {
         return newNum;
     }
 
+    /**
+     * Checks if the given String represents a decimal value
+     *
+     * @param strNum to check
+     * @return true if the given String represents a decimal value, otherwise false
+     */
     public static boolean isDecimal(String strNum) {
         if (strNum == null) {
             return false;
@@ -67,28 +109,77 @@ public class AnalyserUtil {
         return decimalPattern.matcher(strNum).matches();
     }
 
+    /**
+     * Checks if the cell containing the general feedback is empty
+     * It also appends the error message to the given TabbedStringBuilder.
+     *
+     * @param sb TabbedStringBuilder to append to
+     * @param cell to analyse
+     * @param rowNum row number of the given cell
+     */
     public static void generalFeedback(TabbedStringBuilder sb, XSSFCell cell, int rowNum) {
         feedback(sb, cell, rowNum, "allgemeines");
     }
 
+    /**
+     *
+     * It also appends the error message to the given TabbedStringBuilder.
+     *
+     * @param sb TabbedStringBuilder to append to
+     * @param cell to analyse
+     * @param rowNum row number of the given cell
+     */
     public static void correctFeedback(TabbedStringBuilder sb, XSSFCell cell, int rowNum) {
         feedback(sb, cell, rowNum, "korrektes");
     }
 
+    /**
+     *
+     * It also appends the error message to the given TabbedStringBuilder.
+     *
+     * @param sb TabbedStringBuilder to append to
+     * @param cell to analyse
+     * @param rowNum row number of the given cell
+     */
     public static void partiallyCorrect(TabbedStringBuilder sb, XSSFCell cell, int rowNum) {
         feedback(sb, cell, rowNum, "teilweise korrektes");
     }
 
+    /**
+     *
+     * It also appends the error message to the given TabbedStringBuilder.
+     *
+     * @param sb TabbedStringBuilder to append to
+     * @param cell to analyse
+     * @param rowNum row number of the given cell
+     */
     public static void incorrectFeedback(TabbedStringBuilder sb, XSSFCell cell, int rowNum) {
         feedback(sb, cell, rowNum, "inkorrektes");
     }
 
+    /**
+     *
+     * It also appends the error message to the given TabbedStringBuilder.
+     *
+     * @param sb TabbedStringBuilder to append to
+     * @param cell to analyse
+     * @param rowNum row number of the given cell
+     * @param feedbackType of feedback to be checked
+     */
     private static void feedback(TabbedStringBuilder sb, XSSFCell cell, int rowNum, String feedbackType) {
         if (CellExtractor.getCellValueSafe(cell).isBlank()) {
             sb.appendTabbed(rowNum, "hat kein " + feedbackType + " Feedback.");
         }
     }
 
+    /**
+     *
+     * It also appends the error message to the given TabbedStringBuilder.
+     *
+     * @param sb TabbedStringBuilder to append to
+     * @param cell to analyse
+     * @param rowNum row number of the given cell
+     */
     public static void picture(TabbedStringBuilder sb, XSSFCell cell, int rowNum) {
         ImageResult result = AnalyserUtil.pictureExistence(CellExtractor.getCellValueSafe(cell));
         switch (result) {
@@ -103,6 +194,13 @@ public class AnalyserUtil {
         }
     }
 
+    /**
+     * Checks the availability of a given image by its path.
+     *
+     * @param imagePath of the image to check
+     * @return The matching enum constant of the enum class ImageResult
+     * @see ImageResult
+     */
     public static ImageResult pictureExistence(String imagePath) {
         if (imagePath.startsWith("http")) {
             if (imageExists(imagePath)) {
@@ -127,6 +225,12 @@ public class AnalyserUtil {
         }
     }
 
+    /**
+     * Checks if a remote image exists by the url of that image
+     *
+     * @param url of remote image to check
+     * @return true url could bre resolved and remote image is found, otherwise false
+     */
     private static boolean imageExists(String url) {
         try {
             int responseCode;
@@ -150,6 +254,17 @@ public class AnalyserUtil {
         }
     }
 
+    /**
+     * Checks if the cell containing the hint and penalty of a question are empty or
+     * only one of the two isn't empty and the other one is.
+     * Also checks if the penalty is valid.(between 0 and 100).
+     * It also appends the error message to the given TabbedStringBuilder.
+     *
+     * @param sb TabbedStringBuilder to append to
+     * @param hintCell to analyse
+     * @param penaltyCell to analyse
+     * @param rowNum row number of the given cell
+     */
     public static void hintAndPenalty(TabbedStringBuilder sb, XSSFCell hintCell, XSSFCell penaltyCell, int rowNum) {
         String hint = CellExtractor.getCellValueSafe(hintCell);
         String penalty = CellExtractor.getCellValueSafe(penaltyCell);
@@ -183,12 +298,31 @@ public class AnalyserUtil {
         }
     }
 
+    /**
+     *
+     * It also appends the error message to the given TabbedStringBuilder.
+     *
+     * @param sb TabbedStringBuilder to append to
+     * @param cell to analyse
+     * @param rowNum row number of the given cell
+     */
     public static void questionText(TabbedStringBuilder sb, XSSFCell cell, int rowNum) {
         if (CellExtractor.getCellValueSafe(cell).isBlank()) {
             sb.appendTabbed(rowNum, "hat keine Fragestellung.");
         }
     }
 
+    /**
+     *
+     * It also appends the error message to the given TabbedStringBuilder.
+     *
+     * @param sb TabbedStringBuilder to append to
+     * @param answerCell to analyse
+     * @param pointsCell to analyse
+     * @param feedbackCell to analyse
+     * @param rowNum row number of the given cell
+     * @param answerNum answer number of given cells
+     */
     public static void questionAnswer(
             TabbedStringBuilder sb,
             XSSFCell answerCell,

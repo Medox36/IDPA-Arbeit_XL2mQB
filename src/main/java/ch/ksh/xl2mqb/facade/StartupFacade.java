@@ -12,6 +12,12 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.nio.file.Path;
 
+/**
+ * Facade for all tasks which need to be executed at start
+ *
+ * @author Lorenzo giuntini
+ * @version 1.0
+ */
 public class StartupFacade {
     private final XL2mQB gui;
 
@@ -19,6 +25,9 @@ public class StartupFacade {
         this.gui = gui;
     }
 
+    /**
+     * Method to run all task of the facade
+     */
     public void onStartup() {
         applySettingsToGUI();
         initChangListeners();
@@ -27,6 +36,10 @@ public class StartupFacade {
         initLogger();
     }
 
+    /**
+     * Applies all relevant setting to the gui.
+     * Which includes: x and y position of stage, the default save path, theme/style of stage and show conversion errors.
+     */
     private void applySettingsToGUI() {
         Settings settings = Settings.getInstance();
 
@@ -58,6 +71,12 @@ public class StartupFacade {
         );
     }
 
+    /**
+     * Initializes all relevant change listeners to keep settings updated.
+     * Which includes, x and y position of stage, the default save path and theme/style of stage.
+     * Note that the ChangeListener for the setting show conversion errors it initialized in the MenuBar class.
+     * @see javafx.beans.value.ChangeListener
+     */
     private void initChangListeners() {
         Settings settings = Settings.getInstance();
         settings.getSettingProperty("style").addListener((observable, oldValue, newValue) -> {
@@ -86,6 +105,9 @@ public class StartupFacade {
         settings.setSetting("posY", stage.getY());
     }
 
+    /**
+     * Reads the available arguments and sets their values to the gui if needed.
+     */
     private void readArgumentsIfAvailable() {
         String path = new ArgsReader(gui.getParameters().getRaw()).getFileNameAndPathFromArgs();
 
@@ -95,12 +117,18 @@ public class StartupFacade {
         }
     }
 
+    /**
+     * Sets the reference to the gui instance to all facade that need the reference.
+     */
     private void setGUIReferenceToFacades() {
         ConvertFacade.getInstance().setGUI(gui);
         AnalysisFacade.getInstance().setGUI(gui);
         FileFacade.getInstance().setGUI(gui);
     }
 
+    /**
+     * Sets the reference of the progress container to the logger class.
+     */
     private void initLogger() {
         TextAreaAppender.setProgressContainer(gui.getProgressContainer());
     }
