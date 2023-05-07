@@ -40,7 +40,7 @@ public class FileFacade {
     }
 
     /**
-     * get an excel file
+     * get an Excel file
      */
     public void selectExcelFile() {
         excelFile = fileChooserOpenDialog(
