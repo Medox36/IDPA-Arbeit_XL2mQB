@@ -6,7 +6,6 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
  * checks all Shortanswer questionns for errors.
  *
  * @author Niklas Vogel
- * @date 05.05.2023
  * @version 1.0
  *
  */

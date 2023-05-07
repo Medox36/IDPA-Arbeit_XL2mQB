@@ -16,7 +16,6 @@ import java.nio.file.Path;
  *  Facade to get and save the excel file.
  *
  * @author Isuf Hasani, Lorenzo Giuntini, Niklas Vogel
- * @date 05.05.2023
  * @version 1.0
  *
  */

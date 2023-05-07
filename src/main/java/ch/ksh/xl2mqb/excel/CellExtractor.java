@@ -9,7 +9,6 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
  * class to get the wright cell type
  *
  * @author Niklas Vogel
- * @date 05.05.2023
  * @version 1.0
  *
  */

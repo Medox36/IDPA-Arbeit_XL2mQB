@@ -9,7 +9,6 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
  * coverts all questions in the Shortanswer sheet into a XML String.
  *
  * @author Niklas Vogel
- * @date 05.05.2023
  * @version 1.0
  *
  */
